@@ -6,9 +6,9 @@ function Header() {
 
     return (
       <>
-        <header className="w-screen bg-black">
+        <header>
           <nav>
-            <Link to="/" className="LogoCabecera"><img src={logo} alt="Logo Cabecera"/></Link>
+            <Link to="/" className="FondoCabecera"><img src={logo} alt="Logo Cabecera"/></Link>
             <Link to="/">Inicio</Link>
             <Link to="/SobreNosotros">Sobre Nosotros</Link>
             <Link to="/Galeria">Galería</Link>
