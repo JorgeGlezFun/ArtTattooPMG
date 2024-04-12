@@ -3,7 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @layer components {
+/*
+@layer components {
     .activo {
         background-color: #efb810;
         color: #000000;
@@ -12,7 +13,8 @@
         border-bottom: 0.3125rem solid #000000;
     }
 
-} */
+}
+*/
 
 * {
     font-family: 'Josefin Sans', Helvetica, sans-serif;
@@ -31,37 +33,11 @@ header nav {
 }
 
 .FondoCabecera {
-    margin: 0 auto 0 1.563rem;
-    width: 5rem;
-    padding: 0;
-    background-color: black;
-}
-
-.FondoCabecera:hover{
-    background-color: black;
-}
-
-header nav a img:hover {
-    background-color: white;
-    transition: 0.5s;
+    @apply mr-auto ml-[1.563rem] my-0 w-20 p-0 bg-black;
 }
 
 header nav a img {
-    min-width: 5rem;
-    background-color: #efb810;
-}
-
-header nav a {
-    height: 100%;
-    width: 11rem;
-    font-size: 1.25rem;
-    font-weight: 400;
-    text-decoration: none;
-    color: #efb810;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.5s;
+    @apply min-w-20 bg-[#efb810] hover:bg-white transition duration-500;
 }
 
 header nav a {
@@ -69,35 +45,39 @@ header nav a {
     font-family: 'Josefin Sans', Helvetica, sans-serif;
 }
 
-header nav a:hover {
-    color: black;
-    background-color: #efb810;
-}
-
-/*
-
-
-
-
-.FondoCabecera {
-    @apply w-auto mx-auto ml-[1.563rem] my-0 transition duration-500;
-}
-
-header nav a img {
-    @apply w-20 h-auto bg-[#efb810] transition duration-500 hover:bg-green-400;
-} */
-
 body {
     @apply m-0 bg-cover bg-no-repeat bg-fixed;
     background-image: url('../img/Tatuadora/tatuadora.jpeg');
 }
 
 main {
-    @apply h-screen m-0 flex items-center justify-center;
+    @apply min-h-screen m-0 flex items-center justify-center;
 }
 
 main div {
-    @apply w-[113.375rem] h-[41.5rem] flex items-center opacity-75 bg-white;
+    @apply w-[113.375rem] h-[41.5rem] flex items-center bg-white/75;
+}
+
+.info {
+    @apply w-[62.5rem] h-auto flex flex-col bg-transparent justify-normal;
+}
+
+main div div h1 {
+    @apply font-bold text-4xl w-full;
+    font-family: 'Josefin Slab';
+}
+
+main div div hr {
+    @apply w-full h-1 bg-gradient-to-r from-transparent via-black to-transparent border-none mt-5 mb-10;
+}
+
+main div div p {
+    @apply text-xl leading-5 w-[50rem];
+    font-family: 'Josefin Slab';
+}
+
+.boton {
+    @apply flex h-14 w-[31.25rem] bg-black text-[#efb810] float-right justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black;
 }
 
 .Logo {
@@ -123,126 +103,3 @@ footer a {
 footer li {
     @apply first:text-[0.9375rem] first:font-thin first:text-left;
 }
-/*
-footer {
-    width: 100%;
-    background-color: black;
-    min-height: 5rem;
-    display: flex;
-    justify-content: center;
-}
-
-
-
-footer ul, a {
-    font-size: 0.75rem;
-    font-weight: 400;
-    line-height: 1.2;
-    color: #efb810;
-    display: inline-block;
-    list-style: none;
-}
-
-footer ul li:first-child {
-    font-size: 0.9375rem;
-    font-weight: 100;
-    text-align: left;
-}
-
-footer ul a:hover{
-    color: black;
-    background-color: #efb810;
-    transition: 0.5s;
-}
-.activo {
-    background-color: #efb810;
-    color: #000000;
-    height: 4.375rem;
-    padding-top: 0.3125rem;
-    border-bottom: 0.3125rem solid #000000;
-}
-
-.activo:hover {
-    height: 4.375rem;
-}
-
-Elementos cuerpo
-body {
-    margin: 0;
-    background-image: url('../Fotos-Proyecto/Logo-Fondo/fondo.jpeg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-main {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-}
-
-main section {
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-@media screen and (max-width: 1280px) {
-    main section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    div.Imagen {
-        display: flex;
-        height: 36.5rem;
-        padding: 0;
-        margin: 0 0 3rem 0;
-    }
-
-    footer {
-        margin: 3rem 0 0 0;
-    }
-}
-
-.Imagen,
-.Informacion {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 75ch;
-}
-
-.Imagen {
-    height: 100%;
-    width: 36.5rem;
-    height: 49.21rem;
-    padding: 0 2.5rem 0 2.5rem;
-    margin: 0 0 0 10rem;
-}
-
-.Informacion {
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.6);
-    padding: 1.25rem 3.5rem 1.25rem 3.5rem;
-    margin: 0 5rem;
-}
-
-.Informacion h1 {
-    font-family: 'Josefin Slab';
-    font-size: 2.1875rem;
-    font-weight: 700;
-}
-
-.Informacion p {
-    font-family: 'Josefin Slab';
-    font-size: 1.25rem;
-}
-
-Elementos pie de página
- */
