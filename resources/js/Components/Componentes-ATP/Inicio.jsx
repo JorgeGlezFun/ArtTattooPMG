@@ -9,9 +9,10 @@ function Inicio() {
             <div>
                 <img src={logo} alt="Logo ArtTattooPMG" className="Logo"/>
                 <div className="info">
-                    <h1>BIENVENIDOS A LA WEB DE ARTTATTOOPMG</h1>
-                    <hr/>
-                    <p>
+                    <div className="infoTexto">
+                    <h1 className="titulo">BIENVENIDOS A LA WEB DE ARTTATTOOPMG</h1>
+                    <hr className="separador"/>
+                    <p className="texto">
                         Aquí encontrarás un lugar donde los mejores profesionales te atenderán para realizar los tatuajes que
                         tengas pensado.<br/>
                         <br/>
@@ -24,7 +25,10 @@ function Inicio() {
                         <br/>
                         Muchas gracias por su visita.
                     </p>
-                    <a href="" className="boton">Reserva Tu Cita</a>
+                    </div>
+                    <div className="infoBoton">
+                        <a href="" className="boton">Reserva Tu Cita</a>
+                    </div>
                 </div>
             </div>
         </main>

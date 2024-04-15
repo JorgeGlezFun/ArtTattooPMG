@@ -16,6 +16,7 @@
 }
 */
 
+/* Estilos Header */
 * {
     font-family: 'Josefin Sans', Helvetica, sans-serif;
 }
@@ -45,13 +46,15 @@ header nav a {
     font-family: 'Josefin Sans', Helvetica, sans-serif;
 }
 
+
+/* Estilos Body */
 body {
     @apply m-0 bg-cover bg-no-repeat bg-fixed;
     background-image: url('../img/Tatuadora/tatuadora.jpeg');
 }
 
 main {
-    @apply min-h-screen m-0 flex items-center justify-center;
+    @apply min-h-screen min-w-full m-0 flex items-center justify-center;
 }
 
 main div {
@@ -59,31 +62,41 @@ main div {
 }
 
 .info {
-    @apply w-[62.5rem] h-auto flex flex-col bg-transparent justify-normal;
+    @apply w-[62.5rem] h-auto flex-col bg-transparent justify-normal;
 }
 
-main div div h1 {
+.titulo {
     @apply font-bold text-4xl w-full;
     font-family: 'Josefin Slab';
 }
 
-main div div hr {
+.separador {
     @apply w-full h-1 bg-gradient-to-r from-transparent via-black to-transparent border-none mt-5 mb-10;
 }
 
-main div div p {
+.infoTexto {
+    @apply w-full h-auto bg-transparent flex-col items-start;
+}
+
+.texto {
     @apply text-xl leading-5 w-[50rem];
     font-family: 'Josefin Slab';
 }
 
+.infoBoton {
+    @apply bg-transparent h-auto w-full flex-col items-end mt-10;
+}
+
 .boton {
-    @apply flex h-14 w-[31.25rem] bg-black text-[#efb810] float-right justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black;
+    @apply flex h-14 w-[31.25rem] bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black;
 }
 
 .Logo {
     @apply w-[30.938rem] h-[30.938rem] opacity-100 ml-[8.063rem] mr-[9.938rem];
 }
 
+
+/* Estilos Footer */
 footer {
     @apply w-full bg-black min-h-20 text-[#efb810] flex justify-center;
 }
