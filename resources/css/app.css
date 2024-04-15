@@ -22,7 +22,7 @@
 }
 
 html {
-    @apply bg-black
+    @apply bg-black;
 }
 
 header {
@@ -30,22 +30,58 @@ header {
 }
 
 header nav {
-    @apply h-20 text-xl flex items-center text-[#efb810];
+    /* 1920x1080 */
+    @apply h-20 text-xl flex items-center text-[#efb810]
+
+    /* 1366x768 */
+
+    /* 720x1280 */
+    max-[720px]:flex max-[720px]:text-center
 }
 
 .FondoCabecera {
     @apply mr-auto ml-[1.563rem] my-0 w-20 p-0 bg-black;
 }
 
-header nav a img {
-    @apply min-w-20 bg-[#efb810] hover:bg-white transition duration-500;
-}
-
 header nav a {
-    @apply h-full w-44 text-[1.25rem] font-normal bg-black flex items-center justify-center transition duration-500 hover:bg-[#efb810] hover:text-black;
-    font-family: 'Josefin Sans', Helvetica, sans-serif;
+    @apply h-full w-44 text-[1.25rem] font-normal bg-black flex items-center justify-center transition duration-500 hover:bg-[#efb810] hover:text-black
+
+    /* 1366x768 */
+
+    /* 720x1280 */
+    max-[720px]:hidden
 }
 
+.LogoCabecera {
+    @apply min-w-20 bg-[#efb810] hover:bg-white transition duration-500
+
+    /* 1366x768 */
+
+    /* 720x1280 */
+    max-[720px]:w-full;
+}
+
+.burger {
+    @apply hidden
+    /* 720x1280 */
+    max-[720px]:border-[#efb810] max-[720px]:flex max-[720px]:items-center max-[720px]:justify-center max-[720px]:w-20 max-[720px]:h-20 max-[720px]:font-extrabold max-[720px]:text-3xl
+}
+
+.menu {
+    @apply hidden h-auto justify-center items-center w-full;
+}
+
+input:checked ~ .menu {
+    @apply max-[720px]:block max-[720px]:w-full
+}
+
+.menuHamburguesa {
+    @apply max-[720px]:bg-red-500 max-[720px]:items-center max-[720px]:h-screen max-[720px]:w-full max-[720px]:absolute max-[720px]:inset-0
+}
+
+.menuHamburguesa li a {
+    @apply h-20 flex justify-center items-center bg-black w-full
+}
 
 /* Estilos Body */
 body {
@@ -58,11 +94,30 @@ main {
 }
 
 main div {
-    @apply w-[113.375rem] h-[41.5rem] flex items-center bg-white/75;
+    @apply
+    /* 1920x1080 */
+    w-[113.375rem] h-[41.5rem] flex items-center bg-white/75
+
+    /* 1366x768 */
+    max-[1366px]:w-[56.6875rem] max-[1366px]:h-auto max-[1366px]:flex-col my-10
+
+    /* 720x1280 */
+    max-[720px]:w-[40rem] max-[720px]:h-auto max-[720px]:flex-col my-10
+
 }
 
 .info {
-    @apply w-[62.5rem] h-auto flex-col bg-transparent justify-normal;
+    @apply
+    /* 1920x1080 */
+    w-[62.5rem] h-auto flex-col bg-transparent justify-normal
+
+    /* 1366x768 */
+    max-[1366px]:w-[50rem] m-0
+
+    /* 720x1280 */
+    max-[720px]:w-[30rem]
+
+
 }
 
 .titulo {
@@ -79,20 +134,43 @@ main div {
 }
 
 .texto {
-    @apply text-xl leading-5 w-[50rem];
     font-family: 'Josefin Slab';
+    @apply text-xl leading-5 w-[50rem]
+
+
+    /* 720x1280 */
+    max-[720px]:w-full
 }
 
 .infoBoton {
-    @apply bg-transparent h-auto w-full flex-col items-end mt-10;
+    /* 1920x1080*/
+    @apply bg-transparent h-auto w-full flex-col items-end mt-10
+    /* 1366x768 */
+
+    /* 720x1280 */
+    max-[720px]:mt-0
+    ;
 }
 
 .boton {
-    @apply flex h-14 w-[31.25rem] bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black;
+    @apply
+    /* 1920x1080 */
+    flex h-14 w-[31.25rem] bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
+
+    /* 1366x768 */
+    max-[1366px]:w-full
+
+    /* 720x1280 */
+    max-[720px]:w-full
 }
 
 .Logo {
-    @apply w-[30.938rem] h-[30.938rem] opacity-100 ml-[8.063rem] mr-[9.938rem];
+    @apply
+    /* 1920x1080 */
+    w-[30.938rem] h-[30.938rem] opacity-100 ml-[8.063rem] mr-[9.938rem]
+
+    /* 1366x768 */
+    max-[1366px]:m-0
 }
 
 
