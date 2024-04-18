@@ -25,6 +25,12 @@ Route::get('/', function () {
     ]);
 });
 
+# Route::resources() {};
+
+Route::get('/', function () {
+    return Inertia::render('Index');
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
