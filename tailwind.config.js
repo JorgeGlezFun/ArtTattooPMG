@@ -15,6 +15,10 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage: {
+                'index': "url('../img/Tatuadora/tatuadora.jpeg')",
+                'indexMovil': "url('../img/Tatuadora/tatuadora-movil.jpeg')",
+            }
         },
         screens: {
             'smartphone': '320px',
@@ -22,6 +26,8 @@ export default {
             'laptop': '1024px',
             'desktop': '1280px',
         }
+
+
     },
 
     plugins: [forms],

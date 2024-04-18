@@ -39,10 +39,6 @@ header nav {
     max-[720px]:flex max-[720px]:text-center
 }
 
-.FondoCabecera {
-    @apply mr-auto ml-[1.563rem] my-0 w-20 p-0 bg-black;
-}
-
 header nav a {
     @apply h-full w-44 text-[1.25rem] font-normal bg-black flex items-center justify-center transition duration-500 hover:bg-[#efb810] hover:text-black
 
@@ -52,13 +48,16 @@ header nav a {
     max-[720px]:hidden
 }
 
-.LogoCabecera {
-    @apply min-w-20 bg-[#efb810] hover:bg-white transition duration-500
-
-    /* 1366x768 */
+.FondoCabecera {
+    @apply mr-auto ml-[1.563rem] my-0 w-20 p-0 bg-black
 
     /* 720x1280 */
-    max-[720px]:w-full;
+    max-[720px]:flex max-[720px]:ml-[20rem] max-[720px]:mr-[15rem]
+}
+
+
+.LogoCabecera {
+    @apply min-w-20 bg-[#efb810] hover:bg-white transition duration-500
 }
 
 .burger {
@@ -72,11 +71,11 @@ header nav a {
 }
 
 input:checked ~ .menu {
-    @apply max-[720px]:block max-[720px]:w-full
+    @apply max-[720px]:flex max-[720px]:w-full
 }
 
 .menuHamburguesa {
-    @apply max-[720px]:bg-red-500 max-[720px]:items-center max-[720px]:h-screen max-[720px]:w-full max-[720px]:absolute max-[720px]:inset-0
+    @apply max-[720px]:bg-black max-[720px]:items-center max-[720px]:h-[74.9rem] max-[720px]:w-full max-[720px]:absolute max-[720px]:inset-0 max-[720px]:top-20
 }
 
 .menuHamburguesa li a {
@@ -85,8 +84,9 @@ input:checked ~ .menu {
 
 /* Estilos Body */
 body {
-    @apply m-0 bg-cover bg-no-repeat bg-fixed;
-    background-image: url('../img/Tatuadora/tatuadora.jpeg');
+    /* background-image: url('../img/Tatuadora/tatuadora.jpeg'); */
+    @apply m-0 bg-cover bg-no-repeat bg-fixed bg-index
+    max-[720px]:bg-indexMovil
 }
 
 main {
@@ -116,8 +116,6 @@ main div {
 
     /* 720x1280 */
     max-[720px]:w-[30rem]
-
-
 }
 
 .titulo {

@@ -15,7 +15,7 @@ function Header() {
             <Link to="/Eventos">Eventos</Link>
             <Link to="/Reservar">Reservar Cita</Link>
             <input type="checkbox" name="menu" id="menu" className="hidden" />
-            <label htmlFor="menu" className="burger"> ☰ </label>
+            <label htmlFor="menu" className="burger shrink-0">☰</label>
             <div className="menu">
                 <ul className="menuHamburguesa">
                     <li><Link>Inicio</Link></li>
