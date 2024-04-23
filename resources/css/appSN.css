@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Josefin+Slab:ital,wght@0,400;0,700;1,400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+@layer components {
+    .activo {
+        background-color: #efb810;
+        color: #000000;
+        height: 4.375rem;
+        padding-top: 0.3125rem;
+        border-bottom: 0.3125rem solid #000000;
+    }
+
+}
+*/
+
+/* Estilos Header */
+* {
+    font-family: 'Josefin Sans', Helvetica, sans-serif;
+}
+
+html {
+    @apply bg-black;
+}
+
+header {
+    @apply w-full bg-black;
+}
+
+header nav {
+    /* 1920x1080 */
+    @apply h-20 text-xl flex items-center text-[#efb810]
+
+    /* 1366x768 */
+
+    /* 720x1280 */
+    max-[720px]:flex max-[720px]:text-center
+}
+
+header nav a {
+    @apply h-full w-44 text-[1.25rem] font-normal bg-black flex items-center justify-center transition duration-500 hover:bg-[#efb810] hover:text-black
+
+    /* 1366x768 */
+
+    /* 720x1280 */
+    max-[720px]:hidden
+}
+
+.FondoCabecera {
+    @apply mr-auto ml-[1.563rem] my-0 w-20 p-0 bg-black
+
+    /* 720x1280 */
+    max-[720px]:flex max-[720px]:ml-[20rem] max-[720px]:mr-[15rem]
+}
+
+.LogoCabecera {
+    @apply min-w-20 bg-[#efb810] hover:bg-white transition duration-500
+}
+
+.burger {
+    @apply hidden
+    /* 720x1280 */
+    max-[720px]:border-[#efb810] max-[720px]:flex max-[720px]:items-center max-[720px]:justify-center max-[720px]:w-20 max-[720px]:h-20 max-[720px]:font-extrabold max-[720px]:text-3xl
+}
+
+.menu {
+    @apply hidden h-auto justify-center items-center w-full;
+}
+
+input:checked ~ .menu {
+    @apply max-[720px]:flex max-[720px]:w-full
+}
+
+.menuHamburguesa {
+    @apply max-[720px]:bg-black max-[720px]:items-center max-[720px]:h-[74.9rem] max-[720px]:w-full max-[720px]:absolute max-[720px]:inset-0 max-[720px]:top-20
+}
+
+.menuHamburguesa li a {
+    @apply h-20 flex justify-center items-center bg-black w-full
+}
+
+/* Estilos Body */
+body {
+    @apply m-0 bg-cover bg-no-repeat bg-fixed bg-index
+    /* 720x1280 */
+    max-[720px]:bg-indexMovil
+}
+
+main {
+    @apply min-h-screen min-w-full m-0 flex items-center justify-center;
+}
+
+.SobreNosotros{
+    @apply
+    /* 1920x1080 */
+    w-[94.25rem] h-[124rem] flex flex-col items-center justify-start bg-white/75
+
+    /* 1366x768 */
+    max-[1366px]:w-[56.6875rem] max-[1366px]:h-auto max-[1366px]:my-10
+
+    /* 720x1280 */
+    max-[720px]:w-[40rem] max-[720px]:h-auto max-[720px]:my-10
+}
+
+/* .info {
+    @apply
+    /* 1920x1080
+    w-full h-auto flex justify-center items-center
+
+    /* 1366x768
+    max-[1366px]:w-[50rem] m-0
+
+    /* 720x1280
+    max-[720px]:w-[30rem]
+}
+*/
+.infoSN {
+    @apply w-[83.125rem] h-auto bg-transparent flex-col;
+}
+
+.contenedor {
+    @apply w-full flex h-auto m-0 bg-transparent
+}
+
+.titulo {
+    @apply font-bold text-4xl w-full;
+    font-family: 'Josefin Slab';
+}
+
+.separadorSN {
+    @apply w-[83.125rem] h-1 bg-[#efb810] border-none mt-2;
+}
+
+
+.textoSN {
+    font-family: 'Josefin Slab';
+    @apply text-xl leading-5 w-[45.563rem]
+
+    /* 720x1280 */
+    max-[720px]:w-full
+}
+
+.LogoSN {
+    @apply
+    /* 1920x1080 */
+    w-[19.938rem] h-[19.938rem] ml-[9rem] mr-[6.125rem]
+
+    /* 1366x768 */
+    max-[1366px]:m-0
+}
+
+
+/* Estilos Footer */
+footer {
+    @apply w-full bg-black min-h-20 text-[#efb810] flex justify-center;
+}
+
+footer ul {
+    @apply px-10;
+}
+
+footer ul {
+    @apply text-xs font-normal leading-relaxed text-yellow-400 inline-block list-none;
+  }
+
+footer a {
+    @apply hover:bg-[#efb810] hover:text-black transition duration-500;
+  }
+
+footer li {
+    @apply first:text-[0.9375rem] first:font-thin first:text-left;
+}
