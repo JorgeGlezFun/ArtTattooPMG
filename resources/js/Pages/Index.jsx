@@ -4,7 +4,7 @@ import Inicio from '../Components/Componentes-ATP/Inicio'
 import SobreNosotros from '../Components/Componentes-ATP/SobreNosotros'
 import Footer from '../Components/Componentes-ATP/Footer';
 
-function Index() {
+export default function Index() {
 
   return (
       <>
@@ -15,5 +15,3 @@ function Index() {
       </>
   );
 }
-
-export default Index;

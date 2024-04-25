@@ -95,7 +95,7 @@ main {
 .SobreNosotros{
     @apply
     /* 1920x1080 */
-    w-[94.25rem] h-[124rem] flex flex-col items-center justify-start bg-white/75
+    w-[94.25rem] h-auto flex flex-col items-center justify-start bg-white/75
 
     /* 1366x768 */
     max-[1366px]:w-[56.6875rem] max-[1366px]:h-auto max-[1366px]:my-10
@@ -117,11 +117,11 @@ main {
 }
 */
 .infoSN {
-    @apply w-[83.125rem] h-auto bg-transparent flex-col;
+    @apply w-[83.125rem] h-auto bg-transparent flex-col m-0 mt-10;
 }
 
 .contenedor {
-    @apply w-full flex h-auto m-0 bg-transparent
+    @apply w-full flex h-auto m-0 bg-transparent mt-8
 }
 
 .titulo {
@@ -142,7 +142,7 @@ main {
     max-[720px]:w-full
 }
 
-.LogoSN {
+.logoSN {
     @apply
     /* 1920x1080 */
     w-[19.938rem] h-[19.938rem] ml-[9rem] mr-[6.125rem]
@@ -151,6 +151,14 @@ main {
     max-[1366px]:m-0
 }
 
+.listaSN {
+    @apply list-disc text-xl ml-5 font-normal
+}
+
+.listaSN li {
+    font-family: 'Josefin Slab';
+    @apply leading-5;
+}
 
 /* Estilos Footer */
 footer {
