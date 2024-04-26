@@ -1,11 +1,15 @@
 import "../../../css/appSN.css"
-import logo from "../../../img/Logo-Fondo/Logo.png"
+import logoRecortado from "../../../img/Logo-Fondo/Logo-recortado.png"
 import artista from "../../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2-recortado.jpeg"
-import estudio from "../../../img/Fotos-estudio/Entrada-estudio.jpeg"
-import trabajo from "../../../img/Tatuajes/Normales/Normal-12-byn.jpeg"
+import artistaMovil from "../../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2.jpeg"
+import estudio from "../../../img/Fotos-estudio/Entrada-estudio-recortado.jpeg"
+// import estudioMovil from "../../../img/Fotos-estudio/Entrada-estudio-recortado.jpeg"
+import trabajo from "../../../img/Tatuajes/Normales/Normal-32-byn-recortado.jpeg"
+import trabajoMovil from "../../../img/Tatuajes/Normales/Normal-2-recortado.jpeg"
 
 export default function SobreNosotros() {
-
+    const Ruta = route().current('sobrenosotros');
+    console.log(Ruta);
     return (
       <>
         <main>
@@ -23,7 +27,7 @@ export default function SobreNosotros() {
                         <br />
                         ¡Te esperamos!
                         </p>
-                        <img src={logo} alt="Logo" className="logoSN"/>
+                        <img src={logoRecortado} alt="Logo" className="logoSN"/>
                     </div>
                 </div>
                 <div className="infoSN">
@@ -49,7 +53,8 @@ export default function SobreNosotros() {
                         <br />
                         “Todo tiene un comienzo, que esto no es un don ni es fácil, todo es aprender, empeñarse y poner esfuerzo en lo que realmente te gusta.” .- Patri.
                         </p>
-                        <img src={artista} alt="Logo" className="h-[30.469rem] ml-auto"/>
+                        <img src={artista} alt="Foto de la tatuadora tatuando en la Tattoo Convention de Jerez" className="artistaSN"/>
+                        <img src={artistaMovil} alt="Foto de la tatuadora tatuando en la Tattoo Convention de Jerez" className="artistaMovilSN"/>
                     </div>
                 </div>
                 <div className="infoSN">
@@ -76,23 +81,24 @@ export default function SobreNosotros() {
                             <li>No causar ruido excesivo.</li>
                         </ul>
                         </p>
-                        <img src={estudio} alt="Logo" className="ml-auto mt-auto h-[25rem] w-auto"/>
+                        <img src={estudio} alt="Foto del estudio de tatuajes por dentro" className="estudioSN"/>
                     </div>
                 </div>
                 <div className="infoSN">
                     <h1 className="titulo">Nuestros Trabajos</h1>
                     <hr className="separadorSN"/>
-                    <div className="contenedor">
+                    <div className="contenedor ">
                         <p className="textoSN">
-                        En ArtTattooPMG hacemos una gran variedad de trabajos, entre ellos destacamos los tatuajes de línea fina, microrealistas o con puntillismo. <br />
-                        <br />
-                        También se realizan covers de tatuajes, para renovar el tatuaje que hace ya tiempo te hiciste y ahora luce desgastado, o bien para tapar aquel tatuaje que te hiciste por tu ex. <br />
-                        <br />
-                        Para ver en profundidad los trabajos realizados en nuestro estudio, puedes dirigirte a la pestaña de galería, donde podrás ver, de forma detallada, los tatuajes que se han hecho los clientes. <br />
-                        <br />
-                        Pero eso no es todo, además de realizarte los tatuajes que desees en nuestro estudio, también podrás hacerte los piercings que quieras, ya que, dentro de poco contaremos con el servicio de piercings en nuestro local. <br />
+                            En ArtTattooPMG hacemos una gran variedad de trabajos, entre ellos destacamos los tatuajes de línea fina, microrealistas o con puntillismo. <br />
+                            <br />
+                            También se realizan covers de tatuajes, para renovar el tatuaje viejo que te hiciste hace tiempo y ahora luce desgastado, o bien para tapar aquel tatuaje que te hiciste por tu ex. <br />
+                            <br />
+                            Para ver en profundidad los trabajos realizados en nuestro estudio, puedes dirigirte a la pestaña de galería, donde podrás ver, de forma detallada, los tatuajes que se han hecho los clientes. <br />
+                            <br />
+                            Pero eso no es todo, además de realizarte los tatuajes que desees en nuestro estudio, también podrás hacerte los piercings que quieras, ya que tambien contamos con el material y los conocimientos requeridos para la realizacion de perforaciones. <br />
                         </p>
-                        <img src={trabajo} alt="Logo" className="logoSN"/>
+                        <img src={trabajo} alt="Logo" className="trabajosSN"/>
+                        <img src={trabajoMovil} alt="Logo" className="trabajosMovilSN"/>
                     </div>
                 </div>
             </div>

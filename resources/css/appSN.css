@@ -98,30 +98,28 @@ main {
     w-[94.25rem] h-auto flex flex-col items-center justify-start bg-white/75
 
     /* 1366x768 */
-    max-[1366px]:w-[56.6875rem] max-[1366px]:h-auto max-[1366px]:my-10
+    max-[1366px]:w-[70rem] max-[1366px]:h-auto max-[1366px]:my-10
 
     /* 720x1280 */
     max-[720px]:w-[40rem] max-[720px]:h-auto max-[720px]:my-10
 }
 
-/* .info {
-    @apply
-    /* 1920x1080
-    w-full h-auto flex justify-center items-center
-
-    /* 1366x768
-    max-[1366px]:w-[50rem] m-0
-
-    /* 720x1280
-    max-[720px]:w-[30rem]
-}
-*/
 .infoSN {
-    @apply w-[83.125rem] h-auto bg-transparent flex-col m-0 mt-10;
+    @apply w-[83.125rem] h-auto bg-transparent flex-col m-0 mt-10 last:mb-10
+    /* 1366x768 */
+    max-[1366px]:w-[57.75rem]
+
+    /* 720x1280 */
+    max-[720px]:w-[34rem]
 }
 
 .contenedor {
-    @apply w-full flex h-auto m-0 bg-transparent mt-8
+    @apply w-full flex h-auto m-0 bg-transparent mt-8 items-start
+    /* 1366x768 */
+    max-[1366px]:items-center
+
+    /* 720x1280 */
+    max-[720px]:justify-center
 }
 
 .titulo {
@@ -130,29 +128,81 @@ main {
 }
 
 .separadorSN {
-    @apply w-[83.125rem] h-1 bg-[#efb810] border-none mt-2;
+    @apply w-full h-1 bg-[#efb810] border-none mt-2;
 }
-
 
 .textoSN {
     font-family: 'Josefin Slab';
     @apply text-xl leading-5 w-[45.563rem]
 
+    /* 1366x768 */
+    max-[1366px]:w-full max-[1366px]:mb-2
+
     /* 720x1280 */
-    max-[720px]:w-full
+    max-[720px]:w-full max-[720px]:mb-2
 }
 
 .logoSN {
     @apply
     /* 1920x1080 */
-    w-[19.938rem] h-[19.938rem] ml-[9rem] mr-[6.125rem]
+    w-[19rem] h-auto ml-auto mr-auto
 
     /* 1366x768 */
     max-[1366px]:m-0
 }
 
+.artistaSN {
+    @apply h-[30.469rem] ml-auto
+
+    /* 1366x768 */
+    max-[1366px]:hidden
+
+    /* 720x1280 */
+    max-[720px]:hidden
+}
+
+.artistaMovilSN {
+    @apply hidden
+
+    /* 1366x768 */
+    max-[1366px]:block max-[1366px]:w-auto max-[1366px]:h-auto
+
+    /* 720x1280 */
+    /* max-[720px]:m-0 */
+}
+
+.estudioSN {
+    @apply ml-auto h-auto w-[33.16rem]
+
+    /* 1366x768 */
+    max-[1366px]:m-0 max-[1366px]:w-full
+
+    /* 720x1280 */
+    max-[720px]:m-0
+}
+
+.trabajosSN {
+    @apply ml-auto h-auto w-[33.16rem]
+
+    /* 1366x768 */
+    max-[1366px]:hidden
+
+    /* 720x1280 */
+    max-[720px]:hidden
+}
+
+.trabajoMovilSN {
+    @apply hidden
+
+    /* 1366x768 */
+    max-[1366px]:block max-[1366px]:w-auto max-[1366px]:h-[30.469rem]
+
+    /* 720x1280 */
+    /* max-[720px]:m-0 */
+}
+
 .listaSN {
-    @apply list-disc text-xl ml-5 font-normal
+    @apply list-disc list-inside text-xl font-normal
 }
 
 .listaSN li {
