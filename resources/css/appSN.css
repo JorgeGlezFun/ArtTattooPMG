@@ -3,19 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-@layer components {
-    .activo {
-        background-color: #efb810;
-        color: #000000;
-        height: 4.375rem;
-        padding-top: 0.3125rem;
-        border-bottom: 0.3125rem solid #000000;
-    }
-
-}
-*/
-
 /* Estilos Header */
 * {
     font-family: 'Josefin Sans', Helvetica, sans-serif;
@@ -74,7 +61,7 @@ input:checked ~ .menu {
 }
 
 .menuHamburguesa {
-    @apply max-[720px]:bg-black max-[720px]:items-center max-[720px]:h-[74.9rem] max-[720px]:w-full max-[720px]:absolute max-[720px]:inset-0 max-[720px]:top-20
+    @apply max-[720px]:bg-black max-[720px]:items-center max-[720px]:min-h-screen max-[720px]:w-full max-[720px]:absolute max-[720px]:inset-0 max-[720px]:top-20
 }
 
 .menuHamburguesa li a {
@@ -83,9 +70,9 @@ input:checked ~ .menu {
 
 /* Estilos Body */
 body {
-    @apply m-0 bg-cover bg-no-repeat bg-fixed bg-index
+    @apply m-0 bg-cover bg-no-repeat bg-fixed bg-marmol
     /* 720x1280 */
-    max-[720px]:bg-indexMovil
+    max-[720px]:bg-marmol
 }
 
 main {
@@ -195,10 +182,7 @@ main {
     @apply hidden
 
     /* 1366x768 */
-    max-[1366px]:block max-[1366px]:w-auto max-[1366px]:h-[30.469rem]
-
-    /* 720x1280 */
-    /* max-[720px]:m-0 */
+    max-[1366px]:block
 }
 
 .listaSN {

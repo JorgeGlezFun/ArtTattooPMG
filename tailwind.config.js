@@ -18,6 +18,8 @@ export default {
             backgroundImage: {
                 'index': "url('../img/Tatuadora/tatuadora.jpeg')",
                 'indexMovil': "url('../img/Tatuadora/tatuadora-movil.jpeg')",
+                'marmol': "url('../img/Logo-Fondo/fondo.jpg')",
+
             }
         },
         screens: {

@@ -97,8 +97,8 @@ export default function SobreNosotros() {
                             <br />
                             Pero eso no es todo, además de realizarte los tatuajes que desees en nuestro estudio, también podrás hacerte los piercings que quieras, ya que tambien contamos con el material y los conocimientos requeridos para la realizacion de perforaciones. <br />
                         </p>
-                        <img src={trabajo} alt="Logo" className="trabajosSN"/>
-                        <img src={trabajoMovil} alt="Logo" className="trabajosMovilSN"/>
+                        <img src={trabajo} alt="Tatuaje corazon" className="trabajosSN"/>
+                        <img src={trabajoMovil} alt="Tatuaje ojos de tigre" className="trabajoMovilSN"/>
                     </div>
                 </div>
             </div>
