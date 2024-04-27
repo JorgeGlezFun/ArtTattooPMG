@@ -5,29 +5,39 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({ user, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
+        <div className="min-h-screen bg-blue-100">
+            <nav className="bg-black text-xl text-[#efb810]">
+                <div className="max-[720px]:px-4">
+                    <div className="flex justify-between h-20 max-[720px]:justify-center">
+                        <div className="flex-shrink-0 flex justify-start pl-4 max-[720px]:pl-0 max-[720px]:ml-[19rem] max-[640px]:ml-[16.5rem]">
+                            <Link href="/">
+                                <ApplicationLogo />
+                            </Link>
                         </div>
 
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
+                        <div className="max-[720px]:hidden flex justify-end w-full">
+                            <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                Inicio
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Sobre Nosotros
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Galería
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Eventos
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Reservar Cita
+                            </NavLink>
+                        </div>
+                        {/*}
+                        <div className="hidden flex items-center ms-6">
                             <div className="ms-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -55,19 +65,19 @@ export default function Authenticated({ user, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
+                                            Desconectarse
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="-me-2 flex items-center sm:hidden">
+                        <div className="max-[720px]:-me-2 max-[720px]:flex max-[720px]:items-center hidden max-[720px]:mx-auto">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                className="inline-flex items-center justify-center p-2 rounded-md text-[#efb810] hover:text-black hover:bg-[#efb810] focus:outline-none focus:bg-[#efb810] focus:text-black transition duration-150 ease-in-out"
                             >
                                 <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
@@ -90,34 +100,28 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
+                <div className={'sm:hidden ' + (showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                    <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                        Inicio
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Sobre Nosotros
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Galería
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Eventos
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Reservar Cita
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
+                    <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                        Desconectarse
+                    </ResponsiveNavLink>
                 </div>
             </nav>
-
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
 
             <main>{children}</main>
         </div>
