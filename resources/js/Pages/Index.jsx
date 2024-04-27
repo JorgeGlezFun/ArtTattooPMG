@@ -9,8 +9,8 @@ export default function Index() {
   return (
       <>
         <Header />
-            {/* <Inicio /> */}
-            <SobreNosotros />
+            <Inicio />
+            {/* <SobreNosotros /> */}
         <Footer />
       </>
   );

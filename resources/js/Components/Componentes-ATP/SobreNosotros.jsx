@@ -1,10 +1,10 @@
-import "../../../css/appSN.css"
+import "../../../css/app.css"
 import logoRecortado from "../../../img/Logo-Fondo/Logo-recortado.png"
 import artista from "../../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2-recortado.jpeg"
 import artistaMovil from "../../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2.jpeg"
 import estudio from "../../../img/Fotos-estudio/Entrada-estudio-recortado.jpeg"
 // import estudioMovil from "../../../img/Fotos-estudio/Entrada-estudio-recortado.jpeg"
-import trabajo from "../../../img/Tatuajes/Normales/Normal-32-byn-recortado.jpeg"
+import trabajo from "../../../img/Tatuajes/Normales/prueba.jpeg"
 import trabajoMovil from "../../../img/Tatuajes/Normales/Normal-2-recortado.jpeg"
 
 export default function SobreNosotros() {
@@ -89,13 +89,21 @@ export default function SobreNosotros() {
                     <hr className="separadorSN"/>
                     <div className="contenedor ">
                         <p className="textoSN">
-                            En ArtTattooPMG hacemos una gran variedad de trabajos, entre ellos destacamos los tatuajes de línea fina, microrealistas o con puntillismo. <br />
+                            En ArtTattooPMG realizamos una gran variedad de trabajos, tanto de diseños propios como de aquellos que nos traen nuestros clientes. <br />
                             <br />
-                            También se realizan covers de tatuajes, para renovar el tatuaje viejo que te hiciste hace tiempo y ahora luce desgastado, o bien para tapar aquel tatuaje que te hiciste por tu ex. <br />
+                            Entre todos esos diseños queremos destacar los que son la especialidad de nuestra artista, que son los tatuajes de linea fina, microrealismo y los tatuajes con puntillismo. <br />
                             <br />
-                            Para ver en profundidad los trabajos realizados en nuestro estudio, puedes dirigirte a la pestaña de galería, donde podrás ver, de forma detallada, los tatuajes que se han hecho los clientes. <br />
+                            Adémas de los diseños propios de la artista o del cliente, se realizan covers de tatuajes, para renovar el tatuaje viejo que te hiciste hace tiempo y ahora luce desgastado, o bien para tapar aquel tatuaje que te hiciste por tu ex. <br />
                             <br />
-                            Pero eso no es todo, además de realizarte los tatuajes que desees en nuestro estudio, también podrás hacerte los piercings que quieras, ya que tambien contamos con el material y los conocimientos requeridos para la realizacion de perforaciones. <br />
+                            Para ver en profundidad los trabajos realizados en nuestro estudio, puedes dirigirte a la pestaña de galería, donde podrás ver de forma detallada, los tatuajes que se han hecho los clientes. <br />
+                            <br />
+                            Pero aquí no acaba la cosa, en ArtTattooPMG no solo se realizan tatuajes, también nos hemos abierto al mundo de las perforaciones. <br />
+                            Y es que ahora puedes disfrutar de realizarte el piercing que siempre has deseado, todo esto gracias a la profesionalidad de nuestros trabajadores y a sus conocimientos la realizacion de perforaciones. <br />
+                            <br />
+                            No esperes más y reserva tu cita yendo a la pestaña de "Reservar Cita" o bien poniendote en contacto con el número que puedes encontrar en nuestras redes sociales y pie de página.
+                            <br />
+                            <br />
+                            ¡Te esperamos!
                         </p>
                         <img src={trabajo} alt="Tatuaje corazon" className="trabajosSN"/>
                         <img src={trabajoMovil} alt="Tatuaje ojos de tigre" className="trabajoMovilSN"/>
