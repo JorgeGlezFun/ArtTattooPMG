@@ -25,8 +25,6 @@ Route::get('/', function () {
     ]);
 });
 
-# Route::resources() {};
-
 Route::get('/', function () {
     return Inertia::render('Index');
 });
