@@ -33,23 +33,24 @@ export default function Authenticated({ user, children }) {
                                 Eventos
                             </NavLink>
                             <NavLink href={route('/')} active={route().current('/')}>
+                                Tienda
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
                                 Reservar Cita
                             </NavLink>
-                        </div>
-                        {/*}
-                        <div className="hidden flex items-center ms-6">
-                            <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
+                            {user ?
+                                (
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <span className="rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                className="h-full w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-[#efb810] hover:text-black hover:bg-[#efb810] transition ease-in-out duration-500"
                                             >
-                                                {user.name}
+                                                <span className="inline">Usuario</span>
 
                                                 <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
+                                                    className="md:ms-2  h-6 w-6"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -61,18 +62,22 @@ export default function Authenticated({ user, children }) {
                                                     />
                                                 </svg>
                                             </button>
-                                        </span>
-                                    </Dropdown.Trigger>
+                                            </span>
+                                        </Dropdown.Trigger>
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Desconectarse
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div> */}
+                                        <Dropdown.Content>
+                                            <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
+                                            <Dropdown.Link href={route('logout')} method="post" as="button">
+                                                Cerrar Sesión
+                                            </Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                ) :
+                                (
+                                    <Link href={route('login')} active={route().current('login')} className='usuario'/>
+                                )
+                                }
+                        </div>
 
                         <div className="max-[720px]:-me-2 max-[720px]:flex max-[720px]:items-center hidden max-[720px]:mx-auto">
                             <button
@@ -112,6 +117,9 @@ export default function Authenticated({ user, children }) {
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('/')} active={route().current('/')}>
                         Eventos
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Tienda
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('/')} active={route().current('/')}>
                         Reservar Cita
