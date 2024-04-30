@@ -11,16 +11,16 @@ export default function Authenticated({ user, children }) {
     return (
         <div className="min-h-screen bg-blue-100">
             <nav className="bg-black text-xl text-[#efb810]">
-                <div className="max-[720px]:px-4">
-                    <div className="flex justify-between h-20 max-[720px]:justify-center">
-                        <div className="flex-shrink-0 flex justify-start pl-4 max-[720px]:pl-0 max-[720px]:ml-[19rem] max-[640px]:ml-[16.5rem]">
+                <div className="px-4 xl:px-0">
+                    <div className="flex h-20 justify-center xl:justify-between">
+                        <div className="flex-shrink-0 flex ml-[16.5rem] pl-0 md:justify-start md:ml-[20.55rem] lg:ml-[28.5rem] xl:ml-0 xl:pl-4   ">
                             <Link href="/">
                                 <ApplicationLogo />
                             </Link>
                         </div>
 
-                        <div className="max-[720px]:hidden flex justify-end w-full">
-                            <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                        <div className="hidden w-full xl:flex xl:justify-end">
+                            <NavLink href={route('/')} active={route().current('/')}>
                                 Inicio
                             </NavLink>
                             <NavLink href={route('/')} active={route().current('/')}>
@@ -45,12 +45,12 @@ export default function Authenticated({ user, children }) {
                                             <span className="rounded-md">
                                             <button
                                                 type="button"
-                                                className="h-full w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-[#efb810] hover:text-black hover:bg-[#efb810] transition ease-in-out duration-500"
+                                                className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-[#efb810] hover:text-black hover:bg-[#efb810] transition ease-in-out duration-500"
                                             >
-                                                <span className="inline">Usuario</span>
+                                                <span className="hidden 2xl:inline">Usuario</span>
 
                                                 <svg
-                                                    className="md:ms-2  h-6 w-6"
+                                                    className="2xl:ms-2 h-6 w-6"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -79,7 +79,7 @@ export default function Authenticated({ user, children }) {
                                 }
                         </div>
 
-                        <div className="max-[720px]:-me-2 max-[720px]:flex max-[720px]:items-center hidden max-[720px]:mx-auto">
+                        <div className="flex items-center justify-end ml-auto xl:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center p-2 rounded-md text-[#efb810] hover:text-black hover:bg-[#efb810] focus:outline-none focus:bg-[#efb810] focus:text-black transition duration-150 ease-in-out"
@@ -105,7 +105,7 @@ export default function Authenticated({ user, children }) {
                     </div>
                 </div>
 
-                <div className={'sm:hidden ' + (showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                <div className={'xl:hidden ' + (showingNavigationDropdown ? 'block' : 'hidden') + ' xl:hidden'}>
                     <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                         Inicio
                     </ResponsiveNavLink>

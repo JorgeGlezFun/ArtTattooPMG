@@ -6,3 +6,7 @@
 * {
     font-family: 'Josefin Sans', sans-serif;
 }
+
+.usuario {
+    @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-16 h-16 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
+}
