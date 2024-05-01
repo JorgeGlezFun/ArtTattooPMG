@@ -23,9 +23,10 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('/')
+;
 
-Route::get('/', function () {
+Route::get('/index', function () {
     return Inertia::render('Index');
 });
 
