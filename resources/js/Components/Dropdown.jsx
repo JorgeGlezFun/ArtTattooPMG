@@ -13,7 +13,7 @@ const Dropdown = ({ children }) => {
 
     return (
         <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
-            <div className="flex items center">{children}</div>
+            <div className="relative">{children}</div>
         </DropDownContext.Provider>
     );
 };
@@ -25,12 +25,12 @@ const Trigger = ({ children }) => {
         <>
             <div onClick={toggleOpen}>{children}</div>
 
-            {open && <div className="fixed inset-y-10 z-40" onClick={() => setOpen(false)}></div>}
+            {open && <div className="fixed inset-0 z-40" onClick={() => setOpen(false)}></div>}
         </>
     );
 };
 
-const Content = ({ align = 'right', width = '44', contentClasses = 'bg-black', children }) => {
+const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white', children }) => {
     const { open, setOpen } = useContext(DropDownContext);
 
     let alignmentClasses = 'origin-top';
@@ -43,8 +43,8 @@ const Content = ({ align = 'right', width = '44', contentClasses = 'bg-black', c
 
     let widthClasses = '';
 
-    if (width === '44') {
-        widthClasses = 'w-44';
+    if (width === '48') {
+        widthClasses = 'w-48';
     }
 
     return (
@@ -60,10 +60,10 @@ const Content = ({ align = 'right', width = '44', contentClasses = 'bg-black', c
                 leaveTo="opacity-0 scale-95"
             >
                 <div
-                    className={`absolute z-50 mt-20  shadow-lg ${alignmentClasses} ${widthClasses}`}
+                    className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
                     onClick={() => setOpen(false)}
                 >
-                    <div className={`ring-1 ring-black ring-opacity-5 ` + contentClasses}>{children}</div>
+                    <div className={`rounded-md ring-1 ring-black ring-opacity-5 ` + contentClasses}>{children}</div>
                 </div>
             </Transition>
         </>
@@ -75,7 +75,7 @@ const DropdownLink = ({ className = '', children, ...props }) => {
         <Link
             {...props}
             className={
-                'block w-full px-4 py-3 text-end text-xl leading-5 text-[#efb810] hover:bg-[#efb810] hover:text-black focus:outline-none focus:bg-gray-100 transition duration-500 ease-in-out ' +
+                'block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out ' +
                 className
             }
         >
