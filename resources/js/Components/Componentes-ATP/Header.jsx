@@ -9,7 +9,7 @@ export default function Header({ user, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-blue-100">
+        <>
             <nav className="bg-black text-xl text-[#efb810]">
                 <div className="px-4 xl:px-0">
                     <div className="flex h-20 justify-center xl:justify-between">
@@ -23,19 +23,19 @@ export default function Header({ user, children }) {
                             <NavLink href={route('/')} active={route().current('/')}>
                                 Inicio
                             </NavLink>
-                            <NavLink href={route('/')} active={route().current('/')}>
+                            <NavLink href={route('/')} active={route().current('/sobrenosotros')}>
                                 Sobre Nosotros
                             </NavLink>
-                            <NavLink href={route('/')} active={route().current('/')}>
+                            <NavLink href={route('/')} active={route().current('/galeria')}>
                                 Galería
                             </NavLink>
-                            <NavLink href={route('/')} active={route().current('/')}>
+                            <NavLink href={route('/')} active={route().current('/eventos')}>
                                 Eventos
                             </NavLink>
-                            <NavLink href={route('/')} active={route().current('/')}>
+                            <NavLink href={route('/')} active={route().current('/tienda')}>
                                 Tienda
                             </NavLink>
-                            <NavLink href={route('/')} active={route().current('/')}>
+                            <NavLink href={route('/')} active={route().current('/reservar')}>
                                 Reservar Cita
                             </NavLink>
                             {user ?
@@ -106,32 +106,40 @@ export default function Header({ user, children }) {
                 </div>
 
                 <div className={'xl:hidden ' + (showingNavigationDropdown ? 'block' : 'hidden') + ' xl:hidden'}>
-                    <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
                         Inicio
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/sobrenosotros')}>
                         Sobre Nosotros
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/galeria')}>
                         Galería
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/eventos')}>
                         Eventos
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/tienda')}>
                         Tienda
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/reservar')}>
                         Reservar Cita
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
-                    <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                        Desconectarse
-                    </ResponsiveNavLink>
+                    { user ?
+                    (
+                        <>
+                            <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                                Desconectarse
+                            </ResponsiveNavLink>
+                        </>
+                    ) : (
+                        <ResponsiveNavLink href={route('login')} active={route().current('login')}>
+                            Iniciar Sesión
+                        </ResponsiveNavLink>
+                     )
+                    }
                 </div>
             </nav>
-
-            <main>{children}</main>
-        </div>
+        </>
     );
 }

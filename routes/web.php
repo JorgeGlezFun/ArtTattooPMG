@@ -30,6 +30,26 @@ Route::get('/index', function () {
     return Inertia::render('Index');
 });
 
+Route::get('/sobrenosotros', function () {
+    return Inertia::render('SobreNosotros');
+})->name('sobrenosotros');
+
+Route::get('/galeria', function () {
+    return Inertia::render('Galeria');
+})->name('galeria');
+
+Route::get('/eventos', function () {
+    return Inertia::render('Eventos');
+})->name('eventos');
+
+Route::get('/tienda', function () {
+    return Inertia::render('Tienda');
+})->name('tienda');
+
+Route::get('/reservar', function () {
+    return Inertia::render('Reservar');
+})->name('reservar');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
