@@ -1,4 +1,4 @@
-import "../../../css/app.css"
+import "../../../css/backup.css"
 import logoRecortado from "../../../img/Logo-Fondo/Logo-recortado.png"
 import artista from "../../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2-recortado.jpeg"
 import artistaMovil from "../../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2.jpeg"
