@@ -5,41 +5,52 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({ user, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
+        <div className="min-h-screen bg-blue-100">
+            <nav className="bg-black text-xl text-[#efb810]">
+                <div className="px-4 xl:px-0">
+                    <div className="flex h-20 justify-center xl:justify-between">
+                        <div className="flex-shrink-0 flex ml-[16.5rem] pl-0 md:justify-start md:ml-[20.55rem] lg:ml-[28.5rem] xl:ml-0 xl:pl-4   ">
+                            <Link href="/">
+                                <ApplicationLogo />
+                            </Link>
                         </div>
 
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
+                        <div className="hidden w-full xl:flex xl:justify-end">
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Inicio
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Sobre Nosotros
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Galería
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Eventos
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Tienda
+                            </NavLink>
+                            <NavLink href={route('/')} active={route().current('/')}>
+                                Reservar Cita
+                            </NavLink>
+                            {user ?
+                                (
+                                    <Dropdown>
+                                        <Dropdown.Trigger>
+                                            <span className="rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-[#efb810] hover:text-black hover:bg-[#efb810] transition ease-in-out duration-500"
                                             >
-                                                {user.name}
+                                                <span className="hidden 2xl:inline">Usuario</span>
 
                                                 <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
+                                                    className="2xl:ms-2 h-6 w-6"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -51,23 +62,27 @@ export default function Authenticated({ user, header, children }) {
                                                     />
                                                 </svg>
                                             </button>
-                                        </span>
-                                    </Dropdown.Trigger>
+                                            </span>
+                                        </Dropdown.Trigger>
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
+                                        <Dropdown.Content>
+                                            <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
+                                            <Dropdown.Link href={route('logout')} method="post" as="button">
+                                                Cerrar Sesión
+                                            </Dropdown.Link>
+                                        </Dropdown.Content>
+                                    </Dropdown>
+                                ) :
+                                (
+                                    <Link href={route('login')} active={route().current('login')} className='usuario'/>
+                                )
+                                }
                         </div>
 
-                        <div className="-me-2 flex items-center sm:hidden">
+                        <div className="flex items-center justify-end ml-auto xl:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                className="inline-flex items-center justify-center p-2 rounded-md text-[#efb810] hover:text-black hover:bg-[#efb810] focus:outline-none focus:bg-[#efb810] focus:text-black transition duration-150 ease-in-out"
                             >
                                 <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
@@ -90,34 +105,31 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
+                <div className={'xl:hidden ' + (showingNavigationDropdown ? 'block' : 'hidden') + ' xl:hidden'}>
+                    <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                        Inicio
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Sobre Nosotros
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Galería
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Eventos
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Tienda
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                        Reservar Cita
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
+                    <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                        Desconectarse
+                    </ResponsiveNavLink>
                 </div>
             </nav>
-
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
 
             <main>{children}</main>
         </div>
