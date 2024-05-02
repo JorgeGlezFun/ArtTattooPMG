@@ -7,93 +7,76 @@
     font-family: 'Josefin Sans', sans-serif;
 }
 
-.usuario {
-    @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-20 h-20 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
-}
-
-
-/* Estilos Header */
-* {
-    font-family: 'Josefin Sans', Helvetica, sans-serif;
-}
-
 html {
     @apply bg-black;
 }
 
-header {
-    @apply w-full bg-black;
+/* Estilos Header */
+.navegador {
+    @apply bg-black text-xl text-[#efb810];
 }
 
-header nav {
-    /* 1920x1080 */
-    @apply h-20 text-xl flex items-center text-[#efb810]
-
-    /* 1366x768 */
-
-    /* 720x1280 */
-    max-[720px]:flex max-[720px]:text-center
+.contenedorXL {
+    @apply flex h-20 justify-center xl:justify-between px-4 xl:px-0;
 }
 
-header nav a {
-    @apply h-full w-44 text-[1.25rem] font-normal bg-black flex items-center justify-center transition duration-500 hover:bg-[#efb810] hover:text-black
-
-    /* 1366x768 */
-
-    /* 720x1280 */
-    max-[720px]:hidden
+.contenedorLogo {
+    @apply flex-shrink-0 flex ml-[16.5rem] pl-0 md:justify-start md:ml-[20.55rem] lg:ml-[28.5rem] xl:ml-0 xl:pl-4;
 }
 
-.FondoCabecera {
-    @apply mr-auto ml-[1.563rem] my-0 w-20 p-0 bg-black
-
-    /* 720x1280 */
-    max-[720px]:flex max-[720px]:ml-[20rem] max-[720px]:mr-[15rem]
+.contenedorBotonesNav {
+    @apply hidden w-full xl:flex xl:justify-end;
 }
 
-
-.LogoCabecera {
-    @apply min-w-20 bg-[#efb810] hover:bg-white transition duration-500
+.botonUsuario {
+    @apply inline-flex items-center justify-center p-2 rounded-md text-[#efb810] hover:text-black hover:bg-[#efb810] focus:outline-none focus:bg-[#efb810] focus:text-black transition duration-150 ease-in-out;
 }
+
+.linkNav {
+    @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out text-[#efb810] bg-black hover:bg-[#efb810] hover:text-black;
+}
+
+.linkNavActivo {
+    @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out bg-[#efb810] text-black border-b-4 border-black;
+}
+
+.flechaBotonUsuario {
+    @apply h-6 w-6;
+}
+
+.contenedorXS {
+    @apply flex items-center justify-end ml-auto xl:hidden;
+}
+
+.linkUsuario {
+    @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-20 h-20 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
+}
+
 
 /* Estilos Body */
-/* body {
-
-    @apply m-0 bg-cover bg-no-repeat bg-fixed bg-index
-    max-[720px]:bg-indexMovil
-} */
-
-/* main {
-    @apply min-h-screen min-w-full m-0 flex items-center justify-center;
-} */
-
-/* main div {
-    @apply
-
-    w-[113.375rem] h-[41.5rem] flex items-center bg-white/75
-
-
-    max-[1366px]:w-[56.6875rem] max-[1366px]:h-auto max-[1366px]:flex-col my-10
-
-    max-[720px]:w-[40rem] max-[720px]:h-auto max-[720px]:flex-col my-10
-
-} */
+.mainInicio {
+    @apply min-h-screen flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
+}
 
 .info {
     @apply
-    /* 1920x1080 */
-    w-[113.375rem] h-[41.5rem] flex flex-row justify-center items-center bg-white/75
 
-    /* 1366x768 */
-    max-[1366px]:w-[50rem] m-0
+    flex flex-col justify-center items-center bg-white/75 my-10
 
-    /* 720x1280 */
-    max-[720px]:w-[30rem]
+    2xl:w-[110rem] 2xl:h-[41.5rem] 2xl:flex-row
+
+    xl:w-[75rem]
+
+    lg:w-[58rem]
+
+    md:w-[42rem]
+
+    sm:w-[37rem] h-auto;
 }
 
 .titulo {
-    @apply font-bold text-4xl w-full;
     font-family: 'Josefin Slab';
+    @apply font-bold text-4xl w-full;
 }
 
 .separador {
@@ -101,148 +84,147 @@ header nav a {
 }
 
 .infoTexto {
-    @apply w-[62.5rem] h-[25.375rem] flex-col items-start;
+    @apply flex-col items-start mx-auto
+
+    2xl:w-[62.5rem] 2xl:h-[25.375rem]
+
+    xl:w-[58rem]
+
+    lg:w-[48rem]
+
+    md:w-[35rem]
+
+    sm:w-[30rem] sm:h-auto
+    ;
 }
 
 .texto {
     font-family: 'Josefin Slab';
-    @apply text-xl leading-5 w-[50rem]
 
+    @apply text-xl leading-5 w-full
 
-    /* 720x1280 */
-    max-[720px]:w-full
+    2xl:w-[50rem]
+
 }
 
 .infoBoton {
-    /* 1920x1080*/
-    @apply bg-transparent h-auto w-full flex-col items-end mt-10
-    /* 1366x768 */
 
-    /* 720x1280 */
-    max-[720px]:mt-0
-    ;
+    @apply bg-transparent h-auto w-full flex my-5
+
+    2xl:justify-end 2xl:mt-10;
 }
 
 .boton {
     @apply
-    /* 1920x1080 */
-    flex h-14 w-[31.25rem] bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
+    flex w-full h-14 bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
 
-    /* 1366x768 */
-    max-[1366px]:w-full
+    2xl:w-[31.25rem]
 
-    /* 720x1280 */
-    max-[720px]:w-full
 }
 
 .Logo {
     @apply
-    /* 1920x1080 */
-    w-[30.938rem] h-[30.938rem] opacity-100 mr-[9.938rem] m-0 2xl:ml-[8.063rem]
+    m-0 w-[20rem]
 
-    /* 1366x768 */
+    2xl:mx-auto
 
+    lg:w-[30.938rem]
 }
 
 /* Estilos "sobrenosotros.html" */
+.mainSN{
+    @apply flex items-center justify-center bg-marmol
+}
+
 .SobreNosotros{
     @apply
 
-    w-[94.25rem] h-auto flex flex-col items-center justify-start bg-white/75
+    h-auto flex flex-col items-center justify-start bg-white/75 my-10
 
-    /* 1366x768 */
-    max-[1366px]:w-[70rem] max-[1366px]:h-auto max-[1366px]:my-10
+    2xl:w-[94.25rem]
 
-    /* 720x1280 */
-    max-[720px]:w-[40rem] max-[720px]:h-auto max-[720px]:my-10
+    lg:w-[70rem] lg:h-auto
+
+    md:w-[44rem]
+
+    sm:w-[38rem] sm:h-auto
 }
 
 .infoSN {
-    @apply w-[83.125rem] h-auto bg-transparent flex-col m-0 mt-10 last:mb-10
-    /* 1366x768 */
-    max-[1366px]:w-[57.75rem]
+    @apply
+    2xl:w-[83.125rem] h-auto flex-col m-0 mt-10 last:mb-10
 
-    /* 720x1280 */
-    max-[720px]:w-[34rem]
+    lg:w-[57.75rem]
+
+    md:w-[40rem]
+
+    w-[34rem]
 }
 
 .contenedor {
-    @apply w-full flex h-auto m-0 bg-transparent mt-8 items-start
-    /* 1366x768 */
-    max-[1366px]:items-center
+    @apply w-full flex flex-col h-auto m-0 mt-8 items-center
 
-    /* 720x1280 */
-    max-[720px]:justify-center
+    2xl:flex-row
 }
 
-/* .separadorSN {
+.separadorSN {
     @apply w-full h-1 bg-[#efb810] border-none mt-2;
 }
 
 .textoSN {
     font-family: 'Josefin Slab';
-    @apply text-xl leading-5 w-[45.563rem]
+    @apply text-xl leading-5
 
+    2xl:w-[45.563rem]
 
-    max-[1366px]:w-full max-[1366px]:mb-2
+    sm:w-full sm:mb-2
 
-
-    max-[720px]:w-full max-[720px]:mb-2
 }
 
 .logoSN {
     @apply
     w-[19rem] h-auto ml-auto mr-auto
-
-
-    max-[1366px]:m-0
 }
 
 .artistaSN {
-    @apply h-[30.469rem] ml-auto
+    @apply
+    w-full h-full
 
+    2xl:h-auto 2xl:w-[33.16rem] 2xl:ml-auto
 
-    max-[1366px]:hidden
+    xl:block
 
-
-    max-[720px]:hidden
+    hidden
 }
 
 .artistaMovilSN {
-    @apply hidden
+    @apply
+    xl:hidden
 
-
-    max-[1366px]:block max-[1366px]:w-auto max-[1366px]:h-auto
-
-
-    max-[720px]:m-0
+    block m-0
 }
 
 .estudioSN {
-    @apply ml-auto h-auto w-[33.16rem]
+    @apply
+    2xl:ml-auto 2xl:h-auto 2xl:w-[33.16rem]
 
-
-    max-[1366px]:m-0 max-[1366px]:w-full
-
-
-    max-[720px]:m-0
+    sm:m-0 sm:w-full
 }
 
 .trabajosSN {
     @apply ml-auto h-auto w-[33.16rem]
 
+    2xl:block
 
-    max-[1366px]:hidden
-
-
-    max-[720px]:hidden
+    hidden
 }
 
 .trabajoMovilSN {
-    @apply hidden
+    @apply
 
+    block
 
-    max-[1366px]:block
+    2xl:hidden
 }
 
 .listaSN {
@@ -252,7 +234,7 @@ header nav a {
 .listaSN li {
     font-family: 'Josefin Slab';
     @apply leading-5;
-} */
+}
 
 /* Estilos Footer */
 footer {
