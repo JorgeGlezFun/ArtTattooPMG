@@ -17,7 +17,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Inicio', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -26,8 +26,8 @@ Route::get('/', function () {
 })->name('/')
 ;
 
-Route::get('/index', function () {
-    return Inertia::render('Index');
+Route::get('/inicio', function () {
+    return Inertia::render('Inicio');
 });
 
 Route::get('/sobrenosotros', function () {
