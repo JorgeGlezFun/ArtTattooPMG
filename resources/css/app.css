@@ -190,16 +190,14 @@ html {
     @apply
     w-full h-full
 
-    2xl:h-auto 2xl:w-[33.16rem] 2xl:ml-auto
-
-    xl:block
+    2xl:h-auto 2xl:w-[33.16rem] 2xl:ml-auto 2xl:block
 
     hidden
 }
 
 .artistaMovilSN {
     @apply
-    xl:hidden
+    2xl:hidden
 
     block m-0
 }
