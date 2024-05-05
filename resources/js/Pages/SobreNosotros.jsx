@@ -15,7 +15,7 @@ export default function SobreNosotros() {
       <>
       <Head title='Sobre Nosotros'/>
         <Header/>
-            <div className='mainSN'>
+            <div className='main'>
                 <div className="SobreNosotros">
                     <div className="infoSN">
                         <h1 className="titulo">¿Quiénes somos?</h1>

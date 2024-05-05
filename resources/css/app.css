@@ -54,6 +54,11 @@ html {
 
 
 /* Estilos Body */
+.main{
+    @apply flex items-center justify-center bg-marmol
+}
+
+/* Estilos Inicio */
 .mainInicio {
     @apply min-h-screen flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
 }
@@ -132,9 +137,7 @@ html {
 }
 
 /* Estilos "sobrenosotros.html" */
-.mainSN{
-    @apply flex items-center justify-center bg-marmol
-}
+
 
 .SobreNosotros{
     @apply
@@ -232,6 +235,23 @@ html {
 .listaSN li {
     font-family: 'Josefin Slab';
     @apply leading-5;
+}
+
+/* Estilos Reservar */
+.contenedorFormulario {
+    @apply
+
+    flex flex-col justify-center items-center bg-black/75 my-10
+
+    2xl:w-[110rem] 2xl:h-auto 2xl:flex-row
+
+    xl:w-[75rem]
+
+    lg:w-[58rem]
+
+    md:w-[42rem]
+
+    sm:w-[37rem] h-auto;
 }
 
 /* Estilos Footer */
