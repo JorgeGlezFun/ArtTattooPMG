@@ -40,6 +40,13 @@ html {
     @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out bg-[#efb810] text-black border-b-4 border-black;
 }
 
+.linkNavResponsive {
+    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 border-transparent text-[#efb810] hover:text-black hover:bg-[#efb810] focus:text-black focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out
+}
+
+.linkNavResponsiveActivo {
+    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 text-black bg-[#efb810] focus:text-black focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out;
+}
 .flechaBotonUsuario {
     @apply h-6 w-6;
 }
@@ -54,6 +61,11 @@ html {
 
 
 /* Estilos Body */
+.main{
+    @apply flex items-center justify-center bg-marmol min-h-screen
+}
+
+/* Estilos Inicio */
 .mainInicio {
     @apply min-h-screen flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
 }
@@ -132,9 +144,7 @@ html {
 }
 
 /* Estilos "sobrenosotros.html" */
-.mainSN{
-    @apply flex items-center justify-center bg-marmol
-}
+
 
 .SobreNosotros{
     @apply
@@ -232,6 +242,80 @@ html {
 .listaSN li {
     font-family: 'Josefin Slab';
     @apply leading-5;
+}
+
+/* Estilos Reservar */
+.contenedorFormulario {
+    @apply
+
+    flex justify-center items-start bg-black/75 my-10
+
+    2xl:w-[110rem] 2xl:h-auto 2xl:flex-col
+
+    xl:w-[75rem]
+
+    lg:w-[58rem]
+
+    md:w-[42rem]
+
+    sm:w-[37rem] h-auto;
+}
+
+.infoFormulario {
+    @apply flex-col items-start my-0
+
+    /* 2xl:w-[62.5rem] 2xl:h-[25.375rem]
+
+    xl:w-[58rem]
+
+    lg:w-[48rem]
+
+    md:w-[35rem]
+
+    sm:w-[30rem] sm:h-auto */
+    ;
+}
+
+.filaUno {
+    @apply flex w-full
+}
+
+.columnaNombre {
+    @apply flex flex-col w-full my-2
+}
+
+.columnaApellido {
+    @apply flex flex-col w-full ml-6 my-2
+}
+
+.inputCorreo {
+    @apply w-full
+}
+
+.inputTelefono {
+    @apply w-full
+}
+
+.filaDos {
+    @apply flex w-full
+
+}
+
+.columnaRadio {
+    @apply flex flex-col w-auto mr-auto
+}
+
+.formulario {
+    @apply
+
+    flex flex-col justify-center items-start bg-white/75 mx-2 w-[30rem]
+
+    2xl:w-[50rem] 2xl:h-auto
+
+    lg:w-[57.75rem]
+
+    md:w-[40rem]
+
 }
 
 /* Estilos Footer */

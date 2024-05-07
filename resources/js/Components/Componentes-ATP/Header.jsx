@@ -107,19 +107,19 @@ export default function Header({ user }) {
                     <ResponsiveNavLink href={route('/')} active={route().current('/')}>
                         Inicio
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/sobrenosotros')}>
+                    <ResponsiveNavLink href={route('sobrenosotros')} active={route().current('sobrenosotros')}>
                         Sobre Nosotros
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/galeria')}>
+                    <ResponsiveNavLink href={route('galeria')} active={route().current('galeria')}>
                         Galería
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/eventos')}>
+                    <ResponsiveNavLink href={route('eventos')} active={route().current('eventos')}>
                         Eventos
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/tienda')}>
+                    <ResponsiveNavLink href={route('tienda')} active={route().current('tienda')}>
                         Tienda
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/reservar')}>
+                    <ResponsiveNavLink href={route('reservar')} active={route().current('reservar')}>
                         Reservar Cita
                     </ResponsiveNavLink>
                     { user ?
