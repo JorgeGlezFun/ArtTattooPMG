@@ -2,8 +2,17 @@ import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
 import logo from "../../img/Logo-Fondo/Logo.png"
 import { Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 export default function Reservar({ auth }) {
+
+    const nombre = auth.user ? auth.user.name : null;
+    const apellido = auth.user ? auth.user.email : null;
+    const correo = auth.user ? auth.user.email : null;
+    const telefono = auth.user ? auth.user.email : null;
+
+    const [tipoReserva, setTipoReserva] = useState(null);
+
     return (
         <>
             <Head title="Inicio" />
@@ -16,7 +25,7 @@ export default function Reservar({ auth }) {
                         <div className='filaUno'>
                             <div className='columnaNombre'>
                                 <label htmlFor="">Nombre: </label> <br />
-                                <input type="text" name="" id="" /> <br />
+                                <input type="text" name="" id="" value={nombre}/> <br />
                             </div>
                             <div className='columnaApellido'>
                                 <label htmlFor="">Apellidos: </label> <br />
@@ -24,24 +33,26 @@ export default function Reservar({ auth }) {
                             </div>
                         </div>
                         <label htmlFor="" >Correo electrónico: </label> <br />
-                        <input type="email" name="" id="" className='inputCorreo'/> <br />
+                        <input type="email" name="" id="" value={correo} className='inputCorreo'/> <br />
                         <label htmlFor="">Teléfono: </label> <br />
                         <input type="tel" name="" id="" className='inputCorreo'/> <br />
-                        <label htmlFor="">Tipo de reserva: </label>
                         <div className='filaDos'>
                             <div className='columnaRadio'>
+                                <label htmlFor="">Tipo de reserva: </label>
                                 <div>
-                                    <input type="radio" name="reserva" id="tatuaje" /> <label htmlFor="tatuaje"> Tatuaje </label>
+                                    <input type="radio" name="reserva" id="tatuaje" value="tatuaje" onChange={() => setTipoReserva('tatuaje')}/> <label htmlFor="tatuaje"> Tatuaje </label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="reserva" id="piercing" /> <label htmlFor="piercing"> Piercing </label>
-                                </div>
+                                    <input type="radio" name="reserva" id="piercing" value="piercing" onChange={() => setTipoReserva('piercing')}/> <label htmlFor="piercing"> Piercing </label>                                </div>
                             </div>
-                            <div>
-                                <div>
+                            <div
+                                className='columnaTipodeReserva'
+                            >
+                            {tipoReserva === 'tatuaje' && (
+                                <div className='columnaTatuaje'>
                                     <div>
                                         <label htmlFor="">Tamaño del tatuaje: </label> <br />
-                                        <select name="" id="">
+                                        <select name="" id="" className='listaTatuajes'>
                                             <option value="">Pequeño</option>
                                             <option value="">Mediano</option>
                                             <option value="">Grande</option>
@@ -49,22 +60,30 @@ export default function Reservar({ auth }) {
                                     </div>
                                     <div>
                                         <label htmlFor="">Tipo de tatuaje: </label> <br />
-                                        <select name="" id="">
+                                        <select name="" id="" className='listaTatuajes'>
                                             <option value="">Tinta negra</option>
                                             <option value="">A color</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label htmlFor="">Zona del tatuaje: </label> <br />
-                                        <select name="" id="">
-                                            <option value=""></option>
-                                            <option value=""></option>
+                                        <select name="" id="" className='listaTatuajes'>
+                                            <option value="">Brazo</option>
+                                            <option value="">Antebrazo</option>
+                                            <option value="">Espalda</option>
+                                            <option value="">Gemelo</option>
+                                            <option value="">Muslo</option>
+                                            <option value="">Cadera</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div>
+                            )}
+                            {tipoReserva === 'piercing' && (
+                                <div
+                                    className='columnaPiercing'
+                                >
                                     <label htmlFor="">Tipo de piercing: </label> <br />
-                                    <select name="" id="">
+                                    <select name="" id="" className='listaPiercings'>
                                         <optgroup label='Oreja'>
                                             <option value="">Helix</option>
                                             <option value="">Lóbulo</option>
@@ -92,28 +111,7 @@ export default function Reservar({ auth }) {
                                         </optgroup>
                                     </select>
                                 </div>
-
-                                {/*
-                                Nostril 25€
-                                Septum 25€
-
-                                Helix; 25€
-                                Lóbulos y lóbulos altos ; 25€
-                                Industrial 30€
-                                Tragus 25€
-                                Daith 25€
-                                Conch 25€
-
-                                Lengua clásico 30€
-
-                                Medusa 25€
-                                Ashley 25€
-                                Labret vertical 30€
-                                Monroe 25€
-                                Madonna 25€
-                                Side labret 25€
-
-                                Ceja 30€ */}
+                                )}
                             </div>
                         </div>
                         <div className='filaUno'>
@@ -138,25 +136,8 @@ export default function Reservar({ auth }) {
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" className='boton'>Enviar</button>
+                        <button type="submit" className='botonFormulario'>Enviar</button>
                     </form>
-                    {/* <div className="infoTexto">
-                        <h1 className="titulo">Otras formas de contacto</h1>
-                        <hr className="separador"/>
-                        <p className="texto">
-                            Aquí encontrarás un lugar donde los mejores profesionales te atenderán para realizar los tatuajes que
-                            tengas pensado.<br/>
-                            <br/>
-                            Para concertar una cita, puedes ir a la pestaña de “Reservar Tu Cita”, donde encontraras a tu
-                            disposición todas las herramientas para poder tener una cita en nuestro estudio.<br/>
-                            <br/>
-                            También puedes informarte sobre los próximos eventos en los que participaremos, así como ver nuestra
-                            galería, que consiste en los trabajos que hemos realizado, o bien informarte acerca de nuestro equipo e
-                            instalaciones.<br/>
-                            <br/>
-                            Muchas gracias por su visita.
-                        </p>
-                    </div> */}
                 </div>
             </div>
             <Footer />

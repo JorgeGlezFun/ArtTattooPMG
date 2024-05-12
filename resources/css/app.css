@@ -248,7 +248,7 @@ html {
 .contenedorFormulario {
     @apply
 
-    flex justify-center items-start bg-black/75 my-10
+    flex justify-center items-start bg-black/75
 
     2xl:w-[110rem] 2xl:h-auto 2xl:flex-col
 
@@ -276,6 +276,19 @@ html {
     ;
 }
 
+.formulario {
+    @apply
+
+    flex flex-col justify-center items-start bg-white/75 mx-2 w-[30rem]
+
+    2xl:w-[50rem] 2xl:h-auto
+
+    lg:w-[57.75rem]
+
+    md:w-[40rem]
+
+}
+
 .filaUno {
     @apply flex w-full
 }
@@ -289,7 +302,7 @@ html {
 }
 
 .inputCorreo {
-    @apply w-full
+    @apply w-full border-none bg-white/90
 }
 
 .inputTelefono {
@@ -302,19 +315,31 @@ html {
 }
 
 .columnaRadio {
-    @apply flex flex-col w-auto mr-auto
+    @apply flex flex-col w-full my-2
 }
 
-.formulario {
-    @apply
+.columnaTipodeReserva {
+    @apply flex flex-col w-full my-2 ml-6
+}
 
-    flex flex-col justify-center items-start bg-white/75 mx-2 w-[30rem]
+.columnaTatuaje {
+    @apply flex flex-row w-full my-2 space-x-12
+}
 
-    2xl:w-[50rem] 2xl:h-auto
+.columnaPiercing {
+    @apply flex flex-col w-full my-2
+}
 
-    lg:w-[57.75rem]
+.listaTatuajes {
+    @apply w-40
+}
 
-    md:w-[40rem]
+.listaPiercings {
+    @apply w-full
+}
+
+.botonFormulario {
+    @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
 
 }
 
