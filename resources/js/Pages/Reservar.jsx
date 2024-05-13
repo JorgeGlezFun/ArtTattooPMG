@@ -1,5 +1,6 @@
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
+import DragadnDrop from '@/Components/Componentes-ATP/DragandDrop';
 import logo from "../../img/Logo-Fondo/Logo.png"
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
@@ -25,17 +26,17 @@ export default function Reservar({ auth }) {
                         <div className='filaUno'>
                             <div className='columnaNombre'>
                                 <label htmlFor="">Nombre: </label> <br />
-                                <input type="text" name="" id="" value={nombre}/> <br />
+                                <input type="text" name="" id="" value={nombre} className='inputs'/> <br />
                             </div>
                             <div className='columnaApellido'>
                                 <label htmlFor="">Apellidos: </label> <br />
-                                <input type="text" name="" id="" /> <br />
+                                <input type="text" name="" id=""  className='inputs'/> <br />
                             </div>
                         </div>
                         <label htmlFor="" >Correo electrónico: </label> <br />
-                        <input type="email" name="" id="" value={correo} className='inputCorreo'/> <br />
+                        <input type="email" name="" id="" value={correo} className='inputs'/> <br />
                         <label htmlFor="">Teléfono: </label> <br />
-                        <input type="tel" name="" id="" className='inputCorreo'/> <br />
+                        <input type="tel" name="" id="" className='inputs'/> <br />
                         <div className='filaDos'>
                             <div className='columnaRadio'>
                                 <label htmlFor="">Tipo de reserva: </label>
@@ -49,32 +50,37 @@ export default function Reservar({ auth }) {
                                 className='columnaTipodeReserva'
                             >
                             {tipoReserva === 'tatuaje' && (
-                                <div className='columnaTatuaje'>
-                                    <div>
-                                        <label htmlFor="">Tamaño del tatuaje: </label> <br />
-                                        <select name="" id="" className='listaTatuajes'>
-                                            <option value="">Pequeño</option>
-                                            <option value="">Mediano</option>
-                                            <option value="">Grande</option>
-                                        </select>
+                                <div>
+                                    <div className='columnaTatuaje'>
+                                        <div>
+                                            <label htmlFor="">Tamaño del tatuaje: </label> <br />
+                                            <select name="" id="" className='listaTatuajes'>
+                                                <option value="">Pequeño</option>
+                                                <option value="">Mediano</option>
+                                                <option value="">Grande</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label htmlFor="">Tipo de tatuaje: </label> <br />
+                                            <select name="" id="" className='listaTatuajes'>
+                                                <option value="">Tinta negra</option>
+                                                <option value="">A color</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label htmlFor="">Zona del tatuaje: </label> <br />
+                                            <select name="" id="" className='listaTatuajes'>
+                                                <option value="">Brazo</option>
+                                                <option value="">Antebrazo</option>
+                                                <option value="">Espalda</option>
+                                                <option value="">Gemelo</option>
+                                                <option value="">Muslo</option>
+                                                <option value="">Cadera</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label htmlFor="">Tipo de tatuaje: </label> <br />
-                                        <select name="" id="" className='listaTatuajes'>
-                                            <option value="">Tinta negra</option>
-                                            <option value="">A color</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="">Zona del tatuaje: </label> <br />
-                                        <select name="" id="" className='listaTatuajes'>
-                                            <option value="">Brazo</option>
-                                            <option value="">Antebrazo</option>
-                                            <option value="">Espalda</option>
-                                            <option value="">Gemelo</option>
-                                            <option value="">Muslo</option>
-                                            <option value="">Cadera</option>
-                                        </select>
+                                    <div className='w-full h-auto p-4 bg-white/90'>
+                                        <DragadnDrop />
                                     </div>
                                 </div>
                             )}
@@ -117,11 +123,11 @@ export default function Reservar({ auth }) {
                         <div className='filaUno'>
                             <div className='columnaNombre'>
                                 <label htmlFor="">Fecha: </label> <br />
-                                <input type="date" name="" id="" />
+                                <input type="date" name="" id="" className='inputs'/>
                             </div>
                             <div className='columnaApellido'>
                                 <label htmlFor="">Hora: </label> <br />
-                                <select>
+                                <select className='inputs'>
                                     <optgroup label="Mañana">
                                         <option value="11:30">11:30</option>
                                         <option value="12:30">12:30</option>

@@ -301,12 +301,8 @@ html {
     @apply flex flex-col w-full ml-6 my-2
 }
 
-.inputCorreo {
-    @apply w-full border-none bg-white/90
-}
-
-.inputTelefono {
-    @apply w-full
+.inputs {
+    @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-0
 }
 
 .filaDos {
@@ -319,11 +315,11 @@ html {
 }
 
 .columnaTipodeReserva {
-    @apply flex flex-col w-full my-2 ml-6
+    @apply flex flex-col w-full ml-6 justify-start items-start
 }
 
 .columnaTatuaje {
-    @apply flex flex-row w-full my-2 space-x-12
+    @apply flex flex-row w-full my-2 space-x-8
 }
 
 .columnaPiercing {
@@ -331,11 +327,11 @@ html {
 }
 
 .listaTatuajes {
-    @apply w-40
+    @apply w-44 bg-white/90 border-b-2 border-b-[#efb810] border-0
 }
 
 .listaPiercings {
-    @apply w-full
+    @apply w-full border-b-2 border-b-[#efb810] border-0
 }
 
 .botonFormulario {
