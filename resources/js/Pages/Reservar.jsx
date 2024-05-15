@@ -1,6 +1,6 @@
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
-import DragadnDrop from '@/Components/Componentes-ATP/DragandDrop';
+import DragandDrop from '@/Components/Componentes-ATP/DragandDrop';
 import logo from "../../img/Logo-Fondo/Logo.png"
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
@@ -33,26 +33,35 @@ export default function Reservar({ auth }) {
                                 <input type="text" name="" id=""  className='inputs'/> <br />
                             </div>
                         </div>
-                        <label htmlFor="" >Correo electrónico: </label> <br />
-                        <input type="email" name="" id="" value={correo} className='inputs'/> <br />
-                        <label htmlFor="">Teléfono: </label> <br />
-                        <input type="tel" name="" id="" className='inputs'/> <br />
+                        <div className='columnas'>
+                            <label htmlFor="" >Correo electrónico: </label> <br />
+                            <input type="email" name="" id="" value={correo} className='inputs'/> <br />
+                        </div>
+                        <div className='columnas'>
+                            <label htmlFor="">Teléfono: </label> <br />
+                            <input type="tel" name="" id="" className='inputs'/> <br />
+                        </div>
                         <div className='filaDos'>
                             <div className='columnaRadio'>
                                 <label htmlFor="">Tipo de reserva: </label>
-                                <div>
-                                    <input type="radio" name="reserva" id="tatuaje" value="tatuaje" onChange={() => setTipoReserva('tatuaje')}/> <label htmlFor="tatuaje"> Tatuaje </label>
+                                <div className='opcionesRadio'>
+                                    <div>
+                                        <input type="radio" name="reserva" id="tatuaje" value="tatuaje" className='hidden' onChange={() => setTipoReserva('tatuaje')}/>
+                                        <label htmlFor="tatuaje" className='opciones'> Tatuaje </label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="reserva" id="piercing" value="piercing" className='hidden' onChange={() => setTipoReserva('piercing')}/>
+                                        <label htmlFor="piercing" className='opciones'> Piercing </label>
+                                    </div>
                                 </div>
-                                <div>
-                                    <input type="radio" name="reserva" id="piercing" value="piercing" onChange={() => setTipoReserva('piercing')}/> <label htmlFor="piercing"> Piercing </label>                                </div>
                             </div>
                             <div
                                 className='columnaTipodeReserva'
                             >
                             {tipoReserva === 'tatuaje' && (
-                                <div>
+                                <div className='w-full'>
                                     <div className='columnaTatuaje'>
-                                        <div>
+                                        <div className='divTatuajes'>
                                             <label htmlFor="">Tamaño del tatuaje: </label> <br />
                                             <select name="" id="" className='listaTatuajes'>
                                                 <option value="">Pequeño</option>
@@ -60,14 +69,14 @@ export default function Reservar({ auth }) {
                                                 <option value="">Grande</option>
                                             </select>
                                         </div>
-                                        <div>
+                                        <div className='divTatuajes'>
                                             <label htmlFor="">Tipo de tatuaje: </label> <br />
                                             <select name="" id="" className='listaTatuajes'>
                                                 <option value="">Tinta negra</option>
                                                 <option value="">A color</option>
                                             </select>
                                         </div>
-                                        <div>
+                                        <div className='divTatuajes'>
                                             <label htmlFor="">Zona del tatuaje: </label> <br />
                                             <select name="" id="" className='listaTatuajes'>
                                                 <option value="">Brazo</option>
@@ -79,8 +88,9 @@ export default function Reservar({ auth }) {
                                             </select>
                                         </div>
                                     </div>
+                                    <label htmlFor="">Diseño del tatuaje:</label>
                                     <div className='w-full h-auto p-4 bg-white/90'>
-                                        <DragadnDrop />
+                                        <DragandDrop />
                                     </div>
                                 </div>
                             )}

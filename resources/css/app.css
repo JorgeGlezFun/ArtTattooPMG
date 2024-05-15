@@ -47,6 +47,7 @@ html {
 .linkNavResponsiveActivo {
     @apply w-full flex items-start justify-center ps-3 pe-4 py-8 text-black bg-[#efb810] focus:text-black focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out;
 }
+
 .flechaBotonUsuario {
     @apply h-6 w-6;
 }
@@ -58,7 +59,6 @@ html {
 .linkUsuario {
     @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-20 h-20 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
 }
-
 
 /* Estilos Body */
 .main{
@@ -144,8 +144,6 @@ html {
 }
 
 /* Estilos "sobrenosotros.html" */
-
-
 .SobreNosotros{
     @apply
 
@@ -261,31 +259,16 @@ html {
     sm:w-[37rem] h-auto;
 }
 
-.infoFormulario {
-    @apply flex-col items-start my-0
-
-    /* 2xl:w-[62.5rem] 2xl:h-[25.375rem]
-
-    xl:w-[58rem]
-
-    lg:w-[48rem]
-
-    md:w-[35rem]
-
-    sm:w-[30rem] sm:h-auto */
-    ;
-}
-
 .formulario {
     @apply
 
-    flex flex-col justify-center items-start bg-white/75 mx-2 w-[30rem]
+    flex flex-col justify-center items-start bg-white/75 p-4 w-[30rem]
 
     2xl:w-[50rem] 2xl:h-auto
 
-    lg:w-[57.75rem]
+    lg:w-full
 
-    md:w-[40rem]
+    md:w-full
 
 }
 
@@ -301,33 +284,54 @@ html {
     @apply flex flex-col w-full ml-6 my-2
 }
 
+.columnas {
+    @apply flex flex-col w-full my-2
+}
+
 .inputs {
     @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-0
 }
 
 .filaDos {
-    @apply flex w-full
-
+    @apply flex flex-col w-full
 }
 
 .columnaRadio {
     @apply flex flex-col w-full my-2
 }
 
+.opcionesRadio {
+    @apply flex flex-row w-full items-center justify-between
+}
+
+input[type="radio"]:checked + .opciones {
+    @apply bg-yellow-500 text-black transform -translate-y-1 scale-100;
+}
+
+.opciones {
+    @apply flex items-center justify-center bg-black text-yellow-500 h-12 font-bold rounded border-b-4 border-[#efb810] transition-all duration-500 ease-in-out transform hover:bg-yellow-500 hover:text-black
+    2xl:w-[23rem] 2xl:hover:-translate-y-1 2xl:hover:scale-100
+}
+
 .columnaTipodeReserva {
-    @apply flex flex-col w-full ml-6 justify-start items-start
+    @apply flex w-full justify-center items-center
 }
 
 .columnaTatuaje {
-    @apply flex flex-row w-full my-2 space-x-8
+    @apply flex w-full my-2 space-x-12
+}
+
+.divTatuajes {
+    @apply flex flex-col w-full
 }
 
 .columnaPiercing {
     @apply flex flex-col w-full my-2
 }
 
+
 .listaTatuajes {
-    @apply w-44 bg-white/90 border-b-2 border-b-[#efb810] border-0
+    @apply w-auto bg-white/90 border-b-2 border-b-[#efb810] border-0
 }
 
 .listaPiercings {

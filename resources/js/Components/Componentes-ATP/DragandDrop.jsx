@@ -24,7 +24,7 @@ export default function DragAndDrop() {
         {file && (
           <div key={file.name}>
             <div>
-              <img src={file.preview} style={{width: '200px'}} alt="preview" />
+              <img src={file.preview} className='flex items-center justify-center w-48 h-48' alt="preview" />
             </div>
             <div>
               {file.path} - {file.size} bytes
