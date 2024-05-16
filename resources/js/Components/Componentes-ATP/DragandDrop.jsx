@@ -13,6 +13,7 @@ export default function DragAndDrop() {
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, accept: 'image/*', multiple: false});
 
   return (
+
     <div {...getRootProps()} className='flex flex-col w-auto h-52 justify-center items-center p-2 border-4 border-black border-dashed'>
       <input {...getInputProps()} />
       {
