@@ -48,11 +48,13 @@ export default function SobreNosotros() {
                             Patri se especializa en tatuajes de línea fina, microrealismo y puntillismo, pero esto no la detiene en realizar todo tipo de tatuajes.<br />
                             <br />
                             Su formación dentro de este mundillo es la siguiente:
+                            </p>
                             <ul className="listaSN">
                                 <li>Título homologado en maquillaje integral</li>
                                 <li>Titulo homologado de tatuajes</li>
                                 <li>Título de piercings proporcionado por la escuela Yanni Piercings</li>
                             </ul>
+                            <p className='textoSN'>
                             <br />
                             “Todo tiene un comienzo, que esto no es un don ni es fácil, todo es aprender, empeñarse y poner esfuerzo en lo que realmente te gusta.” .- Patri.
                             </p>
@@ -76,6 +78,7 @@ export default function SobreNosotros() {
                             También contamos con una serie de normas que hay que cumplir de forma estricta, para así facilitar el trabajo de nuestros artistas, así como de garantizar un espacio tranquilo y seguro para el cliente. <br />
                             <br />
                             Dichas normas son las siguientes:
+                            </p>
                             <ul className="listaSN">
                                 <li>No venir con acompañante.</li>
                                 <li>No se permite la entrada a niños.</li>
@@ -83,7 +86,6 @@ export default function SobreNosotros() {
                                 <li>No se permiten mascotas.</li>
                                 <li>No causar ruido excesivo.</li>
                             </ul>
-                            </p>
                             <img src={estudio} alt="Foto del estudio de tatuajes por dentro" className="estudioSN"/>
                         </div>
                     </div>

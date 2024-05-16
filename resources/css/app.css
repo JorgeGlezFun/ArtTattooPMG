@@ -40,6 +40,14 @@ html {
     @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out bg-[#efb810] text-black border-b-4 border-black;
 }
 
+.linkNavResponsive {
+    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 border-transparent text-[#efb810] hover:text-black hover:bg-[#efb810] focus:text-black focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out
+}
+
+.linkNavResponsiveActivo {
+    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 text-black bg-[#efb810] focus:text-black focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out;
+}
+
 .flechaBotonUsuario {
     @apply h-6 w-6;
 }
@@ -52,7 +60,6 @@ html {
     @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-20 h-20 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
 }
 
-
 /* Estilos Body */
 .main{
     @apply flex items-center justify-center bg-marmol
@@ -60,7 +67,7 @@ html {
 
 /* Estilos Inicio */
 .mainInicio {
-    @apply min-h-screen flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
+    @apply flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
 }
 
 .info {
@@ -124,7 +131,6 @@ html {
     flex w-full h-14 bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
 
     2xl:w-[31.25rem]
-
 }
 
 .Logo {
@@ -137,8 +143,6 @@ html {
 }
 
 /* Estilos "sobrenosotros.html" */
-
-
 .SobreNosotros{
     @apply
 
@@ -238,12 +242,16 @@ html {
 }
 
 /* Estilos Reservar */
+.separadorFormulario {
+    @apply w-full h-1 bg-gradient-to-r from-transparent via-black to-transparent border-none mt-2 mb-5;
+}
+
 .contenedorFormulario {
     @apply
 
-    flex flex-col justify-center items-center bg-black/75 my-10
+    flex justify-center items-start bg-black/75 my-8
 
-    2xl:w-[110rem] 2xl:h-auto 2xl:flex-row
+    2xl:w-[110rem] 2xl:h-auto 2xl:flex-col
 
     xl:w-[75rem]
 
@@ -254,13 +262,100 @@ html {
     sm:w-[37rem] h-auto;
 }
 
+.formulario {
+    @apply
+
+    flex flex-col justify-center items-start bg-white/75 p-4 w-full
+
+    2xl:w-[50rem] 2xl:h-auto
+
+}
+
+.filaUno {
+    @apply flex flex-col w-full my-2 space-y-4
+    xl:flex-row xl:space-x-4 xl:space-y-0
+}
+
+.columnaNombre {
+    @apply flex flex-col w-full
+}
+
+.columnaApellido {
+    @apply flex flex-col w-full
+}
+
+.columnas {
+    @apply flex flex-col w-full my-2
+}
+
+.inputs {
+    @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-0
+}
+
+.filaDos {
+    @apply flex flex-col w-full h-auto my-2
+}
+
+.columnaRadio {
+    @apply flex flex-col w-full
+}
+
+.opcionesRadio {
+    @apply flex flex-row w-full items-center justify-between my-2 space-x-4
+}
+
+input[type="radio"]:checked + .opciones {
+    @apply bg-yellow-500 text-black transform -translate-y-1 scale-100;
+}
+
+.opciones {
+    @apply
+    flex items-center justify-center bg-black text-yellow-500 w-full h-12 font-bold rounded border-b-4 border-[#efb810] transition-all duration-500 ease-in-out transform hover:bg-yellow-500 hover:text-black
+
+    2xl:hover:-translate-y-1 2xl:hover:scale-100
+}
+
+.columnaTipodeReserva {
+    @apply flex w-full justify-center items-center my-2
+}
+
+.columnaTatuaje {
+    @apply flex flex-col w-full my-2 space-y-4
+    xl:flex-row xl:space-x-12 xl:space-y-0
+}
+
+.divTatuajes {
+    @apply flex flex-col w-full
+}
+
+.columnaPiercing {
+    @apply flex flex-col w-full my-2
+}
+
+.listaTatuajes {
+    @apply w-auto bg-white/90 border-b-2 border-b-[#efb810] border-0
+}
+
+.listaPiercings {
+    @apply w-full border-b-2 border-b-[#efb810] border-0
+}
+
+.columnaDragandDrop {
+    @apply my-2
+}
+
+.botonFormulario {
+    @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center mt-2 transition duration-500 hover:bg-[#efb810] hover:text-black
+
+}
+
 /* Estilos Footer */
 footer {
     @apply w-full bg-black min-h-20 text-[#efb810] flex justify-center;
 }
 
 footer ul {
-    @apply px-10;
+    @apply px-10 py-5;
 }
 
 footer ul {
