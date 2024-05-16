@@ -22,34 +22,34 @@ export default function Reservar({ auth }) {
                 <div className="contenedorFormulario">
                     <form action="post" className='formulario'>
                         <h1 className="titulo">Reserva tu cita</h1>
-                        <hr className="separador"/>
+                        <hr className="separadorFormulario"/>
                         <div className='filaUno'>
                             <div className='columnaNombre'>
-                                <label htmlFor="">Nombre: </label> <br />
-                                <input type="text" name="" id="" value={nombre} className='inputs'/> <br />
+                                <label htmlFor="">Nombre: </label>
+                                <input type="text" name="" id="" value={nombre} className='inputs'/>
                             </div>
                             <div className='columnaApellido'>
-                                <label htmlFor="">Apellidos: </label> <br />
-                                <input type="text" name="" id=""  className='inputs'/> <br />
+                                <label htmlFor="">Apellidos: </label>
+                                <input type="text" name="" id=""  className='inputs'/>
                             </div>
                         </div>
                         <div className='columnas'>
-                            <label htmlFor="" >Correo electrónico: </label> <br />
-                            <input type="email" name="" id="" value={correo} className='inputs'/> <br />
+                            <label htmlFor="" >Correo electrónico: </label>
+                            <input type="email" name="" id="" value={correo} className='inputs'/>
                         </div>
                         <div className='columnas'>
-                            <label htmlFor="">Teléfono: </label> <br />
-                            <input type="tel" name="" id="" className='inputs'/> <br />
+                            <label htmlFor="">Teléfono: </label>
+                            <input type="tel" name="" id="" className='inputs'/>
                         </div>
                         <div className='filaDos'>
                             <div className='columnaRadio'>
                                 <label htmlFor="">Tipo de reserva: </label>
                                 <div className='opcionesRadio'>
-                                    <div>
+                                    <div className='w-full'>
                                         <input type="radio" name="reserva" id="tatuaje" value="tatuaje" className='hidden' onChange={() => setTipoReserva('tatuaje')}/>
                                         <label htmlFor="tatuaje" className='opciones'> Tatuaje </label>
                                     </div>
-                                    <div>
+                                    <div className='w-full'>
                                         <input type="radio" name="reserva" id="piercing" value="piercing" className='hidden' onChange={() => setTipoReserva('piercing')}/>
                                         <label htmlFor="piercing" className='opciones'> Piercing </label>
                                     </div>
@@ -62,7 +62,7 @@ export default function Reservar({ auth }) {
                                 <div className='w-full'>
                                     <div className='columnaTatuaje'>
                                         <div className='divTatuajes'>
-                                            <label htmlFor="">Tamaño del tatuaje: </label> <br />
+                                            <label htmlFor="">Tamaño del tatuaje: </label>
                                             <select name="" id="" className='listaTatuajes'>
                                                 <option value="">Pequeño</option>
                                                 <option value="">Mediano</option>
@@ -70,14 +70,14 @@ export default function Reservar({ auth }) {
                                             </select>
                                         </div>
                                         <div className='divTatuajes'>
-                                            <label htmlFor="">Tipo de tatuaje: </label> <br />
+                                            <label htmlFor="">Tipo de tatuaje: </label>
                                             <select name="" id="" className='listaTatuajes'>
                                                 <option value="">Tinta negra</option>
                                                 <option value="">A color</option>
                                             </select>
                                         </div>
                                         <div className='divTatuajes'>
-                                            <label htmlFor="">Zona del tatuaje: </label> <br />
+                                            <label htmlFor="">Zona del tatuaje: </label>
                                             <select name="" id="" className='listaTatuajes'>
                                                 <option value="">Brazo</option>
                                                 <option value="">Antebrazo</option>
@@ -88,9 +88,11 @@ export default function Reservar({ auth }) {
                                             </select>
                                         </div>
                                     </div>
-                                    <label htmlFor="">Diseño del tatuaje:</label>
-                                    <div className='w-full h-auto p-4 bg-white/90'>
-                                        <DragandDrop />
+                                    <div className='columnaDragandDrop'>
+                                        <label htmlFor="">Diseño del tatuaje:</label>
+                                        <div className='w-full h-auto p-4 bg-white/90'>
+                                            <DragandDrop />
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -98,7 +100,7 @@ export default function Reservar({ auth }) {
                                 <div
                                     className='columnaPiercing'
                                 >
-                                    <label htmlFor="">Tipo de piercing: </label> <br />
+                                    <label htmlFor="">Tipo de piercing: </label>
                                     <select name="" id="" className='listaPiercings'>
                                         <optgroup label='Oreja'>
                                             <option value="">Helix</option>
@@ -132,11 +134,11 @@ export default function Reservar({ auth }) {
                         </div>
                         <div className='filaUno'>
                             <div className='columnaNombre'>
-                                <label htmlFor="">Fecha: </label> <br />
+                                <label htmlFor="">Fecha: </label>
                                 <input type="date" name="" id="" className='inputs'/>
                             </div>
                             <div className='columnaApellido'>
-                                <label htmlFor="">Hora: </label> <br />
+                                <label htmlFor="">Hora: </label>
                                 <select className='inputs'>
                                     <optgroup label="Mañana">
                                         <option value="11:30">11:30</option>

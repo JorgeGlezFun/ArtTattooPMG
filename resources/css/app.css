@@ -62,12 +62,12 @@ html {
 
 /* Estilos Body */
 .main{
-    @apply flex items-center justify-center bg-marmol min-h-screen
+    @apply flex items-center justify-center bg-marmol
 }
 
 /* Estilos Inicio */
 .mainInicio {
-    @apply min-h-screen flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
+    @apply flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
 }
 
 .info {
@@ -131,7 +131,6 @@ html {
     flex w-full h-14 bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
 
     2xl:w-[31.25rem]
-
 }
 
 .Logo {
@@ -243,10 +242,15 @@ html {
 }
 
 /* Estilos Reservar */
+
+.separadorFormulario {
+    @apply w-full h-1 bg-gradient-to-r from-transparent via-black to-transparent border-none mt-2 mb-5;
+}
+
 .contenedorFormulario {
     @apply
 
-    flex justify-center items-start bg-black/75
+    flex justify-center items-start bg-black/75 my-8
 
     2xl:w-[110rem] 2xl:h-auto 2xl:flex-col
 
@@ -262,26 +266,23 @@ html {
 .formulario {
     @apply
 
-    flex flex-col justify-center items-start bg-white/75 p-4 w-[30rem]
+    flex flex-col justify-center items-start bg-white/75 p-4 w-full
 
     2xl:w-[50rem] 2xl:h-auto
-
-    lg:w-full
-
-    md:w-full
 
 }
 
 .filaUno {
-    @apply flex w-full
+    @apply flex flex-col w-full my-2 space-y-4
+    xl:flex-row xl:space-x-4 xl:space-y-0
 }
 
 .columnaNombre {
-    @apply flex flex-col w-full my-2
+    @apply flex flex-col w-full
 }
 
 .columnaApellido {
-    @apply flex flex-col w-full ml-6 my-2
+    @apply flex flex-col w-full
 }
 
 .columnas {
@@ -293,15 +294,16 @@ html {
 }
 
 .filaDos {
-    @apply flex flex-col w-full
+
+    @apply flex flex-col w-full h-auto my-2
 }
 
 .columnaRadio {
-    @apply flex flex-col w-full my-2
+    @apply flex flex-col w-full
 }
 
 .opcionesRadio {
-    @apply flex flex-row w-full items-center justify-between
+    @apply flex flex-row w-full items-center justify-between my-2 space-x-4
 }
 
 input[type="radio"]:checked + .opciones {
@@ -309,16 +311,20 @@ input[type="radio"]:checked + .opciones {
 }
 
 .opciones {
-    @apply flex items-center justify-center bg-black text-yellow-500 h-12 font-bold rounded border-b-4 border-[#efb810] transition-all duration-500 ease-in-out transform hover:bg-yellow-500 hover:text-black
-    2xl:w-[23rem] 2xl:hover:-translate-y-1 2xl:hover:scale-100
+
+    @apply
+    flex items-center justify-center bg-black text-yellow-500 w-full h-12 font-bold rounded border-b-4 border-[#efb810] transition-all duration-500 ease-in-out transform hover:bg-yellow-500 hover:text-black
+
+    2xl:hover:-translate-y-1 2xl:hover:scale-100
 }
 
 .columnaTipodeReserva {
-    @apply flex w-full justify-center items-center
+    @apply flex w-full justify-center items-center my-2
 }
 
 .columnaTatuaje {
-    @apply flex w-full my-2 space-x-12
+    @apply flex flex-col w-full my-2 space-y-4
+    xl:flex-row xl:space-x-12 xl:space-y-0
 }
 
 .divTatuajes {
@@ -329,7 +335,6 @@ input[type="radio"]:checked + .opciones {
     @apply flex flex-col w-full my-2
 }
 
-
 .listaTatuajes {
     @apply w-auto bg-white/90 border-b-2 border-b-[#efb810] border-0
 }
@@ -338,8 +343,12 @@ input[type="radio"]:checked + .opciones {
     @apply w-full border-b-2 border-b-[#efb810] border-0
 }
 
+.columnaDragandDrop {
+    @apply my-2
+}
+
 .botonFormulario {
-    @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
+    @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center mt-2 transition duration-500 hover:bg-[#efb810] hover:text-black
 
 }
 
@@ -349,7 +358,7 @@ footer {
 }
 
 footer ul {
-    @apply px-10;
+    @apply px-10 py-5;
 }
 
 footer ul {

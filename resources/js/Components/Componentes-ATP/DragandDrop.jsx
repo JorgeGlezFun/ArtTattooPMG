@@ -13,7 +13,8 @@ export default function DragAndDrop() {
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, accept: 'image/*', multiple: false});
 
   return (
-    <div {...getRootProps()} className='flex flex-col w-auto items-center p-2 border-4 border-black border-dashed'>
+
+    <div {...getRootProps()} className='flex flex-col w-auto h-52 justify-center items-center p-2 border-4 border-black border-dashed'>
       <input {...getInputProps()} />
       {
         isDragActive ?
@@ -23,8 +24,8 @@ export default function DragAndDrop() {
       <div>
         {file && (
           <div key={file.name}>
-            <div>
-              <img src={file.preview} className='flex items-center justify-center w-48 h-48' alt="preview" />
+            <div className='flex items-center justify-center'>
+              <img src={file.preview} className='w-48 h-48' alt="preview" />
             </div>
             <div>
               {file.path} - {file.size} bytes
