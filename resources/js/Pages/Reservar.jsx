@@ -18,7 +18,7 @@ export default function Reservar({ auth }) {
         <>
             <Head title="Inicio" />
             <Header user={auth.user} />
-            <div className='main'>
+            <div className='mainReserva'>
                 <div className="contenedorFormulario">
                     <form action="post" className='formulario'>
                         <h1 className="titulo">Reserva tu cita</h1>
@@ -156,6 +156,29 @@ export default function Reservar({ auth }) {
                         </div>
                         <button type="submit" className='botonFormulario'>Enviar</button>
                     </form>
+                    <div className='contenedorNormas'>
+                        <div className='infoNormas'>
+                            <h1 className='titulo'>Normas de la reserva</h1>
+                            <hr className="separadorFormulario"/>
+                            <ul className='listaNormas'>
+                                <li>Se deberá dar una señal del 40% del valor del tatuaje/piercing a realizar.</li>
+                                <li>El pago se puede hacer a traves de la página web o por Bizum al siguiente numero: 687 81 76 83</li>
+                                <li>En caso de cancelacion de la cita, la señal se perderá.</li>
+                                <li>La cita puede ser aplazada o modificada una sola vez siempre que se haya avisado con al menos 24 horas de antelación.</li>
+                                <li>En caso de aplazarse o modificarse por segunda vez, se deberá dar una nueva señal.</li>
+                                <li>Si no se recibe el pago de la señal, se procederá a no guardar la cita.</li>
+                                <li>El plazo máximo para abonar la señal es hasta las 00:00 del mismo día que se pide la cita.</li>
+                                <li>Nos encontramos en Avda. Cangas 79, para entrar llamas a la puerta y esperar a ser atendido.</li>
+                                <li>No puedes venir con un acompañante.</li>
+                                <li>En caso de ser menor de edad, debes venir acompañado de uno de tus padres o tutor legal para firmar el consentimiento.</li>
+                                <li>Si eres menor y no te acompaña ninguno de tus padres o tutor legal, no se realizara el piercing/tatuaje y se perderá tanto la señal como la cita.</li>
+                                <li>No se permiten niños.</li>
+                                <li>Se ruega puntualidad. Si el retraso es mayor a 20 minutos, la cita se cancela.</li>
+                                <li>Se cobra antes de la realización del piercing/tatuaje.</li>
+                                <li>El pago se hará unica y exclusivamente en efectivo.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <Footer />

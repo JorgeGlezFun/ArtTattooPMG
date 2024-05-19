@@ -31,9 +31,6 @@ export default function Header({ user }) {
                         <NavLink href={route('eventos')} active={route().current('eventos')}>
                             Eventos
                         </NavLink>
-                        <NavLink href={route('tienda')} active={route().current('tienda')}>
-                            Tienda
-                        </NavLink>
                         <NavLink href={route('reservar')} active={route().current('reservar')}>
                             Reservar Cita
                         </NavLink>
@@ -115,9 +112,6 @@ export default function Header({ user }) {
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('eventos')} active={route().current('eventos')}>
                         Eventos
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('tienda')} active={route().current('tienda')}>
-                        Tienda
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('reservar')} active={route().current('reservar')}>
                         Reservar Cita
