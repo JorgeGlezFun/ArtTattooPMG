@@ -259,6 +259,7 @@ html {
 
     2xl:w-[90rem] 2xl:h-auto
 
+
     xl:w-[75rem]
 
     lg:w-[58rem]
@@ -370,6 +371,16 @@ input[type="radio"]:checked + .opciones {
 
 .contenedorMapa {
     @apply h-auto w-full p-4
+}
+
+.contenedorNormas {
+    @apply
+    flex flex-col p-4 w-full
+}
+
+.listaNormas {
+    font-family: 'Josefin Slab';
+    @apply list-disc list-inside text-xl font-normal
 }
 
 .contenedorNormas {

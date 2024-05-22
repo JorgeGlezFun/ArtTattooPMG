@@ -13,7 +13,7 @@ export default function Header({ user }) {
             <nav className="navegador">
                 <div className="contenedorXL">
                     <div className="contenedorLogo">
-                        <Link href="/">
+                        <Link href={route('/')}>
                             <ApplicationLogo />
                         </Link>
                     </div>
