@@ -20,7 +20,7 @@ export default function Reservar({ auth }) {
             <Header user={auth.user} />
             <div className='mainReserva'>
                 <div className="contenedorReserva">
-                    <div className='contenedorFormulario flex flex-row'>
+                    <div className='contenedorFormulario'>
                         <form action="post" className='formulario'>
                             <h1 className="titulo">Reserva tu cita</h1>
                             <hr className="separadorFormulario"/>
@@ -158,13 +158,13 @@ export default function Reservar({ auth }) {
                             <button type="submit" className='botonFormulario'>Enviar</button>
                         </form>
                         <div className='w-full'>
-                            <div className='contenedorMapa h-auto w-full p-4'>
+                            <div className='contenedorContactos'>
                                 <h1 className="titulo">Otras formas de contacto</h1>
                                 <hr className="separadorFormulario"/>
                                 <p>Si quieres un trato más personalizado con uno de nuestros profesionales, puedes escribirnos haciendo click en el siguiente enlace: </p>
-                                <a href='wa.chatfuel.com/arttattoopmg' target='_blank' className='botonFormulario'>Envianos un WhatsApp haciendo click aquí</a>
+                                <a href='https://wa.chatfuel.com/arttattoopmg' target='_blank' className='botonContacto'>Envianos un WhatsApp haciendo click aquí</a>
                             </div>
-                            <div className='contenedorMapa h-auto w-full p-4'>
+                            <div className='contenedorMapa'>
                                 <h1 className="titulo">Donde nos encontramos</h1>
                                 <hr className="separadorFormulario"/>
                                 <iframe

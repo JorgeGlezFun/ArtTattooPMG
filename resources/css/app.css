@@ -253,9 +253,12 @@ html {
 .contenedorReserva {
     @apply
 
-    flex flex-col my-8 bg-white/75
+    flex flex-col my-8 bg-white/80
 
-    2xl:w-[110rem] 2xl:h-auto
+    3xl:w-[110rem]
+
+    2xl:w-[90rem] 2xl:h-auto
+
 
     xl:w-[75rem]
 
@@ -264,6 +267,10 @@ html {
     md:w-[42rem]
 
     sm:w-[37rem] h-auto;
+}
+
+.contenedorFormulario {
+    @apply  flex flex-col xl:flex-row
 }
 
 .formulario {
@@ -352,7 +359,28 @@ input[type="radio"]:checked + .opciones {
 
 .botonFormulario {
     @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center mt-2 transition duration-500 hover:bg-[#efb810] hover:text-black
+}
 
+.contenedorContactos {
+    @apply h-auto w-full p-4
+}
+
+.botonContacto {
+    @apply flex w-fit h-fit p-4 bg-[#efb810] justify-start items-center mt-2 transition duration-500 hover:bg-black hover:text-[#efb810]
+}
+
+.contenedorMapa {
+    @apply h-auto w-full p-4
+}
+
+.contenedorNormas {
+    @apply
+    flex flex-col p-4 w-full
+}
+
+.listaNormas {
+    font-family: 'Josefin Slab';
+    @apply list-disc list-inside text-xl font-normal
 }
 
 .contenedorNormas {
