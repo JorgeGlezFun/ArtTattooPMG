@@ -1,7 +1,7 @@
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
 import logo from "../../img/Logo-Fondo/Logo.png"
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 export default function Inicio({ auth }) {
     return (
@@ -28,7 +28,7 @@ export default function Inicio({ auth }) {
                             Muchas gracias por su visita.
                         </p>
                         <div className="infoBoton">
-                            <a href="" className="boton">Reserva Tu Cita</a>
+                            <Link href={route('reservar')} className="boton">Reserva Tu Cita</Link>
                         </div>
                     </div>
                 </div>

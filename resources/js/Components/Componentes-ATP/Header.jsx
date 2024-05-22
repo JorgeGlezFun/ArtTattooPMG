@@ -13,7 +13,7 @@ export default function Header({ user }) {
             <nav className="navegador">
                 <div className="contenedorXL">
                     <div className="contenedorLogo">
-                        <Link href="/">
+                        <Link href={route('/')}>
                             <ApplicationLogo />
                         </Link>
                     </div>
@@ -30,9 +30,6 @@ export default function Header({ user }) {
                         </NavLink>
                         <NavLink href={route('eventos')} active={route().current('eventos')}>
                             Eventos
-                        </NavLink>
-                        <NavLink href={route('tienda')} active={route().current('tienda')}>
-                            Tienda
                         </NavLink>
                         <NavLink href={route('reservar')} active={route().current('reservar')}>
                             Reservar Cita
@@ -115,9 +112,6 @@ export default function Header({ user }) {
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('eventos')} active={route().current('eventos')}>
                         Eventos
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('tienda')} active={route().current('tienda')}>
-                        Tienda
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('reservar')} active={route().current('reservar')}>
                         Reservar Cita

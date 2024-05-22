@@ -61,7 +61,7 @@ html {
 }
 
 /* Estilos Body */
-.main{
+.main {
     @apply flex items-center justify-center bg-marmol
 }
 
@@ -185,7 +185,6 @@ html {
     2xl:w-[45.563rem]
 
     sm:w-full sm:mb-2
-
 }
 
 .logoSN {
@@ -243,16 +242,20 @@ html {
 
 /* Estilos Reservar */
 
+.mainReserva {
+    @apply flex items-center justify-center bg-marmol min-h-screen
+}
+
 .separadorFormulario {
     @apply w-full h-1 bg-gradient-to-r from-transparent via-black to-transparent border-none mt-2 mb-5;
 }
 
-.contenedorFormulario {
+.contenedorReserva {
     @apply
 
-    flex justify-center items-start bg-black/75 my-8
+    flex flex-col my-8 bg-white/75
 
-    2xl:w-[110rem] 2xl:h-auto 2xl:flex-col
+    2xl:w-[110rem] 2xl:h-auto
 
     xl:w-[75rem]
 
@@ -266,9 +269,9 @@ html {
 .formulario {
     @apply
 
-    flex flex-col justify-center items-start bg-white/75 p-4 w-full
+    flex flex-col justify-start items-start p-4 w-full
 
-    2xl:w-[50rem] 2xl:h-auto
+    2xl:h-auto
 
 }
 
@@ -290,7 +293,7 @@ html {
 }
 
 .inputs {
-    @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-0
+    @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-black
 }
 
 .filaDos {
@@ -336,11 +339,11 @@ input[type="radio"]:checked + .opciones {
 }
 
 .listaTatuajes {
-    @apply w-auto bg-white/90 border-b-2 border-b-[#efb810] border-0
+    @apply w-auto bg-white border-b-2 border-b-[#efb810] border-black
 }
 
 .listaPiercings {
-    @apply w-full border-b-2 border-b-[#efb810] border-0
+    @apply w-full border-b-2 border-b-[#efb810] border-black
 }
 
 .columnaDragandDrop {
@@ -350,6 +353,16 @@ input[type="radio"]:checked + .opciones {
 .botonFormulario {
     @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center mt-2 transition duration-500 hover:bg-[#efb810] hover:text-black
 
+}
+
+.contenedorNormas {
+    @apply
+    flex flex-col p-4 w-full
+}
+
+.listaNormas {
+    font-family: 'Josefin Slab';
+    @apply list-disc list-inside text-xl font-normal
 }
 
 /* Estilos Footer */
