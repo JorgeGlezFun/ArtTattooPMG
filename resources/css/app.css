@@ -250,14 +250,14 @@ html {
     @apply w-full h-1 bg-gradient-to-r from-transparent via-black to-transparent border-none mt-2 mb-5;
 }
 
-.contenedorFormulario {
+.contenedorReserva {
     @apply
 
-    flex flex-col  my-8
+    flex flex-col my-8 bg-white/80
 
     3xl:w-[110rem]
 
-    2xl:w-[90rem] 2xl:h-auto 2xl:flex-row
+    2xl:w-[90rem] 2xl:h-auto
 
     xl:w-[75rem]
 
@@ -268,10 +268,14 @@ html {
     sm:w-[37rem] h-auto;
 }
 
+.contenedorFormulario {
+    @apply  flex flex-col xl:flex-row
+}
+
 .formulario {
     @apply
 
-    flex flex-col justify-start items-start bg-white/75 p-4 w-full
+    flex flex-col justify-start items-start p-4 w-full
 
     2xl:h-auto
 
@@ -354,12 +358,23 @@ input[type="radio"]:checked + .opciones {
 
 .botonFormulario {
     @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center mt-2 transition duration-500 hover:bg-[#efb810] hover:text-black
+}
 
+.contenedorContactos {
+    @apply h-auto w-full p-4
+}
+
+.botonContacto {
+    @apply flex w-fit h-fit p-4 bg-[#efb810] justify-start items-center mt-2 transition duration-500 hover:bg-black hover:text-[#efb810]
+}
+
+.contenedorMapa {
+    @apply h-auto w-full p-4
 }
 
 .contenedorNormas {
     @apply
-    flex flex-col bg-white/75 p-4 w-full
+    flex flex-col p-4 w-full
 }
 
 .listaNormas {
