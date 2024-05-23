@@ -142,7 +142,7 @@ html {
     lg:w-[30.938rem]
 }
 
-/* Estilos "sobrenosotros.html" */
+/* Estilos Sobre Nosotros */
 .SobreNosotros{
     @apply
 
@@ -240,6 +240,33 @@ html {
     @apply leading-5;
 }
 
+/* Estilos Galeria */
+.mainGaleria {
+    @apply flex items-center justify-center bg-marmol
+}
+
+.contenedorGaleria {
+    @apply
+
+    flex flex-row items-start justify-start my-8 bg-white/80
+
+    3xl:w-[110rem]
+
+    2xl:w-[90rem] 2xl:h-auto
+}
+
+.contenedorImagenGaleria {
+    @apply w-56 h-56 p-4 border-4 border-[#efb810] bg-[#efb810]/50 m-4 hover:bg-transparent transition duration-500
+}
+
+.imagenGaleria {
+    @apply
+    w-fit
+}
+
+.fila {
+    @apply flex flex-row
+}
 /* Estilos Reservar */
 
 .mainReserva {
