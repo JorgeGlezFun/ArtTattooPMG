@@ -248,24 +248,51 @@ html {
 .contenedorGaleria {
     @apply
 
-    flex flex-row items-start justify-start my-8 bg-white/80
+    flex flex-col items-start my-8 bg-white/80 w-[37rem] h-auto
 
     3xl:w-[110rem]
 
-    2xl:w-[90rem] 2xl:h-auto
+    2xl:w-[90rem]
+
+    xl:w-[75rem]
+
+    lg:w-[58rem] lg:flex-row
+
+    md:w-[42rem]
+
 }
 
 .contenedorImagenGaleria {
-    @apply w-56 h-56 p-4 border-4 border-[#efb810] bg-[#efb810]/50 m-4 hover:bg-transparent transition duration-500
+    @apply w-auto h-auto border-4 border-[#efb810] bg-[#efb810]/50 m-4
 }
 
 .imagenGaleria {
-    @apply
-    w-fit
+    @apply w-fit h-fit hover:opacity-0 transition duration-500
 }
 
 .fila {
     @apply flex flex-row
+}
+
+.contenedorSeleccion{
+    @apply h-full w-full flex flex-col items-start justify-start p-4
+}
+
+/* Estilos Lightbox */
+.__react_modal_image__modal_content {
+    @apply bg-black/20
+}
+.__react_modal_image__medium_img {
+    @apply w-auto h-auto
+}
+
+.__react_modal_image__large_img {
+    @apply w-auto h-auto
+}
+
+.__react_modal_image__caption{
+    @apply text-white font-bold
+
 }
 /* Estilos Reservar */
 
