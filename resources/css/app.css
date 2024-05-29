@@ -248,7 +248,7 @@ html {
 .contenedorGaleria {
     @apply
 
-    flex flex-col items-start my-8 bg-white/80 w-[37rem] h-auto
+    flex flex-col items-start my-8 bg-white/80 w-[37rem]
 
     3xl:w-[110rem]
 
@@ -256,18 +256,22 @@ html {
 
     xl:w-[75rem]
 
-    lg:w-[58rem] lg:flex-row
+    lg:w-[58rem]
 
     md:w-[42rem]
 
 }
 
+.imagenesLightbox {
+    @apply grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5
+}
+
 .contenedorImagenGaleria {
-    @apply w-auto h-auto border-4 border-[#efb810] bg-[#efb810]/50 m-4
+    @apply w-auto h-auto border-8 rounded-sm border-[#efb810] m-4
 }
 
 .imagenGaleria {
-    @apply w-fit h-fit hover:opacity-0 transition duration-500
+    @apply w-fit h-fit blur-sm grayscale hover:blur-none hover:grayscale-0 hover:opacity-100 transition ease-in-out duration-300
 }
 
 .fila {
@@ -275,23 +279,42 @@ html {
 }
 
 .contenedorSeleccion{
-    @apply h-full w-full flex flex-col items-start justify-start p-4
+    @apply h-full w-auto flex flex-col items-start justify-start p-4
 }
 
 /* Estilos Lightbox */
-.__react_modal_image__modal_content {
-    @apply bg-black/20
+.__react_modal_image__header {
+    @apply flex bg-black/20 items-end justify-end static
+
 }
+
+.__react_modal_image__header span:last-child {
+    @apply hidden
+}
+
+.__react_modal_image__icon_menu {
+    @apply flex flex-row items-center justify-center
+}
+
+.__react_modal_image__icon_menu a svg {
+    @apply fill-current text-[#efb810] h-10 w-10
+}
+
+.__react_modal_image__modal_content {
+    @apply flex bg-black/20 items-center justify-center
+}
+
 .__react_modal_image__medium_img {
     @apply w-auto h-auto
+
 }
 
 .__react_modal_image__large_img {
     @apply w-auto h-auto
 }
 
-.__react_modal_image__caption{
-    @apply text-white font-bold
+.__react_modal_image__caption {
+    @apply bg-red-500
 
 }
 /* Estilos Reservar */
