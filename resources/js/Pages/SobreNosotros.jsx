@@ -37,27 +37,30 @@ export default function SobreNosotros() {
                         <h1 className="titulo">La Artista</h1>
                         <hr className="separadorSN"/>
                         <div className="contenedor">
-                            <p className="textoSN">
-                            Conoce a Patri, nuestra tatuadora.<br />
-                            <br />
-                            Patri es una joven artista que desde pequeña ha estado presente en el mundo del arte, empezó su negocio en este mundillo con retratos y dibujos varios, hasta que un día encontró el mundo del tatuaje y lleva desde entonces “x” años usando la piel como lienzo para sus obras. <br />
-                            <br />
-                            Comenzó tatuando a domicilio, llevando a cuestas todo su equipamiento para poder realizar sus obras y dar un paso mas hacía su sueño. <br />
-                            Más adelante consiguió asentarse en casa de un familiar para poder realizar de forma mas cómoda sus obras, hasta que con esfuerzo y perseverancia, ha conseguido su propio local desde el cual, orgullosa de ello, realiza con pasión y dedicación los tatuajes que le encargan. <br />
-                            <br />
-                            Patri se especializa en tatuajes de línea fina, microrealismo y puntillismo, pero esto no la detiene en realizar todo tipo de tatuajes.<br />
-                            <br />
-                            Su formación dentro de este mundillo es la siguiente:
-                            </p>
-                            <ul className="listaSN">
-                                <li>Título homologado en maquillaje integral</li>
-                                <li>Titulo homologado de tatuajes</li>
-                                <li>Título de piercings proporcionado por la escuela Yanni Piercings</li>
-                            </ul>
-                            <p className='textoSN'>
-                            <br />
-                            “Todo tiene un comienzo, que esto no es un don ni es fácil, todo es aprender, empeñarse y poner esfuerzo en lo que realmente te gusta.” .- Patri.
-                            </p>
+                            <div>
+                                <p className="textoSN">
+                                Conoce a Patri, nuestra tatuadora.<br />
+                                <br />
+                                Patri es una joven artista que desde pequeña ha estado presente en el mundo del arte, empezó su negocio en este mundillo con retratos y dibujos varios, hasta que un día encontró el mundo del tatuaje y lleva desde entonces “x” años usando la piel como lienzo para sus obras. <br />
+                                <br />
+                                Comenzó tatuando a domicilio, llevando a cuestas todo su equipamiento para poder realizar sus obras y dar un paso mas hacía su sueño. <br />
+                                Más adelante consiguió asentarse en casa de un familiar para poder realizar de forma mas cómoda sus obras, hasta que con esfuerzo y perseverancia, ha conseguido su propio local desde el cual, orgullosa de ello, realiza con pasión y dedicación los tatuajes que le encargan. <br />
+                                <br />
+                                Patri se especializa en tatuajes de línea fina, microrealismo y puntillismo, pero esto no la detiene en realizar todo tipo de tatuajes.<br />
+                                <br />
+                                Su formación dentro de este mundillo es la siguiente:
+                                </p>
+
+                                <ul className="listaSN">
+                                    <li>Título homologado en maquillaje integral</li>
+                                    <li>Titulo homologado de tatuajes</li>
+                                    <li>Título de piercings proporcionado por la escuela Yanni Piercings</li>
+                                </ul>
+                                <p className='textoSN'>
+                                <br />
+                                “Todo tiene un comienzo, que esto no es un don ni es fácil, todo es aprender, empeñarse y poner esfuerzo en lo que realmente te gusta.” .- Patri.
+                                </p>
+                            </div>
                             <img src={artista} alt="Foto de la tatuadora tatuando en la Tattoo Convention de Jerez" className="artistaSN"/>
                             <img src={artistaMovil} alt="Foto de la tatuadora tatuando en la Tattoo Convention de Jerez" className="artistaMovilSN"/>
                         </div>
@@ -66,26 +69,28 @@ export default function SobreNosotros() {
                         <h1 className="titulo">El Estudio</h1>
                         <hr className="separadorSN"/>
                         <div className="contenedor">
-                            <p className="textoSN">
-                            Nuestro estudio se encuentra situado en Avda. cangas, 79, 41740 Lebrija, Sevilla. <br />
-                            <br />
-                            Es un estudio pequeño donde te sentirás acogido nada más entrar, con una decoración que se basa en los múltiples cuadros y retratos creados por nuestra artista y tatuadora. <br />
-                            <br />
-                            El estudio consta de una recepción, una zona de trabajo, y el baño. <br />
-                            <br />
-                            Actualmente la capacidad del estudio es pequeña, pudiendo solo entrar el cliente y el tatuador. <br />
-                            <br />
-                            También contamos con una serie de normas que hay que cumplir de forma estricta, para así facilitar el trabajo de nuestros artistas, así como de garantizar un espacio tranquilo y seguro para el cliente. <br />
-                            <br />
-                            Dichas normas son las siguientes:
-                            </p>
-                            <ul className="listaSN">
-                                <li>No venir con acompañante.</li>
-                                <li>No se permite la entrada a niños.</li>
-                                <li>No tocar las decoraciones del estudio.</li>
-                                <li>No se permiten mascotas.</li>
-                                <li>No causar ruido excesivo.</li>
-                            </ul>
+                            <div>
+                                <p className="textoSN">
+                                Nuestro estudio se encuentra situado en Avda. cangas, 79, 41740 Lebrija, Sevilla. <br />
+                                <br />
+                                Es un estudio pequeño donde te sentirás acogido nada más entrar, con una decoración que se basa en los múltiples cuadros y retratos creados por nuestra artista y tatuadora. <br />
+                                <br />
+                                El estudio consta de una recepción, una zona de trabajo, y el baño. <br />
+                                <br />
+                                Actualmente la capacidad del estudio es pequeña, pudiendo solo entrar el cliente y el tatuador. <br />
+                                <br />
+                                También contamos con una serie de normas que hay que cumplir de forma estricta, para así facilitar el trabajo de nuestros artistas, así como de garantizar un espacio tranquilo y seguro para el cliente. <br />
+                                <br />
+                                Dichas normas son las siguientes:
+                                </p>
+                                <ul className="listaSN">
+                                    <li>No venir con acompañante.</li>
+                                    <li>No se permite la entrada a niños.</li>
+                                    <li>No tocar las decoraciones del estudio.</li>
+                                    <li>No se permiten mascotas.</li>
+                                    <li>No causar ruido excesivo.</li>
+                                </ul>
+                            </div>
                             <img src={estudio} alt="Foto del estudio de tatuajes por dentro" className="estudioSN"/>
                         </div>
                     </div>

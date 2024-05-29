@@ -142,7 +142,7 @@ html {
     lg:w-[30.938rem]
 }
 
-/* Estilos "sobrenosotros.html" */
+/* Estilos Sobre Nosotros */
 .SobreNosotros{
     @apply
 
@@ -240,6 +240,101 @@ html {
     @apply leading-5;
 }
 
+/* Estilos Galeria */
+.mainGaleria {
+    @apply flex items-center justify-center bg-marmol
+}
+
+.contenedorGaleria {
+    @apply
+
+    flex flex-col items-center my-8 bg-white/80 w-[37rem]
+
+    3xl:w-[110rem]
+
+    2xl:w-[90rem]
+
+    xl:w-[75rem]
+
+    lg:w-[58rem]
+
+    md:w-[42rem]
+
+}
+
+.infoGaleria {
+    @apply
+    2xl:w-[83.125rem] h-auto flex-col m-0 mt-10 last:mb-10 p-4
+
+    lg:w-full
+}
+
+.separadorGaleria {
+    @apply w-full h-1 bg-[#efb810] border-none mt-2;
+}
+
+.textoGaleria {
+    font-family: 'Josefin Slab';
+    @apply text-xl leading-5 w-full py-4
+}
+
+.contenedorImagenesGaleria {
+    @apply flex w-full items-center justify-center
+}
+
+.imagenesLightbox {
+    @apply grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4
+}
+
+.contenedorImagenGaleria {
+    @apply w-fit h-auto border-8 rounded-sm border-[#efb810] m-4
+}
+
+.imagenGaleria {
+    @apply
+    w-96 grayscale hover:grayscale-0 hover:opacity-100 transition ease-in-out duration-300
+    lg:w-fit lg:h-fit
+}
+
+.contenedorSeleccion{
+    @apply h-full w-full flex flex-row items-start justify-start p-4
+}
+
+/* Estilos Lightbox */
+.__react_modal_image__header {
+    @apply flex bg-black/20 items-end justify-end static
+
+}
+
+.__react_modal_image__header span:last-child {
+    @apply hidden
+}
+
+.__react_modal_image__icon_menu {
+    @apply flex flex-row items-center justify-center
+}
+
+.__react_modal_image__icon_menu a svg {
+    @apply fill-current text-[#efb810] h-10 w-10
+}
+
+.__react_modal_image__modal_content {
+    @apply flex bg-black/20 items-center justify-center
+}
+
+.__react_modal_image__medium_img {
+    @apply w-auto h-auto
+
+}
+
+.__react_modal_image__large_img {
+    @apply w-auto h-auto
+}
+
+.__react_modal_image__caption {
+    @apply bg-red-500
+
+}
 /* Estilos Reservar */
 
 .mainReserva {
