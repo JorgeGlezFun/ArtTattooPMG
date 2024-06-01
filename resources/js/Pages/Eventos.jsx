@@ -1,7 +1,7 @@
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
-import logo from "../../img/Carteles-eventos/Cartel-jerez.jpg"
-import { Head } from '@inertiajs/react';
+import logo from "../../img/Carteles-eventos/Cartel-bodas.jpg"
+import { Head, Link } from '@inertiajs/react';
 
 export default function Eventos({ auth }) {
     const carteles = [logo, logo, logo, logo, logo, logo, logo, logo, logo, logo, logo, logo];
@@ -21,17 +21,20 @@ export default function Eventos({ auth }) {
                             Para ver en detalle un evento pulsa sobre él.
                         </p>
                     </div>
-                    <div className='contenedorImagenesEventos'>
-                        <div className='imagenesEventos'>
+                    <div class='contenedorImagenesEventos'>
+                        <div class='imagenesEventos'>
                             {carteles.map((imagen, index) => (
                                 <div key={index} className='contenedorImagenEvento'>
-                                    <a href="#">
+                                    <Link href="#" className=''>
                                         <img
                                             src={imagen}
                                             alt={`Imagen ${index}`}
                                             className='imagenEvento'
                                         />
-                                    </a>
+                                        <span className='nombreImagen'>
+                                            Nombre de la Imagen {index + 1}
+                                        </span>
+                                    </Link>
                                 </div>
                             ))}
                         </div>

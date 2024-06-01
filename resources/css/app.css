@@ -376,23 +376,28 @@ html {
 }
 
 .contenedorImagenesEventos {
-    @apply flex w-full items-center justify-center
+    @apply flex w-full items-center justify-center;
 }
 
 .imagenesEventos {
-    @apply grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4
+    @apply grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4;
 }
 
 .contenedorImagenEvento {
-    @apply w-fit h-auto border-8 rounded-sm border-[#efb810] m-4 bg-[#efb810]/50
+    @apply w-[25rem] h-[35rem] border-8 rounded-sm border-[#efb810] m-4 bg-[#efb810]/50 relative
+    lg:w-[17.375rem] lg:h-[24.125rem]
+    xl:w-[16.75rem] xl:h-[23.353rem]
+    2xl:w-[20.5rem] 2xl:h-[28.675rem]
 }
 
 .imagenEvento {
-    @apply
-    w-96 hover:opacity-0 transition ease-in-out duration-300
-    lg:w-fit lg:h-fit
+    @apply w-full h-full hover:opacity-0 transition ease-in-out duration-300;
 }
 
+.nombreImagen {
+    font-family: 'Josefin Slab';
+    @apply absolute inset-0 flex items-center justify-center bg-[#ffd136]/85 font-bold text-5xl lg:text-3xl 2xl:text-5xl text-center opacity-0 hover:opacity-100 transition ease-in-out duration-300;
+}
 
 /* Estilos Reservar */
 
