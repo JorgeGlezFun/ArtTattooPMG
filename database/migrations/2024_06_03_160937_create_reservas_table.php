@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
+            $table->foreignId('artista_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tatuaje_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('piercing_id')->constrained()->onDelete('cascade')->nullable();
+            $table->date('fecha');
+            $table->time('hora');
             $table->timestamps();
         });
     }

@@ -70,10 +70,17 @@ export default function Reservar({ auth }) {
                                                 </select>
                                             </div>
                                             <div className='divTatuajes'>
+                                                <label htmlFor="">Color de tatuaje: </label>
+                                                <select name="" id="" className='listaTatuajes'>
+                                                    <option value="">Sin color</option>
+                                                    <option value="">A color</option>
+                                                </select>
+                                            </div>
+                                            <div className='divTatuajes'>
                                                 <label htmlFor="">Tipo de tatuaje: </label>
                                                 <select name="" id="" className='listaTatuajes'>
-                                                    <option value="">Tinta negra</option>
-                                                    <option value="">A color</option>
+                                                    <option value="">Relleno</option>
+                                                    <option value="">Linea fina</option>
                                                 </select>
                                             </div>
                                             <div className='divTatuajes'>

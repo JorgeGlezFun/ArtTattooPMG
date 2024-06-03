@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('telefono');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('cliente_id')->constrained('cliente')->onDelete('cascade');
+            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

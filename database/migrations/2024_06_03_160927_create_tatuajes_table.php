@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tatuajes', function (Blueprint $table) {
             $table->id();
+            $table->string('ruta_imagen');
             $table->timestamps();
         });
     }

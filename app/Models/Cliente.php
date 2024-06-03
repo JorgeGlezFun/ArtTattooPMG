@@ -9,6 +9,14 @@ class Cliente extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nombre',
+        'apellidos',
+        'telefono',
+        'email',
+        'password',
+    ];
+
     public function user () {
         return $this->belongsTo(User::class);
     }
