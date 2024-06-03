@@ -30,7 +30,7 @@ export default function Reservar({ auth }) {
                                 </div>
                                 <div className='columnaApellido'>
                                     <label htmlFor="">Apellidos: </label>
-                                    <input type="text" name="" id=""  className='inputs'/>
+                                    <input type="text" name="" id="" value={apellidos} className='inputs'/>
                                 </div>
                             </div>
                             <div className='columnas'>
@@ -39,7 +39,7 @@ export default function Reservar({ auth }) {
                             </div>
                             <div className='columnas'>
                                 <label htmlFor="">Teléfono: </label>
-                                <input type="tel" name="" id="" className='inputs'/>
+                                <input type="tel" name="" id="" value={telefono} className='inputs'/>
                             </div>
                             <div className='filaDos'>
                                 <div className='columnaRadio'>
