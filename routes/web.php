@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,6 +50,8 @@ Route::get('/tienda', function () {
 Route::get('/reservar', function () {
     return Inertia::render('Reservar');
 })->name('reservar');
+
+Route::resource('reservas', ReservaController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

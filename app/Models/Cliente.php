@@ -17,11 +17,13 @@ class Cliente extends Model
         'password',
     ];
 
-    public function user () {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function reservas () {
+    public function reservas()
+    {
         return $this->hasMany(Reserva::class);
     }
 }

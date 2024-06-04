@@ -31,7 +31,7 @@ export default function Header({ user }) {
                         <NavLink href={route('eventos')} active={route().current('eventos')}>
                             Eventos
                         </NavLink>
-                        <NavLink href={route('reservar')} active={route().current('reservar')}>
+                        <NavLink href={route('reservas.create')} active={route().current('reservas.create')}>
                             Reservar Cita
                         </NavLink>
                         {user ?
@@ -113,7 +113,7 @@ export default function Header({ user }) {
                     <ResponsiveNavLink href={route('eventos')} active={route().current('eventos')}>
                         Eventos
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('reservar')} active={route().current('reservar')}>
+                    <ResponsiveNavLink href={route('reservas.create')} active={route().current('reservas.create')}>
                         Reservar Cita
                     </ResponsiveNavLink>
                     { user ?

@@ -397,7 +397,7 @@ html {
 /* Estilos Reservar */
 
 .mainReserva {
-    @apply flex items-center justify-center bg-marmol min-h-screen
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen
 }
 
 .separadorFormulario {
