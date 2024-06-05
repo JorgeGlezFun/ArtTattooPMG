@@ -15,7 +15,8 @@ class Reserva extends Model
         'tatuaje_id',
         'piercing_id',
         'fecha',
-        'hora',
+        'hora_inicio',
+        // 'hora_fin',
     ];
 
     public function cliente()

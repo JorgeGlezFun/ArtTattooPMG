@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('tatuaje_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('piercing_id')->nullable()->constrained()->onDelete('cascade');
             $table->date('fecha');
-            $table->time('hora');
+            $table->time('hora_inicio');
+            // $table->time('hora_fin');
             $table->timestamps();
         });
     }

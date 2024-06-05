@@ -10,9 +10,9 @@ class Piercing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'precio',
-        'ruta_imagen',
         'artista_id',
+        'nombre',
+        'precio',
     ];
 
     public function artista()
