@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
             $table->foreignId('artista_id')->constrained()->onDelete('cascade');
-            $table->foreignId('tatuaje_id')->constrained()->onDelete('cascade')->nullable();
-            $table->foreignId('piercing_id')->constrained()->onDelete('cascade')->nullable();
+            $table->foreignId('tatuaje_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('piercing_id')->nullable()->constrained()->onDelete('cascade');
             $table->date('fecha');
             $table->time('hora');
             $table->timestamps();

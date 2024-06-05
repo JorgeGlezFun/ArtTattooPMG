@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('piercings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('artista_id')->constrained()->onDelete('cascade');
-            $table->string('ruta_imagen');
+            $table->string('nombre');
             $table->integer('precio');
             $table->timestamps();
         });

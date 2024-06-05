@@ -43,7 +43,7 @@ export default function Header({ user }) {
                                             type="button"
                                             className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-[#efb810] hover:text-black hover:bg-[#efb810] transition ease-in-out duration-500"
                                         >
-                                            <span className="hidden 2xl:inline">{user.name}</span>
+                                            <span className="hidden 2xl:inline">{user.nombre}</span>
 
                                             <svg
                                                 className="2xl:ms-2 h-6 w-6"
