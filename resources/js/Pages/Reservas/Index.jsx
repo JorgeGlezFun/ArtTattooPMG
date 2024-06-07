@@ -31,7 +31,8 @@ return (
               ) : <p>{reserva.piercing.nombre}</p>
           }
           <p>{reserva.fecha}</p>
-          <p>{reserva.hora}</p>
+          <p>{reserva.hora_inicio}</p>
+          <p>{reserva.hora_fin}</p>
         </div>
       ))
     ) : (

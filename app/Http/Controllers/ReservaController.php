@@ -41,7 +41,7 @@ public function store(Request $request)
         'piercing.precio' => 'nullable|integer',
         'fecha' => 'required|date',
         'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00',
-        // 'hora_fin' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00'
+        'hora_fin' => 'required'
     ]);
 
     $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
@@ -93,7 +93,7 @@ public function store(Request $request)
             'piercing_id' => $piercing ? $piercing->id : null,
             'fecha' => $validated['fecha'],
             'hora_inicio' => $validated['hora_inicio'],
-            // 'hora_fin' => $validated['hora_fin'],
+            'hora_fin' => $validated['hora_fin'],
         ]);
     } else {
         $cliente = Cliente::create([
@@ -110,11 +110,11 @@ public function store(Request $request)
             'piercing_id' => $piercing ? $piercing->id : null,
             'fecha' => $validated['fecha'],
             'hora_inicio' => $validated['hora_inicio'],
-            // 'hora_fin' => $validated['hora_fin'],
+            'hora_fin' => $validated['hora_fin'],
         ]);
     }
 
-    return redirect()->route('reservas.index')->with('success', 'Reserva creada con éxito.');
+    return redirect()->route('reservas.create')->with('success', 'Reserva creada con éxito.');
 }
 
     public function show(Reserva $reserva)
@@ -136,7 +136,7 @@ public function store(Request $request)
             'piercing_id' => 'nullable|exists:piercings,id',
             'fecha' => 'required|date',
             'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00',
-            // 'hora_fin' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00'
+            'hora_fin' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00'
         ]);
 
         $reserva->update($validated);
@@ -148,5 +148,19 @@ public function store(Request $request)
     {
         $reserva->delete();
         return redirect()->route('reservas.index')->with('success', 'Reserva eliminada con éxito.');
+    }
+
+    // Función para obtener la última hora_fin en una fecha específica
+    public function obtenerUltimaHoraFin(Request $request)
+    {
+        $fecha = $request->input('fecha');
+
+        $ultimaReserva = Reserva::where('fecha', $fecha)
+            ->orderBy('hora_fin', 'desc')
+            ->first();
+
+        return response()->json([
+            'hora_fin' => $ultimaReserva ? $ultimaReserva->hora_fin : null,
+        ]);
     }
 }

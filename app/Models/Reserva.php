@@ -16,7 +16,7 @@ class Reserva extends Model
         'piercing_id',
         'fecha',
         'hora_inicio',
-        // 'hora_fin',
+        'hora_fin',
     ];
 
     public function cliente()
