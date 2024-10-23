@@ -9,12 +9,23 @@ use App\Models\Tatuaje;
 use App\Models\Piercing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ReservaController extends Controller
 {
     public function index()
     {
         $reservas = Reserva::with(['cliente', 'artista', 'tatuaje', 'piercing'])->get();
+
+        foreach ($reservas as $reserva) {
+            if ($reserva->tatuaje) {
+                $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
+            }
+        }
+
+        // return response()->json($reservas);
         return inertia('Reservas/Index', ['reservas' => $reservas]);
     }
 
@@ -25,84 +36,103 @@ class ReservaController extends Controller
         return inertia('Reservas/Create', ['artistas' => $artistas]);
     }
 
-
-public function store(Request $request)
-{
-    // Validar los datos de la reserva y el cliente
-    $validated = $request->validate([
-        'cliente.nombre' => 'required|string|max:255',
-        'cliente.apellidos' => 'required|string|max:255',
-        'cliente.telefono' => 'required|integer',
-        'cliente.email' => 'required|string|email|max:255',
-        'artista_id' => 'required|exists:artistas,id',
-        'tatuaje.ruta_imagen' => 'nullable|string|max:255',
-        'tatuaje.precio' => 'nullable|integer',
-        'piercing.nombre' => 'nullable|string|max:255',
-        'piercing.precio' => 'nullable|integer',
-        'fecha' => 'required|date',
-        'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00',
-        'hora_fin' => 'required'
-    ]);
-
-    $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
-    $currentDatetime = Carbon::now();
-
-    // Verificar si la fecha y hora son pasadas
-    if ($reservaDatetime->lt($currentDatetime)) {
-        return redirect()->back()->withErrors(['fecha' => 'No se puede reservar en una fecha y hora pasadas.']);
-    }
-
-    // Verificar si la hora ya está reservada
-    $existingReservation = Reserva::where('fecha', $validated['fecha'])
-        ->where('hora_inicio', $validated['hora_inicio'])
-        ->where('artista_id', $validated['artista_id'])
-        ->exists();
-
-    if ($existingReservation) {
-        return redirect()->back()->withErrors(['hora_inicio' => 'Esta hora ya está reservada.']);
-    }
-
-    // Crear el tatuaje o piercing si se proporciona
-    $tatuaje = null;
-    $piercing = null;
-
-    if (isset($validated['tatuaje']) && isset($validated['tatuaje']['ruta_imagen'])) {
-        $tatuaje = Tatuaje::create([
-            'artista_id' => $validated['artista_id'],
-            'ruta_imagen' => $validated['tatuaje']['ruta_imagen'],
-            'precio' => $validated['tatuaje']['precio'],
+    public function store(Request $request)
+    {
+        // Validar los datos de la reserva y el cliente
+        $validated = $request->validate([
+            'cliente.nombre' => 'required|string|max:255',
+            'cliente.apellidos' => 'required|string|max:255',
+            'cliente.telefono' => 'required|integer',
+            'cliente.email' => 'required|string|email|max:255',
+            'artista_id' => 'required|exists:artistas,id',
+            'tatuaje.ruta_imagen' => 'nullable|mimes:jpg,png,jpeg',
+            'tatuaje.precio' => 'nullable|integer',
+            'piercing.nombre' => 'nullable|string|max:255',
+            'piercing.precio' => 'nullable|integer',
+            'fecha' => 'required|date',
+            'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
+            'hora_fin' => 'required',
+            'duracion' => 'required|integer'
         ]);
-    }
 
-    if (isset($validated['piercing']) && isset($validated['piercing']['nombre'])) {
-        $piercing = Piercing::create([
-            'artista_id' => $validated['artista_id'],
-            'nombre' => $validated['piercing']['nombre'],
-            'precio' => $validated['piercing']['precio'],
-        ]);
-    }
+        $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
+        $currentDatetime = Carbon::now();
 
-    // Crear el cliente
-    if (Cliente::where('email', $validated['cliente']['email'])->exists()) {
-        $cliente_id = Cliente::where('email', $validated['cliente']['email'])->first()->id;
-        // Crear la reserva
-        Reserva::create([
-            'cliente_id' => $cliente_id,
-            'artista_id' => $validated['artista_id'],
-            'tatuaje_id' => $tatuaje ? $tatuaje->id : null,
-            'piercing_id' => $piercing ? $piercing->id : null,
-            'fecha' => $validated['fecha'],
-            'hora_inicio' => $validated['hora_inicio'],
-            'hora_fin' => $validated['hora_fin'],
-        ]);
-    } else {
-        $cliente = Cliente::create([
-            'nombre' => $validated['cliente']['nombre'],
-            'apellidos' => $validated['cliente']['apellidos'],
-            'telefono' => $validated['cliente']['telefono'],
-            'email' => $validated['cliente']['email'],
-        ]);
-        // Crear la reserva
+        // Verificar si la fecha y hora son pasadas
+        if ($reservaDatetime->lt($currentDatetime)) {
+
+            return redirect()->back()->withErrors(['fecha' => 'No se puede reservar en una fecha y hora pasadas.']);
+        }
+
+        // Verificar si la hora ya está reservada
+        $existingReservation = Reserva::where('fecha', $validated['fecha'])
+            ->where('hora_inicio', $validated['hora_inicio'])
+            ->where('artista_id', $validated['artista_id'])
+            ->exists();
+
+        if ($existingReservation) {
+
+            return redirect()->back()->withErrors(['hora_inicio' => 'Esta hora ya está reservada.']);
+        }
+
+        // Crear el tatuaje o piercing si se proporciona
+        $tatuaje = null;
+        $piercing = null;
+
+        if (isset($validated['tatuaje']) && isset($validated['tatuaje']['ruta_imagen'])) {
+
+            $imagen = $request->file('tatuaje.ruta_imagen');
+
+
+            // Obtener el número total de tatuajes
+            $totalTatuajes = Tatuaje::count();
+            $nuevoNumero = $totalTatuajes + 1;
+
+            // Generar el nuevo nombre del archivo
+            $extensionOriginal = $imagen->getClientOriginalExtension();
+            $nombreImagen = 'tatuaje_' . $nuevoNumero . '.' . $extensionOriginal;
+
+            // Guardar la imagen con el nuevo nombre
+            $imagen->storeAs('uploads/tatuajes', $nombreImagen, 'public');
+
+            // Procesar la imagen
+            $manager = new ImageManager(new Driver());
+            $imageR = $manager->read(Storage::disk('public')->get('uploads/tatuajes/' . $nombreImagen));
+            $imageR->resize(400, 400, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $ruta = Storage::path('public/uploads/tatuajes/' . $nombreImagen);
+            $imageR->save($ruta);
+
+            // Crear el tatuaje en la base de datos con la nueva ruta de imagen
+            $tatuaje = Tatuaje::create([
+                'artista_id' => $validated['artista_id'],
+                'ruta_imagen' => 'uploads/tatuajes/' . $nombreImagen,
+                'precio' => $validated['tatuaje']['precio'],
+            ]);
+        }
+
+        // Crea el piercing
+        if (isset($validated['piercing']) && isset($validated['piercing']['nombre'])) {
+            $piercing = Piercing::create([
+                'artista_id' => $validated['artista_id'],
+                'nombre' => $validated['piercing']['nombre'],
+                'precio' => $validated['piercing']['precio'],
+            ]);
+        }
+
+        // Crear el cliente
+        $cliente = Cliente::firstOrCreate(
+            ['email' => $validated['cliente']['email']],
+            [
+                'nombre' => $validated['cliente']['nombre'],
+                'apellidos' => $validated['cliente']['apellidos'],
+                'telefono' => $validated['cliente']['telefono'],
+                'email' => $validated['cliente']['email'],
+            ]
+        );
+
+        // Crea la reserva
         Reserva::create([
             'cliente_id' => $cliente->id,
             'artista_id' => $validated['artista_id'],
@@ -111,11 +141,12 @@ public function store(Request $request)
             'fecha' => $validated['fecha'],
             'hora_inicio' => $validated['hora_inicio'],
             'hora_fin' => $validated['hora_fin'],
+            'duracion' => $validated['duracion']
         ]);
+
+        return redirect()->route('reservas.create')->with('success', 'Reserva creada con éxito.');
     }
 
-    return redirect()->route('reservas.create')->with('success', 'Reserva creada con éxito.');
-}
 
     public function show(Reserva $reserva)
     {
@@ -135,8 +166,9 @@ public function store(Request $request)
             'tatuaje_id' => 'nullable|exists:tatuajes,id',
             'piercing_id' => 'nullable|exists:piercings,id',
             'fecha' => 'required|date',
-            'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00',
-            'hora_fin' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00'
+            'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
+            'hora_fin' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00',
+            'duracion' => 'required|integer'
         ]);
 
         $reserva->update($validated);
@@ -155,12 +187,10 @@ public function store(Request $request)
     {
         $fecha = $request->input('fecha');
 
-        $ultimaReserva = Reserva::where('fecha', $fecha)
-            ->orderBy('hora_fin', 'desc')
-            ->first();
+        $reservas = Reserva::where('fecha', $fecha)
+            ->orderBy('hora_inicio')
+            ->get(['hora_inicio', 'hora_fin', 'duracion']);
 
-        return response()->json([
-            'hora_fin' => $ultimaReserva ? $ultimaReserva->hora_fin : null,
-        ]);
+        return response()->json($reservas);
     }
 }

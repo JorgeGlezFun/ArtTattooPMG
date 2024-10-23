@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
+import Header from '@/Components/Componentes-ATP/Header';
+import Footer from '@/Components/Componentes-ATP/Footer';
+import { Head } from '@inertiajs/react';
 
-const Create = ({ artistas }) => {
+const Create = ({ auth, artistas }) => {
+    const nombre = auth.user ? auth.user.nombre : '';
+    const apellido = auth.user ? auth.user.email : '';
+    const correo = auth.user ? auth.user.email : '';
+    const telefono = auth.user ? auth.user.email : '';
+
     const { data, setData, post, processing, errors } = useForm({
         cliente: {
             nombre: '',
@@ -12,19 +20,22 @@ const Create = ({ artistas }) => {
         },
         artista_id: '',
         tatuaje: {
-            ruta_imagen: '',
+            ruta_imagen: null,
             precio: 0,
             tiempo: 0,
         },
         piercing: {
             nombre: '',
             precio: 0,
+            tiempo: 0,
         },
         fecha: '',
         hora_inicio: '',
         hora_fin: '',
+        duracion: ''
     });
 
+    const [tipoReserva, setTipoReserva] = useState('');
     const [tatuajeOptions, setTatuajeOptions] = useState({
         tamano: '',
         relleno: '',
@@ -32,20 +43,26 @@ const Create = ({ artistas }) => {
         zona: ''
     });
 
+    const [tipoPiercing, setTipoPiercing] = useState('');
     const [availableHours, setAvailableHours] = useState([]);
 
     useEffect(() => {
-        calcularPrecioTatuaje();
         calcularTiempoTatuaje();
     }, [tatuajeOptions]);
 
     useEffect(() => {
-        calcularHoraFin();
-    }, [data.hora_inicio, data.tatuaje.tiempo]);
+        calcularTiempoPiercing();
+    }, [tipoPiercing]);
 
     useEffect(() => {
         if (data.fecha) {
-            fetchAvailableHours(data.fecha);
+        verificarDisponibilidad(data.fecha);
+        }
+    }, [data.hora_inicio, data.tatuaje.tiempo, data.piercing.tiempo, data.fecha]);
+
+    useEffect(() => {
+        if (data.fecha) {
+            fetchHorasDisponibles(data.fecha);
         }
     }, [data.fecha]);
 
@@ -62,17 +79,31 @@ const Create = ({ artistas }) => {
     const handleTatuajeOptionsChange = (e) => {
         const { name, value } = e.target;
         setTatuajeOptions({ ...tatuajeOptions, [name]: value });
+        calcularPrecioTatuaje({ ...tatuajeOptions, [name]: value });
+    };
+
+    const handlePiercingOptionsChange = (e) => {
+        const { name, value } = e.target;
+        setTipoPiercing({...data.piercing, [name]: value});
+        calcularPrecioPiercing({ ...data.piercing, [name]: value });
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setData('tatuaje', { ...data.tatuaje, ruta_imagen: file });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('reservas.store'));
+        post(route('reservas.store'), {
+            forceFormData: true,
+        });
     };
 
-    const calcularPrecioTatuaje = () => {
+    const calcularPrecioTatuaje = (options) => {
         let precio = 0;
 
-        switch (tatuajeOptions.tamano) {
+        switch (options.tamano) {
             case 'Grande':
                 precio += 50;
                 break;
@@ -89,12 +120,26 @@ const Create = ({ artistas }) => {
         setData('tatuaje', { ...data.tatuaje, precio });
     };
 
+    const calcularPrecioPiercing = () => {
+        let precio = 0;
+
+        const piercings30 = ['Ceja','Lengua clásico', 'Industrial']
+        if (piercings30.includes(tipoPiercing.tipo_piercing)) {
+            precio = 30;
+        } else {
+            precio = 25;
+        }
+
+        setData('piercing', { ...data.piercing, precio });
+        console.log('El precio del piercing es de: ', precio, '€');
+    };
+
     const calcularTiempoTatuaje = () => {
         let tiempo = 0;
 
         switch (tatuajeOptions.tamano) {
             case 'Grande':
-                tiempo += 240; // 4 horas en minutos
+                tiempo += 180; // 3 horas en minutos
                 break;
             case 'Mediano':
                 tiempo += 90; // 1.5 horas en minutos
@@ -114,87 +159,132 @@ const Create = ({ artistas }) => {
             tiempo += 30;
         }
 
-        if (['Costillas', 'Pecho', 'Barriga'].includes(tatuajeOptions.zona)) {
-            tiempo += 15;
-        }
-
         setData('tatuaje', { ...data.tatuaje, tiempo });
     };
 
-    const calcularHoraFin = () => {
-        if (!data.hora_inicio || !data.tatuaje.tiempo) {
+    const calcularTiempoPiercing = () => {
+        let tiempo = 60;
+        setData('piercing', { ...data.piercing, tiempo });
+    }
+
+    const verificarDisponibilidad = (fecha) => {
+        if ((!data.hora_inicio || !data.tatuaje.tiempo || !data.piercing.tiempo) && tipoReserva) {
             return;
         }
 
-        const [hours, minutes] = data.hora_inicio.split(':').map(Number);
-        const totalMinutes = hours * 60 + minutes + data.tatuaje.tiempo;
-        const horaFin = new Date();
-        horaFin.setHours(0, totalMinutes, 0, 0);
+        axios.get('/api/ultima-hora-fin', {
+            params: { fecha: fecha },
+        })
+        .then(response => {
+            const reservas = response.data;
+            const minutosTotales = [];
 
-        const horaFinString = horaFin.toTimeString().slice(0, 5);
+            const tipoDeReserva = tipoReserva;
 
-        if ((['11:30', '12:30', '13:30'].includes(data.hora_inicio) && horaFinString > '14:30') || horaFinString > '21:30') {
-            setData('hora_fin', 'Hora fin no permitida');
-        } else {
-            setData('hora_fin', horaFinString);
-        }
-    };
+            console.log('El tipo de reserva es: ', tipoDeReserva);
+            const horaFin = new Date();
 
-    // const isDateInPast = (date) => {
-    //     const selectedDate = new Date(date);
-    //     const now = new Date();
-    //     return selectedDate.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0);
-    // };
-
-    const getCurrentTimeString = () => {
-        const now = new Date();
-        return now.toTimeString().slice(0, 5);
-    };
-
-    // const isValidDate = (date) => {
-    //     const selectedDate = new Date(date);
-    //     const now = new Date();
-    //     const diffDays = (selectedDate - now) / (1000 * 60 * 60 * 24);
-    //     return diffDays >= 2;
-    // };
-
-    const fetchAvailableHours = async (date) => {
-        const horas = ['11:30', '12:30', '13:30', '18:00', '19:00', '20:00'];
-
-        try {
-            const response = await axios.get(`/api/ultima-hora-fin`, {
-                params: {
-                    fecha: date,
-                },
+            reservas.forEach(reserva => {
+                const primeraHora = reserva.hora_inicio.split(':').map(Number);
+                const primeraHoraMinutos = primeraHora[0] * 60 + primeraHora[1];
+                minutosTotales.push(primeraHoraMinutos);
             });
 
-            const ultimaHoraFin = response.data.hora_fin;
+            const [horas, minutos] = data.hora_inicio.split(':').map(Number);
+            const minutosTotalesInicio = horas * 60 + minutos;
+            let minutosTotalesFin = 0;
+            let duracion = 0;
 
-            let availableHours;
-
-            if (ultimaHoraFin) {
-                availableHours = horas.filter(time => {
-                    const now = new Date();
-                    if (date === now.toISOString().split('T')[0]) {
-                        return time >= getCurrentTimeString() && time > ultimaHoraFin;
-                    }
-                    return time > ultimaHoraFin;
-                });
+            if (tipoDeReserva === 'tatuaje') {
+                console.log('El tipo de reserva es tatuaje');
+                minutosTotalesFin = horas * 60 + minutos + data.tatuaje.tiempo;
+                horaFin.setHours(0, minutosTotalesFin, 0, 0);
+                duracion = Math.ceil(data.tatuaje.tiempo / 60);
+            } else if (tipoDeReserva === 'piercing') {
+                console.log('El tipo de reserva es piercing');
+                minutosTotalesFin = horas * 60 + minutos + data.piercing.tiempo;
+                horaFin.setHours(0, minutosTotalesFin, 0, 0);
+                duracion = Math.ceil(data.piercing.tiempo / 60);
             } else {
-                // Si no hay hora_fin, simplemente mostramos todas las horas disponibles
-                availableHours = horas;
+                console.log('No se ha seleccionado un tipo de reserva');
+                return;
             }
 
-            setAvailableHours(availableHours);
-            console.log("Prueba");
-        } catch (error) {
-            console.error("Error fetching available time", error);
-            setAvailableHours(horas);
-        }
+            // Hay que mirar por que la funcion no funciona en condiciones, tiene que ver con el if que se ha insertado
+
+            // horaFin.setHours(0, minutosTotalesFin, 0, 0);
+
+            const horaFinString = horaFin.toTimeString().slice(0, 5);
+
+            const horaReservaMinima = Math.min(...minutosTotales);
+
+            if ((minutosTotalesInicio <= horaReservaMinima)  && (minutosTotalesFin >= horaReservaMinima)) {
+                setData(prevState => ({
+                    ...prevState,
+                    hora_fin: 'La hora a la que se termina el tatuaje sobrepasa el horario permitido 2.',
+                    duracion: 'La duración del tatuaje es excesiva.'
+                }));
+            } else {
+                if ((['11:30', '12:30', '13:30'].includes(data.hora_inicio) && horaFinString > '14:30') || horaFinString > '21:30') {
+                    setData(prevState => ({
+                        ...prevState,
+                        hora_fin: 'La hora a la que se termina el tatuaje sobrepasa el horario permitido.',
+                        duracion: 'La duración del tatuaje es excesiva.'
+                    }));
+                } else {
+                    setData(prevState => ({
+                        ...prevState,
+                        hora_fin:  horaFinString,
+                        duracion: duracion
+                    }));
+                }
+            }
+        })
     };
 
+    function fetchHorasDisponibles(fecha) {
+        let horas = ['11:30', '12:30', '13:30', '18:00', '19:00', '20:00']; // Array con todas las horas
+        let horasDisponibles = [...horas];
 
-    const disableInvalidDates = (e) => {
+        axios.get('/api/ultima-hora-fin', {
+            params: { fecha: fecha },
+        })
+        .then(response => {
+            const reservas = response.data;
+
+            reservas.forEach(reserva => {
+                const inicio = reserva.hora_inicio;
+                const duracion = reserva.duracion;
+
+                let horaInicio = inicio.split(":");
+                let hora = parseInt(horaInicio[0]);
+                let minutos = horaInicio[1];
+
+                for (let tiempo = 0; tiempo <= duracion; tiempo++) {
+
+                    let nuevaHora = `${hora}:${minutos}`;
+
+                    // Verifica si la hora existe en el array antes de eliminarla
+                    let index = horasDisponibles.indexOf(nuevaHora);
+                    if (index !== -1) {
+                        horasDisponibles.splice(index, 1);
+                    }
+
+                    // Incrementa la hora
+                    hora += 1;
+                }
+            });
+
+            setAvailableHours(horasDisponibles);
+        })
+
+        .catch(error => {
+            console.error("Error recogiendo las horas disponibles", error);
+            setAvailableHours("No hay horas disponibles"); // En caso de error, devolver todas las horas como disponibles
+        });
+    };
+
+    const desactivarDiasInvalidos = (e) => {
         const dateInput = e.target;
         const today = new Date();
         const minDate = new Date(today);
@@ -217,122 +307,198 @@ const Create = ({ artistas }) => {
     };
 
     return (
-        <div className='bg-white'>
-            <h1>Crear Reserva</h1>
-            <form onSubmit={handleSubmit} className='w-96'>
-                <div>
-                    <h2>Datos del Cliente</h2>
-                    <div className='flex flex-col'>
-                        <label>Nombre:</label>
-                        <input type="text" name="cliente.nombre" value={data.cliente.nombre} onChange={handleChange} />
-                        {errors['cliente.nombre'] && <div>{errors['cliente.nombre']}</div>}
-                    </div>
-                    <div className='flex flex-col'>
-                        <label>Apellidos:</label>
-                        <input type="text" name="cliente.apellidos" value={data.cliente.apellidos} onChange={handleChange} />
-                        {errors['cliente.apellidos'] && <div>{errors['cliente.apellidos']}</div>}
-                    </div>
-                    <div className='flex flex-col'>
-                        <label>Teléfono:</label>
-                        <input type="text" name="cliente.telefono" value={data.cliente.telefono} onChange={handleChange} />
-                        {errors['cliente.telefono'] && <div>{errors['cliente.telefono']}</div>}
-                    </div>
-                    <div className='flex flex-col'>
-                        <label>Email:</label>
-                        <input type="email" name="cliente.email" value={data.cliente.email} onChange={handleChange} />
-                        {errors['cliente.email'] && <div>{errors['cliente.email']}</div>}
+        <>
+            <Head title="Inicio" />
+            <Header user={auth.user} />
+            <div className='mainReserva'>
+                <div className="contenedorReserva">
+                    <div className='contenedorFormulario'>
+                        <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
+                            <h1 className="titulo">Reserva tu cita</h1>
+                            <hr className="separadorFormulario"/>
+                            <div className='filaUno'>
+                                <div className='columnaNombre'>
+                                    <label>Nombre:</label>
+                                    <input className='inputs' type="text" name="cliente.nombre" value={data.cliente.nombre} onChange={handleChange} />
+                                    {errors['cliente.nombre'] && <div>{errors['cliente.nombre']}</div>}
+                                </div>
+                                <div className='columnaApellido'>
+                                    <label>Apellidos:</label>
+                                    <input className='inputs' type="text" name="cliente.apellidos" value={data.cliente.apellidos} onChange={handleChange} />
+                                    {errors['cliente.apellidos'] && <div>{errors['cliente.apellidos']}</div>}
+                                </div>
+                            </div>
+                            <div className='columnas'>
+                                <label>Teléfono:</label>
+                                <input className='inputs' type="text" name="cliente.telefono" value={data.cliente.telefono} onChange={handleChange} />
+                                {errors['cliente.telefono'] && <div>{errors['cliente.telefono']}</div>}
+                            </div>
+                            <div className='columnas'>
+                                <label>Email:</label>
+                                <input className='inputs' type="email" name="cliente.email" value={data.cliente.email} onChange={handleChange} />
+                                {errors['cliente.email'] && <div>{errors['cliente.email']}</div>}
+                            </div>
+                            <div className='columnas'>
+                                <label>Artista:</label>
+                                <select name="artista_id" value={data.artista_id} onChange={handleChange}>
+                                    <option value="">Seleccionar artista</option>
+                                    {artistas.map(artista => (
+                                        <option key={artista.id} value={artista.id}>{artista.nombre}</option>
+                                    ))}
+                                </select>
+                                {errors.artista_id && <div>{errors.artista_id}</div>}
+                            </div>
+                            <div className='opcionesReserva'>
+                                <label>Tipo de Reserva:</label>
+                                <div className='opciones'>
+                                    <div className='opcion'>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                value="tatuaje"
+                                                checked={tipoReserva === 'tatuaje'}
+                                                onChange={() => setTipoReserva('tatuaje')}
+                                            />
+                                            Tatuaje
+                                        </label>
+                                    </div>
+                                    <div className='opcion'>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                value="piercing"
+                                                checked={tipoReserva === 'piercing'}
+                                                onChange={() => setTipoReserva('piercing')}
+                                            />
+                                            Piercing
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            {tipoReserva === 'tatuaje' && (
+                                <>
+                                    <div className='columnas'>
+                                        <label>Imagen de referencia:</label>
+                                        <input className='inputs' type="file" name="tatuaje.ruta_imagen" onChange={handleFileChange} />
+                                        {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Tamaño:</label>
+                                        <select name="tamano" value={tatuajeOptions.tamano} onChange={handleTatuajeOptionsChange}>
+                                            <option value="">Seleccionar tamaño</option>
+                                            <option value="Grande">Grande</option>
+                                            <option value="Mediano">Mediano</option>
+                                            <option value="Pequeño">Pequeño</option>
+                                        </select>
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Relleno:</label>
+                                        <select name="relleno" value={tatuajeOptions.relleno} onChange={handleTatuajeOptionsChange}>
+                                            <option value="">Seleccionar relleno</option>
+                                            <option value="Con relleno">Con relleno</option>
+                                            <option value="Sin relleno">Sin relleno</option>
+                                        </select>
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Color:</label>
+                                        <select name="color" value={tatuajeOptions.color} onChange={handleTatuajeOptionsChange}>
+                                            <option value="">Seleccionar color</option>
+                                            <option value="A color">A color</option>
+                                            <option value="Blanco y negro">Blanco y negro</option>
+                                        </select>
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Zona del cuerpo:</label>
+                                        <select name="zona" value={tatuajeOptions.zona} onChange={handleTatuajeOptionsChange}>
+                                            <option value="">Seleccionar zona</option>
+                                            <option value="Brazo">Brazo</option>
+                                            <option value="Pierna">Pierna</option>
+                                            <option value="Espalda">Espalda</option>
+                                            <option value="Costillas">Costillas</option>
+                                            <option value="Pecho">Pecho</option>
+                                            <option value="Barriga">Barriga</option>
+                                        </select>
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Precio Estimado:</label>
+                                        <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
+                                    </div>
+                                </>
+                            )}
+                            {tipoReserva === 'piercing' && (
+                                <>
+                                    <div className='columnas'>
+                                        <label>Tipo de Piercing:</label>
+                                        <div className='columnaPiercing'>
+                                            <label htmlFor="tipo_piercing">Tipo de piercing: </label>
+                                            <select name="tipo_piercing" id="tipo_piercing" className='listaPiercings' value={tipoPiercing} onChange={handlePiercingOptionsChange}>
+                                                <optgroup label='Oreja'>
+                                                    <option value="Helix">Helix</option>
+                                                    <option value="Lóbulo">Lóbulo</option>
+                                                    <option value="Lóbulo alto">Lóbulo alto</option>
+                                                    <option value="Industrial">Industrial</option>
+                                                    <option value="Tragus">Tragus</option>
+                                                    <option value="Daith">Daith</option>
+                                                    <option value="Conch">Conch</option>
+                                                </optgroup>
+                                                <optgroup label='Nariz'>
+                                                    <option value="Nostril">Nostril</option>
+                                                    <option value="Septum">Septum</option>
+                                                </optgroup>
+                                                <optgroup label='Boca'>
+                                                    <option value="Lengua clásico">Lengua clásico</option>
+                                                    <option value="Medusa">Medusa</option>
+                                                    <option value="Ashley">Ashley</option>
+                                                    <option value="Labret vertical">Labret vertical</option>
+                                                    <option value="Monroe">Monroe</option>
+                                                    <option value="Madonna">Madonna</option>
+                                                    <option value="Side labret">Side labret</option>
+                                                </optgroup>
+                                                <optgroup label='Ceja'>
+                                                    <option value="Ceja">Ceja</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Precio:</label>
+                                        <input className='inputs' type="text" name="piercing.precio" value={data.piercing.precio} onChange={handleChange} />
+                                        {errors['piercing.precio'] && <div>{errors['piercing.precio']}</div>}
+                                    </div>
+                                </>
+                            )}
+                            <div className='columnas'>
+                                <label>Fecha:</label>
+                                <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
+                                {errors.fecha && <div>{errors.fecha}</div>}
+                            </div>
+                            <div className='columnas'>
+                                <label>Hora Inicio:</label>
+                                <select name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
+                                    <option value="">Seleccionar hora de inicio</option>
+                                    {availableHours.map(hora => (
+                                        <option key={hora} value={hora}>{hora}</option>
+                                    ))}
+                                </select>
+                                {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                            </div>
+                            <div className='columnas'>
+                                <label>Hora Fin:</label>
+                                <input className='inputs' type="text" name="hora_fin" value={data.hora_fin} readOnly />
+                                {errors.hora_fin && <div>{errors.hora_fin}</div>}
+                            </div>
+                            <div className='columnas'>
+                                <label>Duracion estimada:</label>
+                                <input className='inputs' type="text" name="duracion" value={data.duracion} readOnly />
+                                {errors.duracion && <div>{errors.duracion}</div>}
+                            </div>
+                            <button type="submit" disabled={processing}>Reservar</button>
+                        </form>
                     </div>
                 </div>
-
-                <div className='flex flex-col'>
-                    <label>Artista:</label>
-                    <select name="artista_id" value={data.artista_id} onChange={handleChange}>
-                        <option value="">Seleccione un artista</option>
-                        {artistas.map(artista => (
-                            <option key={artista.id} value={artista.id}>{artista.nombre}</option>
-                        ))}
-                    </select>
-                    {errors.artista_id && <div>{errors.artista_id}</div>}
-                </div>
-
-                <div className='flex flex-col'>
-                    <h2>Datos del Tatuaje (Opcional)</h2>
-                    <div className='flex flex-row'>
-                        <div className='flex flex-col'>
-                            <label>Imagen:</label>
-                            <input type="text" name="tatuaje.ruta_imagen" value={data.tatuaje.ruta_imagen} onChange={handleChange} />
-                        </div>
-                        <div className='flex flex-col'>
-                            <label>Tamaño:</label>
-                            <select name="tamano" value={tatuajeOptions.tamano} onChange={handleTatuajeOptionsChange}>
-                                <option value="">Seleccione el tamaño</option>
-                                <option value="Grande">Grande</option>
-                                <option value="Mediano">Mediano</option>
-                                <option value="Pequeño">Pequeño</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className='flex flex-row'>
-                        <div className='flex flex-col'>
-                            <label>Color:</label>
-                            <select name="color" value={tatuajeOptions.color} onChange={handleTatuajeOptionsChange}>
-                                <option value="">Seleccione el color</option>
-                                <option value="A color">A color</option>
-                                <option value="Blanco y negro">Blanco y negro</option>
-                            </select>
-                        </div>
-                        <div className='flex flex-col'>
-                            <label>Relleno:</label>
-                            <select name="relleno" value={tatuajeOptions.relleno} onChange={handleTatuajeOptionsChange}>
-                                <option value="">Seleccione el relleno</option>
-                                <option value="Con relleno">Con relleno</option>
-                                <option value="Sin relleno">Sin relleno</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className='flex flex-row'>
-                        <div className='flex flex-col'>
-                            <label>Zona:</label>
-                            <select name="zona" value={tatuajeOptions.zona} onChange={handleTatuajeOptionsChange}>
-                                <option value="">Seleccione la zona</option>
-                                <option value="Brazo">Brazo</option>
-                                <option value="Pierna">Pierna</option>
-                                <option value="Espalda">Espalda</option>
-                                <option value="Costillas">Costillas</option>
-                                <option value="Pecho">Pecho</option>
-                                <option value="Barriga">Barriga</option>
-                            </select>
-                        </div>
-                    </div>
-                    {errors.tatuaje && <div>{errors.tatuaje}</div>}
-                </div>
-
-                <div className='flex flex-col'>
-                    <label>Fecha:</label>
-                    <input type="date" name="fecha" value={data.fecha} onChange={handleChange} onFocus={disableInvalidDates} />
-                    {errors.fecha && <div>{errors.fecha}</div>}
-                </div>
-
-                <div className='flex flex-col'>
-                    <label>Hora de Inicio:</label>
-                    <select name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
-                        <option value="">Seleccione la hora de inicio</option>
-                        {availableHours.map(hour => (
-                            <option key={hour} value={hour}>{hour}</option>
-                        ))}
-                    </select>
-                    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-                </div>
-
-                <div className='flex flex-col'>
-                    <label>Hora de Fin:</label>
-                    <input type="text" name="hora_fin" value={data.hora_fin} readOnly />
-                    {errors.hora_fin && <div>{errors.hora_fin}</div>}
-                </div>
-
-                <button type="submit" disabled={processing}>Crear Reserva</button>
-            </form>
-        </div>
+            </div>
+            <Footer />
+        </>
     );
 };
 

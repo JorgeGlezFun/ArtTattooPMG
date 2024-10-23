@@ -12,7 +12,7 @@ class Piercing extends Model
     protected $fillable = [
         'artista_id',
         'nombre',
-        'precio',
+        'precio'
     ];
 
     public function artista()

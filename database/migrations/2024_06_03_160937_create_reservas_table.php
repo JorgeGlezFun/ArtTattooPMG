@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('piercing_id')->nullable()->constrained()->onDelete('cascade');
             $table->date('fecha');
             $table->time('hora_inicio');
-            // $table->time('hora_fin');
+            $table->time('hora_fin');
+            $table->integer('duracion');
             $table->timestamps();
         });
     }
