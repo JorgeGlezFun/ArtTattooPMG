@@ -7,18 +7,28 @@ const Index = ({ reservas }) => {
       {reservas.length > 0 ? (
         reservas.map((reserva) => (
           <div key={reserva.id} className='p-4 border-b border-gray-200'>
-            <p>{reserva.cliente.nombre}</p>
-            <p>{reserva.artista.nombre}</p>
-            {reserva.tatuaje != null ? (
-              <img src={reserva.tatuaje.ruta_imagen} alt="Tatuaje" />
+            <p>Cliente: {reserva.cliente.nombre}</p>
+            <p>Artista: {reserva.artista.nombre}</p>
+
+            {reserva.tatuaje ? (
+              <>
+                <img src={reserva.tatuaje.ruta_imagen} alt="Imagen del tatuaje" />
+                <p>Tatuaje: {reserva.tatuaje.nombre}</p>
+                <p>Precio: {reserva.tatuaje.precio}€</p>
+              </>
+            ) : reserva.piercing ? (
+              <>
+                <p>Piercing: {reserva.piercing.nombre}</p>
+                <p>Precio: {reserva.piercing.precio}€</p>
+              </>
             ) : (
-                <p>prueba</p> //{reserva.piercing.nombre}</p>
+              <p>No hay tatuaje ni piercing asociado.</p>
             )}
-            <p>{reserva.fecha}</p>
-            <p>{reserva.tatuaje.precio}€</p>
-            <p>{reserva.hora_inicio}</p>
-            <p>{reserva.hora_fin}</p>
-            <p>{reserva.duracion}</p>
+
+            <p>Fecha: {reserva.fecha}</p>
+            <p>Hora de inicio: {reserva.hora_inicio}</p>
+            <p>Hora de fin: {reserva.hora_fin}</p>
+            <p>Duración: {reserva.duracion}</p>
           </div>
         ))
       ) : (

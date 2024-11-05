@@ -1,3 +1,5 @@
+// Hay que borrar todo lo relacionado con los piercings y dejar solo lo de los tatuajes
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
@@ -83,9 +85,9 @@ const Create = ({ auth, artistas }) => {
     };
 
     const handlePiercingOptionsChange = (e) => {
-        const { name, value } = e.target;
-        setTipoPiercing({...data.piercing, [name]: value});
-        calcularPrecioPiercing({ ...data.piercing, [name]: value });
+        const { value } = e.target;
+        setTipoPiercing(value);
+        calcularPrecioPiercing(value);
     };
 
     const handleFileChange = (e) => {
@@ -120,18 +122,17 @@ const Create = ({ auth, artistas }) => {
         setData('tatuaje', { ...data.tatuaje, precio });
     };
 
-    const calcularPrecioPiercing = () => {
+    const calcularPrecioPiercing = (tipo) => {
         let precio = 0;
 
-        const piercings30 = ['Ceja','Lengua clásico', 'Industrial']
-        if (piercings30.includes(tipoPiercing.tipo_piercing)) {
+        const piercings30 = ['Ceja','Lengua clásico', 'Industrial'];
+        if (piercings30.includes(tipo)) {
             precio = 30;
         } else {
             precio = 25;
         }
 
-        setData('piercing', { ...data.piercing, precio });
-        console.log('El precio del piercing es de: ', precio, '€');
+        setData('piercing', { ...data.piercing, precio, nombre: tipo });
     };
 
     const calcularTiempoTatuaje = () => {
@@ -168,21 +169,21 @@ const Create = ({ auth, artistas }) => {
     }
 
     const verificarDisponibilidad = (fecha) => {
-        if ((!data.hora_inicio || !data.tatuaje.tiempo || !data.piercing.tiempo) && tipoReserva) {
+        if ((!data.hora_inicio || (!data.tatuaje.tiempo || !data.piercing.tiempo)) && tipoReserva) {
             return;
         }
+
+        console.log(((!data.hora_inicio || (!data.tatuaje.tiempo || !data.piercing.tiempo)) && tipoReserva));
 
         axios.get('/api/ultima-hora-fin', {
             params: { fecha: fecha },
         })
         .then(response => {
             const reservas = response.data;
-            const minutosTotales = [];
+            let minutosTotales = [];
 
-            const tipoDeReserva = tipoReserva;
-
-            console.log('El tipo de reserva es: ', tipoDeReserva);
-            const horaFin = new Date();
+            const horaFinTatuaje = new Date();
+            const horaFinPiercing = new Date();
 
             reservas.forEach(reserva => {
                 const primeraHora = reserva.hora_inicio.split(':').map(Number);
@@ -192,49 +193,55 @@ const Create = ({ auth, artistas }) => {
 
             const [horas, minutos] = data.hora_inicio.split(':').map(Number);
             const minutosTotalesInicio = horas * 60 + minutos;
-            let minutosTotalesFin = 0;
-            let duracion = 0;
 
-            if (tipoDeReserva === 'tatuaje') {
-                console.log('El tipo de reserva es tatuaje');
-                minutosTotalesFin = horas * 60 + minutos + data.tatuaje.tiempo;
-                horaFin.setHours(0, minutosTotalesFin, 0, 0);
-                duracion = Math.ceil(data.tatuaje.tiempo / 60);
-            } else if (tipoDeReserva === 'piercing') {
-                console.log('El tipo de reserva es piercing');
-                minutosTotalesFin = horas * 60 + minutos + data.piercing.tiempo;
-                horaFin.setHours(0, minutosTotalesFin, 0, 0);
-                duracion = Math.ceil(data.piercing.tiempo / 60);
-            } else {
-                console.log('No se ha seleccionado un tipo de reserva');
-                return;
-            }
+            const minutosTotalesFinTatuaje = horas * 60 + minutos + data.tatuaje.tiempo;
+            horaFinTatuaje.setHours(0, minutosTotalesFinTatuaje, 0, 0);
+            const duracionTatuaje = Math.ceil(data.tatuaje.tiempo / 60);
+            const horaFinStringTatuaje = horaFinTatuaje.toTimeString().slice(0, 5);
 
-            // Hay que mirar por que la funcion no funciona en condiciones, tiene que ver con el if que se ha insertado
+            const minutosTotalesFinPiercing = horas * 60 + minutos + data.piercing.tiempo;
+            horaFinPiercing.setHours(0, minutosTotalesFinPiercing, 0, 0);
+            const duracionPiercing = Math.ceil(data.piercing.tiempo / 60);
+            const horaFinStringPiercing = horaFinPiercing.toTimeString().slice(0, 5);
 
-            // horaFin.setHours(0, minutosTotalesFin, 0, 0);
+            let horaReservaMinima = minutosTotales == [] ? 0 : Math.min(...minutosTotales);
 
-            const horaFinString = horaFin.toTimeString().slice(0, 5);
+            let duracion = tipoReserva === 'tatuaje' ? duracionTatuaje : duracionPiercing;
 
-            const horaReservaMinima = Math.min(...minutosTotales);
+            let horaFinString = tipoReserva === 'tatuaje' ? horaFinStringTatuaje : horaFinStringPiercing;
 
-            if ((minutosTotalesInicio <= horaReservaMinima)  && (minutosTotalesFin >= horaReservaMinima)) {
+            console.log('La hora de inicio es: ', minutosTotalesInicio);
+            console.log('La hora de reserva minima es: ', horaReservaMinima);
+            console.log('La hora de fin del tatuaje es: ', minutosTotalesFinTatuaje);
+            console.log('La hora de fin del piercing es: ', minutosTotalesFinPiercing);
+            console.log('La hora de fin del tatuaje es: ', horaFinString);
+            console.log('Los minutos totales de inicio: ', minutosTotalesInicio, 'son menores o iguales a la hora de reserva minima: ', horaReservaMinima);
+            console.log('Los minutos totales de fin del tatuaje: ', minutosTotalesFinTatuaje, 'son mayores o iguales a la hora de reserva minima: ', horaReservaMinima);
+            console.log('Los minutos totales de fin del piercing: ', minutosTotalesFinPiercing, 'son mayores o iguales a la hora de reserva minima: ', horaReservaMinima);
+
+            console.log('¿horaFinString:', horaFinString, 'es mayor que las 14:30?', horaFinString > '14:30');
+            console.log('¿horaFinString:', horaFinString, 'es menor que las 21:30?', horaFinString < '21:30');
+
+            console.log('¿Se cumple el primer if?', (minutosTotalesInicio <= horaReservaMinima) && ((minutosTotalesFinTatuaje >= horaReservaMinima) || (minutosTotalesFinPiercing >= horaReservaMinima)));
+            console.log('¿Se cumple el segundo if?', (['11:30', '12:30', '13:30'].includes(data.hora_inicio) && (horaFinString > '14:30' || horaFinString < '21:30')))
+
+            if ((minutosTotalesInicio <= horaReservaMinima) && ((minutosTotalesFinTatuaje >= horaReservaMinima) || (minutosTotalesFinPiercing >= horaReservaMinima))) {
                 setData(prevState => ({
                     ...prevState,
-                    hora_fin: 'La hora a la que se termina el tatuaje sobrepasa el horario permitido 2.',
-                    duracion: 'La duración del tatuaje es excesiva.'
+                    hora_fin: 'La reserva no es posible.',
+                    duracion: 'La duración de la reserva es excesiva.'
                 }));
             } else {
                 if ((['11:30', '12:30', '13:30'].includes(data.hora_inicio) && horaFinString > '14:30') || horaFinString > '21:30') {
                     setData(prevState => ({
                         ...prevState,
                         hora_fin: 'La hora a la que se termina el tatuaje sobrepasa el horario permitido.',
-                        duracion: 'La duración del tatuaje es excesiva.'
+                        duracion: 'La duración de la reserva es excesiva.'
                     }));
                 } else {
                     setData(prevState => ({
                         ...prevState,
-                        hora_fin:  horaFinString,
+                        hora_fin: horaFinString,
                         duracion: duracion
                     }));
                 }
@@ -243,7 +250,7 @@ const Create = ({ auth, artistas }) => {
     };
 
     function fetchHorasDisponibles(fecha) {
-        let horas = ['11:30', '12:30', '13:30', '18:00', '19:00', '20:00']; // Array con todas las horas
+        let horas = ['11:30', '12:30', '13:30', '18:00', '19:00', '20:00'];
         let horasDisponibles = [...horas];
 
         axios.get('/api/ultima-hora-fin', {
@@ -280,7 +287,7 @@ const Create = ({ auth, artistas }) => {
 
         .catch(error => {
             console.error("Error recogiendo las horas disponibles", error);
-            setAvailableHours("No hay horas disponibles"); // En caso de error, devolver todas las horas como disponibles
+            setAvailableHours("No hay horas disponibles");
         });
     };
 
@@ -428,10 +435,10 @@ const Create = ({ auth, artistas }) => {
                             {tipoReserva === 'piercing' && (
                                 <>
                                     <div className='columnas'>
-                                        <label>Tipo de Piercing:</label>
                                         <div className='columnaPiercing'>
                                             <label htmlFor="tipo_piercing">Tipo de piercing: </label>
-                                            <select name="tipo_piercing" id="tipo_piercing" className='listaPiercings' value={tipoPiercing} onChange={handlePiercingOptionsChange}>
+                                            <select name="nombre" id="nombre" className='listaPiercings' value={tipoPiercing.nombre} onChange={handlePiercingOptionsChange}>
+                                                <option>Selecciona un tipo de piercing: </option>
                                                 <optgroup label='Oreja'>
                                                     <option value="Helix">Helix</option>
                                                     <option value="Lóbulo">Lóbulo</option>
@@ -461,9 +468,8 @@ const Create = ({ auth, artistas }) => {
                                         </div>
                                     </div>
                                     <div className='columnas'>
-                                        <label>Precio:</label>
-                                        <input className='inputs' type="text" name="piercing.precio" value={data.piercing.precio} onChange={handleChange} />
-                                        {errors['piercing.precio'] && <div>{errors['piercing.precio']}</div>}
+                                        <label>Precio Estimado:</label>
+                                        <input className='inputs' type="text" value={data.piercing.precio} readOnly />
                                     </div>
                                 </>
                             )}
