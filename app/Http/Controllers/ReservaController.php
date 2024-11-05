@@ -6,7 +6,6 @@ use App\Models\Artista;
 use App\Models\Reserva;
 use App\Models\Cliente;
 use App\Models\Tatuaje;
-use App\Models\Piercing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +16,7 @@ class ReservaController extends Controller
 {
     public function index()
     {
-        $reservas = Reserva::with(['cliente', 'artista', 'tatuaje', 'piercing'])->get();
+        $reservas = Reserva::with(['cliente', 'artista', 'tatuaje'])->get();
 
         foreach ($reservas as $reserva) {
             if ($reserva->tatuaje) {
@@ -31,7 +30,7 @@ class ReservaController extends Controller
 
     public function create()
     {
-        // Cargar clientes, artistas, tatuajes y piercings para el formulario de creación
+        // Cargar clientes, artistas y tatuajes para el formulario de creación
         $artistas = Artista::all(); // Obtener todos los artistas
         return inertia('Reservas/Create', ['artistas' => $artistas]);
     }
@@ -45,10 +44,8 @@ class ReservaController extends Controller
             'cliente.telefono' => 'required|integer',
             'cliente.email' => 'required|string|email|max:255',
             'artista_id' => 'required|exists:artistas,id',
-            'tatuaje.ruta_imagen' => 'nullable|mimes:jpg,png,jpeg',
-            'tatuaje.precio' => 'nullable|integer',
-            'piercing.nombre' => 'nullable|string|max:255',
-            'piercing.precio' => 'nullable|integer',
+            'tatuaje.ruta_imagen' => 'mimes:jpg,png,jpeg',
+            'tatuaje.precio' => 'integer',
             'fecha' => 'required|date',
             'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
             'hora_fin' => 'required',
@@ -74,10 +71,6 @@ class ReservaController extends Controller
 
             return redirect()->back()->withErrors(['hora_inicio' => 'Esta hora ya está reservada.']);
         }
-
-        // Crear el tatuaje o piercing si se proporciona
-        $tatuaje = null;
-        $piercing = null;
 
         if (isset($validated['tatuaje']) && isset($validated['tatuaje']['ruta_imagen'])) {
 
@@ -112,15 +105,6 @@ class ReservaController extends Controller
             ]);
         }
 
-        // Crea el piercing
-        if (isset($validated['piercing']) && isset($validated['piercing']['nombre'])) {
-            $piercing = Piercing::create([
-                'artista_id' => $validated['artista_id'],
-                'nombre' => $validated['piercing']['nombre'],
-                'precio' => $validated['piercing']['precio'],
-            ]);
-        }
-
         // Crear el cliente
         $cliente = Cliente::firstOrCreate(
             ['email' => $validated['cliente']['email']],
@@ -136,8 +120,7 @@ class ReservaController extends Controller
         Reserva::create([
             'cliente_id' => $cliente->id,
             'artista_id' => $validated['artista_id'],
-            'tatuaje_id' => $tatuaje ? $tatuaje->id : null,
-            'piercing_id' => $piercing ? $piercing->id : null,
+            'tatuaje_id' => $tatuaje->id,
             'fecha' => $validated['fecha'],
             'hora_inicio' => $validated['hora_inicio'],
             'hora_fin' => $validated['hora_fin'],
@@ -163,8 +146,7 @@ class ReservaController extends Controller
         $validated = $request->validate([
             'cliente_id' => 'required|exists:clientes,id',
             'artista_id' => 'required|exists:artistas,id',
-            'tatuaje_id' => 'nullable|exists:tatuajes,id',
-            'piercing_id' => 'nullable|exists:piercings,id',
+            'tatuaje_id' => 'required|exists:tatuajes,id',
             'fecha' => 'required|date',
             'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
             'hora_fin' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00',

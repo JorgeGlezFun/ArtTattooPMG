@@ -19,11 +19,6 @@ class Artista extends Model
         return $this->hasMany(Tatuaje::class);
     }
 
-    public function piercings()
-    {
-        return $this->hasMany(Piercing::class);
-    }
-
     public function reservas()
     {
         return $this->hasMany(Reserva::class);

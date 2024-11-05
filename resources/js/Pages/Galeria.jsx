@@ -11,7 +11,7 @@ export default function Galeria({ auth }) {
         <>
             <Head title="Inicio" />
             <Header user={auth.user} />
-            <div className='mainGaleria'>
+            <div className='main'>
                 <div className="contenedorGaleria">
                     <div className='infoGaleria'>
                         <h1 className='titulo'>Galería</h1>

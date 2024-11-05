@@ -32,7 +32,7 @@ export default function Reservar({ auth, clientes, artistas, horasDisponibles })
         <>
             <Head title="Inicio" />
             <Header user={auth.user} />
-            <div className='mainReserva'>
+            <div className='main'>
                 <div className="contenedorReserva">
                     <div className='contenedorFormulario'>
                         <form onSubmit={handleSubmit} className='formulario'>

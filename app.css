@@ -62,7 +62,7 @@ html {
 
 /* Estilos Body */
 .main {
-    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
 }
 
 /* Estilos Inicio */
@@ -242,7 +242,7 @@ html {
 
 /* Estilos Galeria */
 .mainGaleria {
-    @apply flex items-center justify-center bg-marmol
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
 }
 
 .contenedorGaleria {
@@ -338,7 +338,8 @@ html {
 
 /* Estilos Eventos */
 .mainEventos {
-    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
+
 }
 
 

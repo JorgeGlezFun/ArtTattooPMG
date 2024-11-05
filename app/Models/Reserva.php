@@ -13,7 +13,6 @@ class Reserva extends Model
         'cliente_id',
         'artista_id',
         'tatuaje_id',
-        'piercing_id',
         'fecha',
         'hora_inicio',
         'hora_fin',
@@ -35,8 +34,4 @@ class Reserva extends Model
         return $this->belongsTo(Tatuaje::class);
     }
 
-    public function piercing()
-    {
-        return $this->belongsTo(Piercing::class);
-    }
 }
