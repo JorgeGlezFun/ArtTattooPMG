@@ -11,8 +11,13 @@ class Tatuaje extends Model
 
     protected $fillable = [
         'precio',
+        'zona',
+        'color',
+        'tamano',
+        'tipo',
         'ruta_imagen',
         'artista_id',
+
     ];
 
     public function artista()

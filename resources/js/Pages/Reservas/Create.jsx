@@ -1,6 +1,7 @@
 // Hay que borrar todo lo relacionado con los piercings y dejar solo lo de los tatuajes
 
 import React, { useState, useEffect } from 'react';
+import DragandDrop from '@/Components/Componentes-ATP/DragandDrop';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
 import Header from '@/Components/Componentes-ATP/Header';
@@ -268,9 +269,9 @@ const Create = ({ auth, artistas }) => {
 
     return (
         <>
-            <Head title="Inicio" />
+            <Head title="Reservas" />
             <Header user={auth.user} />
-            <div className='mainReserva'>
+            <div className='main'>
                 <div className="contenedorReserva">
                     <div className='contenedorFormulario'>
                         <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
@@ -308,39 +309,36 @@ const Create = ({ auth, artistas }) => {
                                 </select>
                                 {errors.artista_id && <div>{errors.artista_id}</div>}
                             </div>
-                                    <div className='columnas'>
-                                        <label>Imagen de referencia:</label>
-                                        <input className='inputs' type="file" name="tatuaje.ruta_imagen" onChange={handleFileChange} />
-                                        {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
-                                    </div>
-                                    <div className='columnas'>
+                            <div classname='w-full'>
+                                <div classname='columnaTatuaje'>
+                                    <div className='divTatuajes'>
                                         <label>Tamaño:</label>
-                                        <select name="tamano" value={tatuajeOptions.tamano} onChange={handleTatuajeOptionsChange}>
+                                        <select classname='listaTatuajes' name="tamano" value={tatuajeOptions.tamano} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar tamaño</option>
                                             <option value="Grande">Grande</option>
                                             <option value="Mediano">Mediano</option>
                                             <option value="Pequeño">Pequeño</option>
                                         </select>
                                     </div>
-                                    <div className='columnas'>
+                                    <div className='divTatuajes'>
                                         <label>Relleno:</label>
-                                        <select name="relleno" value={tatuajeOptions.relleno} onChange={handleTatuajeOptionsChange}>
+                                        <select classname='listaTatuajes' name="relleno" value={tatuajeOptions.relleno} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar relleno</option>
                                             <option value="Con relleno">Con relleno</option>
                                             <option value="Sin relleno">Sin relleno</option>
                                         </select>
                                     </div>
-                                    <div className='columnas'>
+                                    <div className='divTatuajes'>
                                         <label>Color:</label>
-                                        <select name="color" value={tatuajeOptions.color} onChange={handleTatuajeOptionsChange}>
+                                        <select classname='listaTatuajes' name="color" value={tatuajeOptions.color} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar color</option>
                                             <option value="A color">A color</option>
                                             <option value="Blanco y negro">Blanco y negro</option>
                                         </select>
                                     </div>
-                                    <div className='columnas'>
+                                    <div className='divTatuajes'>
                                         <label>Zona del cuerpo:</label>
-                                        <select name="zona" value={tatuajeOptions.zona} onChange={handleTatuajeOptionsChange}>
+                                        <select classname='listaTatuajes' name="zona" value={tatuajeOptions.zona} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar zona</option>
                                             <option value="Brazo">Brazo</option>
                                             <option value="Pierna">Pierna</option>
@@ -350,24 +348,39 @@ const Create = ({ auth, artistas }) => {
                                             <option value="Barriga">Barriga</option>
                                         </select>
                                     </div>
-                                    <div className='columnas'>
-                                        <label>Precio Estimado:</label>
-                                        <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
+                                    <div className='columnaDragandDrop'>
+                                        <label htmlFor="">Diseño del tatuaje:</label>
+                                        <div className='w-full h-auto p-4 bg-white/90'>
+                                            <DragandDrop />
+                                        </div>
                                     </div>
-                            <div className='columnas'>
-                                <label>Fecha:</label>
-                                <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
-                                {errors.fecha && <div>{errors.fecha}</div>}
+                                </div>
                             </div>
                             <div className='columnas'>
-                                <label>Hora Inicio:</label>
-                                <select name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
-                                    <option value="">Seleccionar hora de inicio</option>
-                                    {availableHours.map(hora => (
-                                        <option key={hora} value={hora}>{hora}</option>
-                                    ))}
-                                </select>
-                                {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                <label>Imagen de referencia:</label>
+                                <input className='inputs' type="file" name="tatuaje.ruta_imagen" onChange={handleFileChange} />
+                                {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
+                            </div>
+                            <div className='columnas'>
+                                <label>Precio Estimado:</label>
+                                <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
+                            </div>
+                            <div classname='filaUno'>
+                                <div className='columnas'>
+                                    <label>Fecha:</label>
+                                    <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
+                                    {errors.fecha && <div>{errors.fecha}</div>}
+                                </div>
+                                <div className='columnas'>
+                                    <label>Hora Inicio:</label>
+                                    <select name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
+                                        <option value="">Seleccionar hora de inicio</option>
+                                        {availableHours.map(hora => (
+                                            <option key={hora} value={hora}>{hora}</option>
+                                        ))}
+                                    </select>
+                                    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                </div>
                             </div>
                             <div className='columnas'>
                                 <label>Hora Fin:</label>
