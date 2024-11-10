@@ -10,20 +10,13 @@ const Index = ({ reservas }) => {
             <p>Cliente: {reserva.cliente.nombre}</p>
             <p>Artista: {reserva.artista.nombre}</p>
 
-            {reserva.tatuaje ? (
-              <>
-                <img src={reserva.tatuaje.ruta_imagen} alt="Imagen del tatuaje" />
-                <p>Tatuaje: {reserva.tatuaje.nombre}</p>
-                <p>Precio: {reserva.tatuaje.precio}€</p>
-              </>
-            ) : reserva.piercing ? (
-              <>
-                <p>Piercing: {reserva.piercing.nombre}</p>
-                <p>Precio: {reserva.piercing.precio}€</p>
-              </>
-            ) : (
-              <p>No hay tatuaje ni piercing asociado.</p>
-            )}
+            <img src={reserva.tatuaje.ruta_imagen} alt="Imagen del tatuaje" />
+            <p>Tatuaje: {reserva.tatuaje.zona}</p>
+            <p>Tamaño: {reserva.tatuaje.tamano}€</p>
+            <p>Color: {reserva.tatuaje.color}€</p>
+            <p>Tipo: {reserva.tatuaje.tipo}€</p>
+            <p>Precio: {reserva.tatuaje.precio}€</p>
+
 
             <p>Fecha: {reserva.fecha}</p>
             <p>Hora de inicio: {reserva.hora_inicio}</p>

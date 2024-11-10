@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('artista_id')->constrained()->onDelete('cascade');
             $table->string('ruta_imagen');
+            $table->string('tamano');
+            $table->string('color');
+            $table->string('tipo');
+            $table->string('zona');
             $table->integer('precio');
             $table->timestamps();
         });

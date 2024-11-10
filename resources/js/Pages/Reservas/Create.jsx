@@ -26,6 +26,10 @@ const Create = ({ auth, artistas }) => {
             ruta_imagen: null,
             precio: 0,
             tiempo: 0,
+            tamano: '',
+            relleno: '',
+            color: '',
+            zona: ''
         },
         fecha: '',
         hora_inicio: '',
@@ -33,18 +37,18 @@ const Create = ({ auth, artistas }) => {
         duracion: ''
     });
 
-    const [tatuajeOptions, setTatuajeOptions] = useState({
-        tamano: '',
-        relleno: '',
-        color: '',
-        zona: ''
-    });
+    // const [tatuajeOptions, setTatuajeOptions] = useState({
+    //     tamano: '',
+    //     relleno: '',
+    //     color: '',
+    //     zona: ''
+    // });
 
     const [availableHours, setAvailableHours] = useState([]);
 
     useEffect(() => {
         calcularTiempoTatuaje();
-    }, [tatuajeOptions]);
+    }, [data.tatuaje.tamano, data.tatuaje.color, data.tatuaje.relleno]);
 
     useEffect(() => {
         if (data.fecha) {
@@ -68,11 +72,11 @@ const Create = ({ auth, artistas }) => {
         }
     };
 
-    const handleTatuajeOptionsChange = (e) => {
-        const { name, value } = e.target;
-        setTatuajeOptions({ ...tatuajeOptions, [name]: value });
-        calcularPrecioTatuaje({ ...tatuajeOptions, [name]: value });
-    };
+    // const handleTatuajeOptionsChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setTatuajeOptions({ ...tatuajeOptions, [name]: value });
+    //     calcularPrecioTatuaje({ ...tatuajeOptions, [name]: value });
+    // };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -109,7 +113,7 @@ const Create = ({ auth, artistas }) => {
     const calcularTiempoTatuaje = () => {
         let tiempo = 0;
 
-        switch (tatuajeOptions.tamano) {
+        switch (data.tatuaje.tamano) {
             case 'Grande':
                 tiempo += 180; // 3 horas en minutos
                 break;
@@ -123,11 +127,11 @@ const Create = ({ auth, artistas }) => {
                 break;
         }
 
-        if (tatuajeOptions.color === 'A color') {
+        if (data.tatuaje.color === 'A color') {
             tiempo += 30;
         }
 
-        if (tatuajeOptions.relleno === 'Con relleno') {
+        if (data.tatuaje.relleno === 'Con relleno') {
             tiempo += 30;
         }
 
@@ -301,7 +305,7 @@ const Create = ({ auth, artistas }) => {
                             </div>
                             <div className='columnas'>
                                 <label>Artista:</label>
-                                <select name="artista_id" value={data.artista_id} onChange={handleChange}>
+                                <select className='listaTatuajes' name="artista_id" value={data.artista_id} onChange={handleChange}>
                                     <option value="">Seleccionar artista</option>
                                     {artistas.map(artista => (
                                         <option key={artista.id} value={artista.id}>{artista.nombre}</option>
@@ -309,11 +313,11 @@ const Create = ({ auth, artistas }) => {
                                 </select>
                                 {errors.artista_id && <div>{errors.artista_id}</div>}
                             </div>
-                            <div classname='w-full'>
-                                <div classname='columnaTatuaje'>
+                            <div className='filaDos'>
+                                <div className='columnaTatuaje'>
                                     <div className='divTatuajes'>
                                         <label>Tamaño:</label>
-                                        <select classname='listaTatuajes' name="tamano" value={tatuajeOptions.tamano} onChange={handleTatuajeOptionsChange}>
+                                        <select className='listaTatuajes' name="tamano" value={data.tatuaje.tamano} onChange={handleChange}>
                                             <option value="">Seleccionar tamaño</option>
                                             <option value="Grande">Grande</option>
                                             <option value="Mediano">Mediano</option>
@@ -322,7 +326,7 @@ const Create = ({ auth, artistas }) => {
                                     </div>
                                     <div className='divTatuajes'>
                                         <label>Relleno:</label>
-                                        <select classname='listaTatuajes' name="relleno" value={tatuajeOptions.relleno} onChange={handleTatuajeOptionsChange}>
+                                        <select className='listaTatuajes' name="relleno" value={data.tatuaje.relleno} onChange={handleChange}>
                                             <option value="">Seleccionar relleno</option>
                                             <option value="Con relleno">Con relleno</option>
                                             <option value="Sin relleno">Sin relleno</option>
@@ -330,7 +334,7 @@ const Create = ({ auth, artistas }) => {
                                     </div>
                                     <div className='divTatuajes'>
                                         <label>Color:</label>
-                                        <select classname='listaTatuajes' name="color" value={tatuajeOptions.color} onChange={handleTatuajeOptionsChange}>
+                                        <select className='listaTatuajes' name="color" value={data.tatuaje.color} onChange={handleChange}>
                                             <option value="">Seleccionar color</option>
                                             <option value="A color">A color</option>
                                             <option value="Blanco y negro">Blanco y negro</option>
@@ -338,7 +342,7 @@ const Create = ({ auth, artistas }) => {
                                     </div>
                                     <div className='divTatuajes'>
                                         <label>Zona del cuerpo:</label>
-                                        <select classname='listaTatuajes' name="zona" value={tatuajeOptions.zona} onChange={handleTatuajeOptionsChange}>
+                                        <select className='listaTatuajes' name="zona" value={data.tatuaje.zona} onChange={handleChange}>
                                             <option value="">Seleccionar zona</option>
                                             <option value="Brazo">Brazo</option>
                                             <option value="Pierna">Pierna</option>
@@ -348,11 +352,11 @@ const Create = ({ auth, artistas }) => {
                                             <option value="Barriga">Barriga</option>
                                         </select>
                                     </div>
-                                    <div className='columnaDragandDrop'>
-                                        <label htmlFor="">Diseño del tatuaje:</label>
-                                        <div className='w-full h-auto p-4 bg-white/90'>
-                                            <DragandDrop />
-                                        </div>
+                                </div>
+                                <div className='columnaDragandDrop'>
+                                    <label htmlFor="">Diseño del tatuaje:</label>
+                                    <div className='w-full h-auto p-4'>
+                                        <DragandDrop />
                                     </div>
                                 </div>
                             </div>
@@ -365,7 +369,7 @@ const Create = ({ auth, artistas }) => {
                                 <label>Precio Estimado:</label>
                                 <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
                             </div>
-                            <div classname='filaUno'>
+                            <div className='filaUno'>
                                 <div className='columnas'>
                                     <label>Fecha:</label>
                                     <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
@@ -392,8 +396,50 @@ const Create = ({ auth, artistas }) => {
                                 <input className='inputs' type="text" name="duracion" value={data.duracion} readOnly />
                                 {errors.duracion && <div>{errors.duracion}</div>}
                             </div>
-                            <button type="submit" disabled={processing}>Reservar</button>
+                            <button type="submit" disabled={processing} className='botonFormulario'>Reservar</button>
                         </form>
+                        <div className='w-full'>
+                            <div className='contenedorContactos'>
+                                <h1 className="titulo">Otras formas de contacto</h1>
+                                <hr className="separadorFormulario"/>
+                                <p>Si quieres un trato más personalizado con uno de nuestros profesionales, puedes escribirnos haciendo click en el siguiente enlace: </p>
+                                <a href='https://wa.chatfuel.com/arttattoopmg' target='_blank' className='botonContacto'>Envianos un WhatsApp haciendo click aquí</a>
+                            </div>
+                            <div className='contenedorMapa'>
+                                <h1 className="titulo">Donde nos encontramos</h1>
+                                <hr className="separadorFormulario"/>
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199.3470050739778!2d-6.066423831767834!3d36.924972570650986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0d939f67715b2f%3A0x2fe1b09f9b009cfc!2sArttattoo%20pmg!5e0!3m2!1ses!2ses!4v1716230894555!5m2!1ses!2ses"
+                                    allowFullScreen=""
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    className='w-full h-96'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className='contenedorNormas'>
+                        <div className='infoNormas'>
+                            <h1 className='titulo'>Normas de la reserva</h1>
+                            <hr className="separadorFormulario"/>
+                            <ul className='listaNormas'>
+                                <li>Se deberá dar una señal del 40% del valor del tatuaje/piercing a realizar.</li>
+                                <li>El pago se puede hacer a traves de la página web o por Bizum al siguiente numero: 687 81 76 83</li>
+                                <li>En caso de cancelacion de la cita, la señal se perderá.</li>
+                                <li>La cita puede ser aplazada o modificada una sola vez siempre que se haya avisado con al menos 24 horas de antelación.</li>
+                                <li>En caso de aplazarse o modificarse por segunda vez, se deberá dar una nueva señal.</li>
+                                <li>Si no se recibe el pago de la señal, se procederá a no guardar la cita.</li>
+                                <li>El plazo máximo para abonar la señal es hasta las 00:00 del mismo día que se pide la cita.</li>
+                                <li>Nos encontramos en Avda. Cangas 79, para entrar llamas a la puerta y esperar a ser atendido.</li>
+                                <li>No puedes venir con un acompañante.</li>
+                                <li>En caso de ser menor de edad, debes venir acompañado de uno de tus padres o tutor legal para firmar el consentimiento.</li>
+                                <li>Si eres menor y no te acompaña ninguno de tus padres o tutor legal, no se realizara el piercing/tatuaje y se perderá tanto la señal como la cita.</li>
+                                <li>No se permiten niños.</li>
+                                <li>Se ruega puntualidad. Si el retraso es mayor a 20 minutos, la cita se cancela.</li>
+                                <li>Se cobra antes de la realización del piercing/tatuaje.</li>
+                                <li>El pago se hará unica y exclusivamente en efectivo.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

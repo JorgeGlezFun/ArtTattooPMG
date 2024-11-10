@@ -58,21 +58,7 @@ export default function Reservar({ auth, clientes, artistas, horasDisponibles })
                                 <input type="tel" name="telefono" id="telefono" value={telefono} className='inputs' onChange={handleChange} />
                             </div>
                             <div className='filaDos'>
-                                <div className='columnaRadio'>
-                                    <label htmlFor="tipo_reserva">Tipo de reserva: </label>
-                                    <div className='opcionesRadio'>
-                                        <div className='w-full'>
-                                            <input type="radio" name="tipo_reserva" id="tatuaje" value="tatuaje" className='hidden' onChange={() => setTipoReserva('tatuaje')} />
-                                            <label htmlFor="tatuaje" className='opciones'> Tatuaje </label>
-                                        </div>
-                                        <div className='w-full'>
-                                            <input type="radio" name="tipo_reserva" id="piercing" value="piercing" className='hidden' onChange={() => setTipoReserva('piercing')} />
-                                            <label htmlFor="piercing" className='opciones'> Piercing </label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className='columnaTipodeReserva'>
-                                    {tipoReserva === 'tatuaje' && (
                                         <div className='w-full'>
                                             <div className='columnaTatuaje'>
                                                 <div className='divTatuajes'>
@@ -116,39 +102,6 @@ export default function Reservar({ auth, clientes, artistas, horasDisponibles })
                                                 </div>
                                             </div>
                                         </div>
-                                    )}
-                                    {tipoReserva === 'piercing' && (
-                                        <div className='columnaPiercing'>
-                                            <label htmlFor="tipo_piercing">Tipo de piercing: </label>
-                                            <select name="tipo_piercing" id="tipo_piercing" className='listaPiercings' value={tipoPiercing} onChange={e => setTipoPiercing(e.target.value)}>
-                                                <optgroup label='Oreja'>
-                                                    <option value="Helix">Helix</option>
-                                                    <option value="Lóbulo">Lóbulo</option>
-                                                    <option value="Lóbulo alto">Lóbulo alto</option>
-                                                    <option value="Industrial">Industrial</option>
-                                                    <option value="Tragus">Tragus</option>
-                                                    <option value="Daith">Daith</option>
-                                                    <option value="Conch">Conch</option>
-                                                </optgroup>
-                                                <optgroup label='Nariz'>
-                                                    <option value="Nostril">Nostril</option>
-                                                    <option value="Septum">Septum</option>
-                                                </optgroup>
-                                                <optgroup label='Boca'>
-                                                    <option value="Lengua clásico">Lengua clásico</option>
-                                                    <option value="Medusa">Medusa</option>
-                                                    <option value="Ashley">Ashley</option>
-                                                    <option value="Labret vertical">Labret vertical</option>
-                                                    <option value="Monroe">Monroe</option>
-                                                    <option value="Madonna">Madonna</option>
-                                                    <option value="Side labret">Side labret</option>
-                                                </optgroup>
-                                                <optgroup label='Ceja'>
-                                                    <option value="Ceja">Ceja</option>
-                                                </optgroup>
-                                            </select>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                             <div className='filaUno'>

@@ -28,7 +28,7 @@ export default function DragAndDrop() {
               <img src={file.preview} className='w-48 h-48' alt="preview" />
             </div>
             <div>
-              {file.path} - {file.size} bytes
+              {file.path} .- {file.size} bytes
             </div>
           </div>
         )}
