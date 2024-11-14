@@ -424,10 +424,7 @@ html {
 }
 
 .contenedorFormulario {
-    @apply
-    flex-col
-
-    3xl:flex-row
+    @apply flex flex-col 2xl:flex-row
 }
 
 .formulario {
@@ -436,11 +433,16 @@ html {
     flex flex-col justify-start items-start p-4 w-full
 
     2xl:h-auto
+
 }
 
-.filaUno {
-    @apply flex flex-col w-full my-2 space-y-4
-    xl:flex-row xl:space-x-4 xl:space-y-0
+.filaUn {
+    @apply flex flex-col w-full items-center justify-start
+    xl:flex-row xl:space-y-0
+}
+
+.filaFecha {
+    @apply flex flex-row w-full items-center justify-start
 }
 
 .columnaNombre {
@@ -452,7 +454,7 @@ html {
 }
 
 .columnas {
-    @apply flex flex-col w-full my-2
+    @apply flex flex-col w-full
 }
 
 .inputs {
@@ -460,7 +462,7 @@ html {
 }
 
 .filaDos {
-    @apply flex flex-col w-full h-auto my-2
+    @apply flex flex-row w-full h-auto my-2
 }
 
 .opciones {
@@ -471,7 +473,7 @@ html {
 }
 
 .columnaTipodeReserva {
-    @apply flex w-full justify-center items-center my-2 flex-row
+    @apply flex w-full justify-center items-center my-2 flex-col
 }
 
 .columnaTatuaje {

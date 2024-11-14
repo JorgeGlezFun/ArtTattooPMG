@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '@/Components/Componentes-ATP/Header';
+import Footer from '@/Components/Componentes-ATP/Footer';
 
 const Index = ({ reservas }) => {
   return (

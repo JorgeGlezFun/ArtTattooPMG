@@ -14,6 +14,7 @@ const Create = ({ auth, artistas }) => {
     const correo = auth.user ? auth.user.email : '';
     const telefono = auth.user ? auth.user.email : '';
 
+
     const { data, setData, post, processing, errors } = useForm({
         cliente: {
             nombre: '',
@@ -37,18 +38,20 @@ const Create = ({ auth, artistas }) => {
         duracion: ''
     });
 
-    // const [tatuajeOptions, setTatuajeOptions] = useState({
-    //     tamano: '',
-    //     relleno: '',
-    //     color: '',
-    //     zona: ''
-    // });
+    const [tatuajeOptions, setTatuajeOptions] = useState({
+        tamano: '',
+        relleno: '',
+        color: '',
+        zona: ''
+    });
+
+    console.log(tatuajeOptions);
 
     const [availableHours, setAvailableHours] = useState([]);
 
     useEffect(() => {
         calcularTiempoTatuaje();
-    }, [data.tatuaje.tamano, data.tatuaje.color, data.tatuaje.relleno]);
+    }, [tatuajeOptions.tamano, tatuajeOptions.color, tatuajeOptions.relleno, tatuajeOptions.zona]);
 
     useEffect(() => {
         if (data.fecha) {
@@ -72,11 +75,11 @@ const Create = ({ auth, artistas }) => {
         }
     };
 
-    // const handleTatuajeOptionsChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setTatuajeOptions({ ...tatuajeOptions, [name]: value });
-    //     calcularPrecioTatuaje({ ...tatuajeOptions, [name]: value });
-    // };
+    const handleTatuajeOptionsChange = (e) => {
+        const { name, value } = e.target;
+        setTatuajeOptions({ ...tatuajeOptions, [name]: value });
+        calcularPrecioTatuaje({ ...tatuajeOptions, [name]: value });
+    };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -113,7 +116,7 @@ const Create = ({ auth, artistas }) => {
     const calcularTiempoTatuaje = () => {
         let tiempo = 0;
 
-        switch (data.tatuaje.tamano) {
+        switch (tatuajeOptions.tamano) {
             case 'Grande':
                 tiempo += 180; // 3 horas en minutos
                 break;
@@ -127,15 +130,21 @@ const Create = ({ auth, artistas }) => {
                 break;
         }
 
-        if (data.tatuaje.color === 'A color') {
+        if (tatuajeOptions.color === 'A color') {
             tiempo += 30;
         }
 
-        if (data.tatuaje.relleno === 'Con relleno') {
+        if (tatuajeOptions.relleno === 'Con relleno') {
             tiempo += 30;
         }
 
-        setData('tatuaje', { ...data.tatuaje, tiempo });
+        setData('tatuaje', {
+            ...data.tatuaje, tiempo,
+            tamano: tatuajeOptions.tamano,
+            relleno: tatuajeOptions.relleno,
+            color: tatuajeOptions.color,
+            zona: tatuajeOptions.zona
+        });
     };
 
     const verificarDisponibilidad = (fecha) => {
@@ -181,7 +190,9 @@ const Create = ({ auth, artistas }) => {
             console.log('¿horaFinString:', horaFinStringTatuaje, 'es menor que las 21:30?', horaFinStringTatuaje < '21:30');
 
             console.log('¿Se cumple el primer if?', (minutosTotalesInicio <= horaReservaMinima) && ((minutosTotalesFinTatuaje >= horaReservaMinima)));
-            console.log('¿Se cumple el segundo if?', (['11:30', '12:30', '13:30'].includes(data.hora_inicio) && (horaFinStringTatuaje > '14:30' || horaFinStringTatuaje < '21:30')))
+            console.log('¿Se cumple el segundo if?', (['11:30', '12:30', '13:30'].includes(data.hora_inicio) && (horaFinStringTatuaje > '14:30' || horaFinStringTatuaje < '21:30')));
+
+            console.log(data.tatuaje.tamano, data.tatuaje.color, data.tatuaje.relleno, data.tatuaje.zona);
 
             if ((minutosTotalesInicio <= horaReservaMinima) && (minutosTotalesFinTatuaje >= horaReservaMinima)) {
                 setData(prevState => ({
@@ -277,7 +288,7 @@ const Create = ({ auth, artistas }) => {
             <Header user={auth.user} />
             <div className='main'>
                 <div className="contenedorReserva">
-                    <div className='contenedorFormulario'>
+                    <div className='flex flex-col 2xl:flex-row'>
                         <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
                             <h1 className="titulo">Reserva tu cita</h1>
                             <hr className="separadorFormulario"/>
@@ -317,7 +328,7 @@ const Create = ({ auth, artistas }) => {
                                 <div className='columnaTatuaje'>
                                     <div className='divTatuajes'>
                                         <label>Tamaño:</label>
-                                        <select className='listaTatuajes' name="tamano" value={data.tatuaje.tamano} onChange={handleChange}>
+                                        <select className='listaTatuajes' name="tamano" value={tatuajeOptions.tamano} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar tamaño</option>
                                             <option value="Grande">Grande</option>
                                             <option value="Mediano">Mediano</option>
@@ -326,7 +337,7 @@ const Create = ({ auth, artistas }) => {
                                     </div>
                                     <div className='divTatuajes'>
                                         <label>Relleno:</label>
-                                        <select className='listaTatuajes' name="relleno" value={data.tatuaje.relleno} onChange={handleChange}>
+                                        <select className='listaTatuajes' name="relleno" value={tatuajeOptions.relleno} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar relleno</option>
                                             <option value="Con relleno">Con relleno</option>
                                             <option value="Sin relleno">Sin relleno</option>
@@ -334,7 +345,7 @@ const Create = ({ auth, artistas }) => {
                                     </div>
                                     <div className='divTatuajes'>
                                         <label>Color:</label>
-                                        <select className='listaTatuajes' name="color" value={data.tatuaje.color} onChange={handleChange}>
+                                        <select className='listaTatuajes' name="color" value={tatuajeOptions.color} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar color</option>
                                             <option value="A color">A color</option>
                                             <option value="Blanco y negro">Blanco y negro</option>
@@ -342,7 +353,7 @@ const Create = ({ auth, artistas }) => {
                                     </div>
                                     <div className='divTatuajes'>
                                         <label>Zona del cuerpo:</label>
-                                        <select className='listaTatuajes' name="zona" value={data.tatuaje.zona} onChange={handleChange}>
+                                        <select className='listaTatuajes' name="zona" value={tatuajeOptions.zona} onChange={handleTatuajeOptionsChange}>
                                             <option value="">Seleccionar zona</option>
                                             <option value="Brazo">Brazo</option>
                                             <option value="Pierna">Pierna</option>
@@ -360,41 +371,45 @@ const Create = ({ auth, artistas }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='columnas'>
+                            {/* <div className='columnas'>
                                 <label>Imagen de referencia:</label>
                                 <input className='inputs' type="file" name="tatuaje.ruta_imagen" onChange={handleFileChange} />
                                 {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
-                            </div>
-                            <div className='columnas'>
-                                <label>Precio Estimado:</label>
-                                <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
-                            </div>
-                            <div className='filaUno'>
-                                <div className='columnas'>
-                                    <label>Fecha:</label>
-                                    <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
-                                    {errors.fecha && <div>{errors.fecha}</div>}
+                            </div> */}
+                            <div className='w-full flex flex-col xl:space-x-0'>
+                                <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
+                                    <div className='columnas'>
+                                        <label>Fecha:</label>
+                                        <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
+                                        {errors.fecha && <div>{errors.fecha}</div>}
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Hora Inicio:</label>
+                                        <select className='inputs' name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
+                                            <option value="">Seleccionar hora de inicio</option>
+                                            {availableHours.map(hora => (
+                                                <option key={hora} value={hora}>{hora}</option>
+                                            ))}
+                                        </select>
+                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Hora Fin:</label>
+                                        <input className='inputs' type="text" name="hora_fin" value={data.hora_fin} readOnly />
+                                        {errors.hora_fin && <div>{errors.hora_fin}</div>}
+                                    </div>
                                 </div>
-                                <div className='columnas'>
-                                    <label>Hora Inicio:</label>
-                                    <select name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
-                                        <option value="">Seleccionar hora de inicio</option>
-                                        {availableHours.map(hora => (
-                                            <option key={hora} value={hora}>{hora}</option>
-                                        ))}
-                                    </select>
-                                    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
+                                    <div className='columnas'>
+                                        <label>Precio Estimado:</label>
+                                        <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
+                                    </div>
+                                    <div className='columnas'>
+                                        <label>Duracion estimada:</label>
+                                        <input className='inputs' type="text" name="duracion" value={data.duracion} readOnly />
+                                        {errors.duracion && <div>{errors.duracion}</div>}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='columnas'>
-                                <label>Hora Fin:</label>
-                                <input className='inputs' type="text" name="hora_fin" value={data.hora_fin} readOnly />
-                                {errors.hora_fin && <div>{errors.hora_fin}</div>}
-                            </div>
-                            <div className='columnas'>
-                                <label>Duracion estimada:</label>
-                                <input className='inputs' type="text" name="duracion" value={data.duracion} readOnly />
-                                {errors.duracion && <div>{errors.duracion}</div>}
                             </div>
                             <button type="submit" disabled={processing} className='botonFormulario'>Reservar</button>
                         </form>
@@ -413,7 +428,7 @@ const Create = ({ auth, artistas }) => {
                                     allowFullScreen=""
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
-                                    className='w-full h-96'
+                                    className='w-full h-96 2xl:h-[43.8rem] 3xl:h-[45.8rem]'
                                 />
                             </div>
                         </div>
@@ -423,7 +438,7 @@ const Create = ({ auth, artistas }) => {
                             <h1 className='titulo'>Normas de la reserva</h1>
                             <hr className="separadorFormulario"/>
                             <ul className='listaNormas'>
-                                <li>Se deberá dar una señal del 40% del valor del tatuaje/piercing a realizar.</li>
+                                <li>Se deberá dar una señal del 40% del valor del tatuaje a realizar.</li>
                                 <li>El pago se puede hacer a traves de la página web o por Bizum al siguiente numero: 687 81 76 83</li>
                                 <li>En caso de cancelacion de la cita, la señal se perderá.</li>
                                 <li>La cita puede ser aplazada o modificada una sola vez siempre que se haya avisado con al menos 24 horas de antelación.</li>
@@ -433,10 +448,10 @@ const Create = ({ auth, artistas }) => {
                                 <li>Nos encontramos en Avda. Cangas 79, para entrar llamas a la puerta y esperar a ser atendido.</li>
                                 <li>No puedes venir con un acompañante.</li>
                                 <li>En caso de ser menor de edad, debes venir acompañado de uno de tus padres o tutor legal para firmar el consentimiento.</li>
-                                <li>Si eres menor y no te acompaña ninguno de tus padres o tutor legal, no se realizara el piercing/tatuaje y se perderá tanto la señal como la cita.</li>
+                                <li>Si eres menor y no te acompaña ninguno de tus padres o tutor legal, no se realizara el tatuaje y se perderá tanto la señal como la cita.</li>
                                 <li>No se permiten niños.</li>
                                 <li>Se ruega puntualidad. Si el retraso es mayor a 20 minutos, la cita se cancela.</li>
-                                <li>Se cobra antes de la realización del piercing/tatuaje.</li>
+                                <li>Se cobra antes de la realización del tatuaje.</li>
                                 <li>El pago se hará unica y exclusivamente en efectivo.</li>
                             </ul>
                         </div>
