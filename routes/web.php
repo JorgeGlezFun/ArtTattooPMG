@@ -51,6 +51,14 @@ Route::get('/reservar', function () {
     return Inertia::render('Reservar');
 })->name('reservar');
 
+Route::get('/admin', function () {
+    return Inertia::render('Admin');
+})->name('admin');
+
+Route::get('/admin/reservar', function () {
+    return Inertia::render('AdminReservar');
+})->name('adminreservar');
+
 Route::resource('reservas', ReservaController::class);
 
 Route::get('/dashboard', function () {

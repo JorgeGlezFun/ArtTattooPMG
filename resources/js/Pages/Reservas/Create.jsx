@@ -374,16 +374,6 @@ const Create = ({ auth, artistas }) => {
                                         <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
                                         {errors.fecha && <div>{errors.fecha}</div>}
                                     </div>
-                                    {/* <div className='columnas'>
-                                        <label>Hora Inicio:</label>
-                                        <select className='inputs' name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
-                                            <option value="">Seleccionar hora de inicio</option>
-                                            {availableHours.map(hora => (
-                                                <option key={hora} value={hora}>{hora}</option>
-                                            ))}
-                                        </select>
-                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-                                    </div> */}
                                     <div className='columnas'>
                                         <label>Hora Inicio:</label>
                                         <select className='inputs' name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
@@ -458,7 +448,7 @@ const Create = ({ auth, artistas }) => {
                                 <li>En caso de ser menor de edad, debes venir acompañado de uno de tus padres o tutor legal para firmar el consentimiento.</li>
                                 <li>Si eres menor y no te acompaña ninguno de tus padres o tutor legal, no se realizara el tatuaje y se perderá tanto la señal como la cita.</li>
                                 <li>No se permiten niños.</li>
-                                <li>Se ruega puntualidad. Si el retraso es mayor a 20 minutos, la cita se cancela.</li>
+                                <li>Se ruega puntualidad. Si el retraso es mayor a 20 minutos, la cita se cancela y se pierde la señal.</li>
                                 <li>Se cobra antes de la realización del tatuaje.</li>
                                 <li>El pago se hará unica y exclusivamente en efectivo.</li>
                             </ul>

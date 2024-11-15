@@ -41,7 +41,7 @@ html {
 }
 
 .linkNavResponsive {
-    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 border-transparent text-[#efb810] hover:text-black hover:bg-[#efb810] focus:text-black focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out
+    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 border-transparent text-[#efb810] hover:text-black hover:bg-[#efb810] focus:text-black focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out;
 }
 
 .linkNavResponsiveActivo {
@@ -60,9 +60,58 @@ html {
     @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-20 h-20 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
 }
 
+/* Estilos Header Admin */
+.navegadorAdmin {
+    @apply bg-[#efb810] text-xl text-black;
+}
+
+.contenedorXLAdmin {
+    @apply flex h-20 justify-center xl:justify-between px-4 xl:px-0;
+}
+
+.contenedorLogoAdmin {
+    @apply flex-shrink-0 flex ml-[16.5rem] pl-0 md:justify-start md:ml-[20.55rem] lg:ml-[28.5rem] xl:ml-0 xl:pl-4;
+}
+
+.contenedorBotonesNavAdmin {
+    @apply hidden w-full xl:flex xl:justify-end;
+}
+
+.botonUsuarioAdmin {
+    @apply inline-flex items-center justify-center p-2 rounded-md text-black hover:text-[#efb810] hover:bg-black focus:outline-none focus:bg-black focus:text-[#efb810] transition duration-150 ease-in-out;
+}
+
+.linkNavAdmin {
+    @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out text-black bg-[#efb810] hover:bg-black hover:text-[#efb810];
+}
+
+.linkNavActivoAdmin {
+    @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out bg-black text-[#efb810] border-b-4 border-[#efb810];
+}
+
+.linkNavResponsiveAdmin {
+    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 border-transparent text-black hover:text-[#efb810] hover:bg-black focus:text-[#efb810] focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out;
+}
+
+.linkNavResponsiveActivoAdmin {
+    @apply w-full flex items-start justify-center ps-3 pe-4 py-8 text-[#efb810] bg-black focus:text-[#efb810] focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out;
+}
+
+.flechaBotonUsuarioAdmin {
+    @apply h-6 w-6;
+}
+
+.contenedorXSAdmin {
+    @apply flex items-center justify-end ml-auto xl:hidden;
+}
+
+.linkUsuarioAdmin {
+    @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-20 h-20 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
+}
+
 /* Estilos Body */
 .main {
-    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
 }
 
 /* Estilos Inicio */
@@ -115,7 +164,7 @@ html {
 
     @apply text-xl leading-5 w-full
 
-    2xl:w-[50rem]
+    2xl:w-[50rem];
 
 }
 
@@ -130,7 +179,7 @@ html {
     @apply
     flex w-full h-14 bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
 
-    2xl:w-[31.25rem]
+    2xl:w-[31.25rem];
 }
 
 .Logo {
@@ -139,7 +188,7 @@ html {
 
     2xl:mx-auto
 
-    lg:w-[30.938rem]
+    lg:w-[30.938rem];
 }
 
 /* Estilos Sobre Nosotros */
@@ -154,7 +203,7 @@ html {
 
     md:w-[44rem]
 
-    sm:w-[38rem] sm:h-auto
+    sm:w-[38rem] sm:h-auto;
 }
 
 .infoSN {
@@ -165,13 +214,13 @@ html {
 
     md:w-[40rem]
 
-    w-[34rem]
+    w-[34rem];
 }
 
 .contenedor {
     @apply w-full flex flex-col h-auto m-0 mt-8 items-center
 
-    2xl:flex-row
+    2xl:flex-row;
 }
 
 .separadorSN {
@@ -184,12 +233,12 @@ html {
 
     2xl:w-[45.563rem]
 
-    sm:w-full sm:mb-2
+    sm:w-full sm:mb-2;
 }
 
 .logoSN {
     @apply
-    w-[19rem] h-auto ml-auto mr-auto
+    w-[19rem] h-auto ml-auto mr-auto;
 }
 
 .artistaSN {
@@ -198,21 +247,21 @@ html {
 
     2xl:h-auto 2xl:w-[33.16rem] 2xl:ml-auto 2xl:block
 
-    hidden
+    hidden;
 }
 
 .artistaMovilSN {
     @apply
     2xl:hidden
 
-    block m-0
+    block m-0;
 }
 
 .estudioSN {
     @apply
     2xl:ml-auto 2xl:h-auto 2xl:w-[33.16rem]
 
-    sm:m-0 sm:w-full
+    sm:m-0 sm:w-full;
 }
 
 .trabajosSN {
@@ -220,7 +269,7 @@ html {
 
     2xl:block
 
-    hidden
+    hidden;
 }
 
 .trabajoMovilSN {
@@ -228,11 +277,11 @@ html {
 
     block
 
-    2xl:hidden
+    2xl:hidden;
 }
 
 .listaSN {
-    @apply list-disc list-inside text-xl font-normal
+    @apply list-disc list-inside text-xl font-normal;
 }
 
 .listaSN li {
@@ -242,7 +291,7 @@ html {
 
 /* Estilos Galeria */
 .mainGaleria {
-    @apply flex items-center justify-center bg-marmol
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
 }
 
 .contenedorGaleria {
@@ -258,7 +307,7 @@ html {
 
     lg:w-[58rem]
 
-    md:w-[42rem]
+    md:w-[42rem];
 
 }
 
@@ -266,7 +315,7 @@ html {
     @apply
     2xl:w-[83.125rem] h-auto flex-col m-0 mt-10 last:mb-10 p-4
 
-    lg:w-full
+    lg:w-full;
 }
 
 .separadorGaleria {
@@ -275,29 +324,29 @@ html {
 
 .textoGaleria {
     font-family: 'Josefin Slab';
-    @apply text-xl leading-5 w-full py-4
+    @apply text-xl leading-5 w-full py-4;
 }
 
 .contenedorImagenesGaleria {
-    @apply flex w-full items-center justify-center
+    @apply flex w-full items-center justify-center;
 }
 
 .imagenesLightbox {
-    @apply grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4
+    @apply grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4;
 }
 
 .contenedorImagenGaleria {
-    @apply w-fit h-auto border-8 rounded-sm border-[#efb810] m-4
+    @apply w-fit h-auto border-8 rounded-sm border-[#efb810] m-4;
 }
 
 .imagenGaleria {
     @apply
     w-96 grayscale hover:grayscale-0 hover:opacity-100 transition ease-in-out duration-300
-    lg:w-fit lg:h-fit
+    lg:w-fit lg:h-fit;
 }
 
 .contenedorSeleccion{
-    @apply h-full w-full flex flex-row items-start justify-start p-4
+    @apply h-full w-full flex flex-row items-start justify-start p-4;
 }
 
 /* Estilos Lightbox */
@@ -307,38 +356,39 @@ html {
 }
 
 .__react_modal_image__header span:last-child {
-    @apply hidden
+    @apply hidden;
 }
 
 .__react_modal_image__icon_menu {
-    @apply flex flex-row items-center justify-center
+    @apply flex flex-row items-center justify-center;
 }
 
 .__react_modal_image__icon_menu a svg {
-    @apply fill-current text-[#efb810] h-10 w-10
+    @apply fill-current text-[#efb810] h-10 w-10;
 }
 
 .__react_modal_image__modal_content {
-    @apply flex bg-black/20 items-center justify-center
+    @apply flex bg-black/20 items-center justify-center;
 }
 
 .__react_modal_image__medium_img {
-    @apply w-auto h-auto
+    @apply w-auto h-auto;
 
 }
 
 .__react_modal_image__large_img {
-    @apply w-auto h-auto
+    @apply w-auto h-auto;
 }
 
 .__react_modal_image__caption {
-    @apply bg-red-500
+    @apply bg-red-500;
 
 }
 
 /* Estilos Eventos */
 .mainEventos {
-    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
+
 }
 
 
@@ -355,7 +405,7 @@ html {
 
     lg:w-[58rem]
 
-    md:w-[42rem]
+    md:w-[42rem];
 
 }
 
@@ -363,7 +413,7 @@ html {
     @apply
     2xl:w-[83.125rem] h-auto flex-col m-0 mt-10 last:mb-10 p-4
 
-    lg:w-full
+    lg:w-full;
 }
 
 .separadorEventos {
@@ -372,7 +422,7 @@ html {
 
 .textoEventos {
     font-family: 'Josefin Slab';
-    @apply text-xl leading-5 w-full py-4
+    @apply text-xl leading-5 w-full py-4;
 }
 
 .contenedorImagenesEventos {
@@ -384,25 +434,20 @@ html {
 }
 
 .contenedorImagenEvento {
-    @apply w-[25rem] h-[35rem] border-8 rounded-sm border-[#efb810] m-4 bg-[#efb810]/50 relative
-    lg:w-[17.375rem] lg:h-[24.125rem]
-    xl:w-[16.75rem] xl:h-[23.353rem]
-    2xl:w-[20.5rem] 2xl:h-[28.675rem]
+    @apply w-fit h-auto border-8 rounded-sm border-[#efb810] m-4 bg-[#efb810]/50;
 }
 
 .imagenEvento {
-    @apply w-full h-full hover:opacity-0 transition ease-in-out duration-300;
+    @apply
+    w-96 hover:opacity-0 transition ease-in-out duration-300
+    lg:w-fit lg:h-fit;
 }
 
-.nombreImagen {
-    font-family: 'Josefin Slab';
-    @apply absolute inset-0 flex items-center justify-center bg-[#ffd136]/85 font-bold text-5xl lg:text-3xl 2xl:text-5xl text-center opacity-0 hover:opacity-100 transition ease-in-out duration-300;
-}
 
 /* Estilos Reservar */
 
 .mainReserva {
-    @apply flex items-center justify-center bg-marmol min-h-screen
+    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen;
 }
 
 .separadorFormulario {
@@ -428,7 +473,7 @@ html {
 }
 
 .contenedorFormulario {
-    @apply  flex flex-col xl:flex-row
+    @apply flex flex-col 2xl:flex-row;
 }
 
 .formulario {
@@ -436,118 +481,101 @@ html {
 
     flex flex-col justify-start items-start p-4 w-full
 
-    2xl:h-auto
+    2xl:h-auto;
 
 }
 
 .filaUno {
-    @apply flex flex-col w-full my-2 space-y-4
-    xl:flex-row xl:space-x-4 xl:space-y-0
+    @apply flex flex-col w-full items-center justify-start
+    xl:flex-row xl:space-y-0;
+}
+
+.filaFecha {
+    @apply flex flex-row w-full items-center justify-start;
 }
 
 .columnaNombre {
-    @apply flex flex-col w-full
+    @apply flex flex-col w-full;
 }
 
 .columnaApellido {
-    @apply flex flex-col w-full
+    @apply flex flex-col w-full;
 }
 
 .columnas {
-    @apply flex flex-col w-full my-2
+    @apply flex flex-col w-full;
 }
 
 .inputs {
-    @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-black
+    @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-black;
 }
 
 .filaDos {
-
-    @apply flex flex-col w-full h-auto my-2
-}
-
-.columnaRadio {
-    @apply flex flex-col w-full
-}
-
-.opcionesRadio {
-    @apply flex flex-row w-full items-center justify-between my-2 space-x-4
-}
-
-input[type="radio"]:checked + .opciones {
-    @apply bg-yellow-500 text-black transform -translate-y-1 scale-100;
+    @apply flex flex-row w-full h-auto my-2;
 }
 
 .opciones {
     @apply
     flex items-center justify-center bg-black text-yellow-500 w-full h-12 font-bold rounded border-b-4 border-[#efb810] transition-all duration-500 ease-in-out transform hover:bg-yellow-500 hover:text-black
 
-    2xl:hover:-translate-y-1 2xl:hover:scale-100
+    2xl:hover:-translate-y-1 2xl:hover:scale-100;
 }
 
 .columnaTipodeReserva {
-    @apply flex w-full justify-center items-center my-2
+    @apply flex w-full justify-center items-center my-2 flex-col;
 }
 
 .columnaTatuaje {
     @apply flex flex-col w-full my-2 space-y-4
-    xl:flex-row xl:space-x-12 xl:space-y-0
+    xl:flex-row xl:space-x-12 xl:space-y-0;
 }
 
 .divTatuajes {
-    @apply flex flex-col w-full
-}
-
-.columnaPiercing {
-    @apply flex flex-col w-full my-2
+    @apply flex flex-col w-full;
 }
 
 .listaTatuajes {
-    @apply w-auto bg-white border-b-2 border-b-[#efb810] border-black
-}
-
-.listaPiercings {
-    @apply w-full border-b-2 border-b-[#efb810] border-black
+    @apply w-auto bg-white border-b-2 border-b-[#efb810] border-black;
 }
 
 .columnaDragandDrop {
-    @apply my-2
+    @apply my-2;
 }
 
 .botonFormulario {
-    @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center mt-2 transition duration-500 hover:bg-[#efb810] hover:text-black
+    @apply flex w-full h-14 bg-black text-[#efb810] justify-center items-center mt-2 transition duration-500 hover:bg-[#efb810] hover:text-black;
 }
 
 .contenedorContactos {
-    @apply h-auto w-full p-4
+    @apply h-auto w-full p-4;
 }
 
 .botonContacto {
-    @apply flex w-fit h-fit p-4 bg-[#efb810] justify-start items-center mt-2 transition duration-500 hover:bg-black hover:text-[#efb810]
+    @apply flex w-full h-fit p-4 bg-[#efb810] justify-start items-center mt-2 transition duration-500 hover:bg-black hover:text-[#efb810];
 }
 
 .contenedorMapa {
-    @apply h-auto w-full p-4
+    @apply h-auto w-full p-4;
 }
 
 .contenedorNormas {
     @apply
-    flex flex-col p-4 w-full
+    flex flex-col p-4 w-full;
 }
 
 .listaNormas {
     font-family: 'Josefin Slab';
-    @apply list-disc list-inside text-xl font-normal
+    @apply list-disc list-inside text-xl font-normal;
 }
 
 .contenedorNormas {
     @apply
-    flex flex-col p-4 w-full
+    flex flex-col p-4 w-full;
 }
 
 .listaNormas {
     font-family: 'Josefin Slab';
-    @apply list-disc list-inside text-xl font-normal
+    @apply list-disc list-inside text-xl font-normal;
 }
 
 /* Estilos Footer */

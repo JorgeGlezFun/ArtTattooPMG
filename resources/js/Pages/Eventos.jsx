@@ -8,7 +8,7 @@ export default function Eventos({ auth }) {
 
     return (
         <>
-            <Head title="ArtTattooPMG - Eventos " />
+            <Head title="Eventos" />
             <Header user={auth.user} />
             <div className='mainEventos'>
                 <div className="contenedorEventos">
