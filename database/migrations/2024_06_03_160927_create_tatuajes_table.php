@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('ruta_imagen');
             $table->string('tamano');
             $table->string('color');
-            $table->string('tipo');
+            $table->string('relleno');
             $table->string('zona');
             $table->integer('precio');
             $table->timestamps();

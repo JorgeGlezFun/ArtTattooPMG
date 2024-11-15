@@ -45,7 +45,7 @@ const Create = ({ auth, artistas }) => {
         zona: ''
     });
 
-    console.log(tatuajeOptions);
+    console.log(data.tatuaje);
 
     const [availableHours, setAvailableHours] = useState([]);
 
@@ -152,8 +152,6 @@ const Create = ({ auth, artistas }) => {
             return;
         }
 
-        console.log((!data.hora_inicio || !data.tatuaje.tiempo));
-
         axios.get('/api/ultima-hora-fin', {
             params: { fecha: fecha },
         })
@@ -178,21 +176,6 @@ const Create = ({ auth, artistas }) => {
             const horaFinStringTatuaje = horaFinTatuaje.toTimeString().slice(0, 5);
 
             let horaReservaMinima = minutosTotales == [] ? 0 : Math.min(...minutosTotales);
-
-            console.log('La hora de inicio es: ', minutosTotalesInicio);
-            console.log('La hora de reserva minima es: ', horaReservaMinima);
-            console.log('La hora de fin del tatuaje es: ', minutosTotalesFinTatuaje);
-
-            console.log('Los minutos totales de inicio: ', minutosTotalesInicio, 'son menores o iguales a la hora de reserva minima: ', horaReservaMinima);
-            console.log('Los minutos totales de fin del tatuaje: ', minutosTotalesFinTatuaje, 'son mayores o iguales a la hora de reserva minima: ', horaReservaMinima);
-
-            console.log('¿horaFinString:', horaFinStringTatuaje, 'es mayor que las 14:30?', horaFinStringTatuaje > '14:30');
-            console.log('¿horaFinString:', horaFinStringTatuaje, 'es menor que las 21:30?', horaFinStringTatuaje < '21:30');
-
-            console.log('¿Se cumple el primer if?', (minutosTotalesInicio <= horaReservaMinima) && ((minutosTotalesFinTatuaje >= horaReservaMinima)));
-            console.log('¿Se cumple el segundo if?', (['11:30', '12:30', '13:30'].includes(data.hora_inicio) && (horaFinStringTatuaje > '14:30' || horaFinStringTatuaje < '21:30')));
-
-            console.log(data.tatuaje.tamano, data.tatuaje.color, data.tatuaje.relleno, data.tatuaje.zona);
 
             if ((minutosTotalesInicio <= horaReservaMinima) && (minutosTotalesFinTatuaje >= horaReservaMinima)) {
                 setData(prevState => ({
@@ -251,7 +234,15 @@ const Create = ({ auth, artistas }) => {
                 }
             });
 
-            setAvailableHours(horasDisponibles);
+            if (horasDisponibles.length === 0) {
+
+                setAvailableHours("No hay horas disponibles");
+
+            } else {
+
+                setAvailableHours(horasDisponibles);
+
+            }
         })
 
         .catch(error => {
@@ -383,7 +374,7 @@ const Create = ({ auth, artistas }) => {
                                         <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
                                         {errors.fecha && <div>{errors.fecha}</div>}
                                     </div>
-                                    <div className='columnas'>
+                                    {/* <div className='columnas'>
                                         <label>Hora Inicio:</label>
                                         <select className='inputs' name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
                                             <option value="">Seleccionar hora de inicio</option>
@@ -392,17 +383,34 @@ const Create = ({ auth, artistas }) => {
                                             ))}
                                         </select>
                                         {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                    </div> */}
+                                    <div className='columnas'>
+                                        <label>Hora Inicio:</label>
+                                        <select className='inputs' name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
+                                            {Array.isArray(availableHours) && availableHours.length > 0 ? (
+                                                <>
+                                                    <option value="">Seleccionar hora de inicio</option>
+                                                    {availableHours.map(hora => (
+                                                        <option key={hora} value={hora}>{hora}</option>
+                                                    ))}
+                                                </>
+                                            ) : (
+                                                <option value="" disabled>No hay horas disponibles</option> // Opción deshabilitada si no hay horas
+                                            )}
+                                        </select>
+                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
                                     </div>
+                                    <div className='columnas'>
+                                        <label>Precio Estimado:</label>
+                                        <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
+                                    </div>
+                                </div>
+                                <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
+
                                     <div className='columnas'>
                                         <label>Hora Fin:</label>
                                         <input className='inputs' type="text" name="hora_fin" value={data.hora_fin} readOnly />
                                         {errors.hora_fin && <div>{errors.hora_fin}</div>}
-                                    </div>
-                                </div>
-                                <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
-                                    <div className='columnas'>
-                                        <label>Precio Estimado:</label>
-                                        <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
                                     </div>
                                     <div className='columnas'>
                                         <label>Duracion estimada:</label>

@@ -46,10 +46,10 @@ class ReservaController extends Controller
             'artista_id' => 'required|exists:artistas,id',
             'tatuaje.ruta_imagen' => 'mimes:jpg,png,jpeg',
             'tatuaje.precio' => 'integer',
-            'tatuaje.zona' => 'required|string|max:255',
-            'tatuaje.color' => 'required|string|max:255',
-            'tatuaje.tamano' => 'required|string|max:255',
-            'tatuaje.tipo' => 'required|string|max:255',
+            'tatuaje.tamano' => 'string|max:255',
+            'tatuaje.color' => 'string|max:255',
+            'tatuaje.relleno' => 'string|max:255',
+            'tatuaje.zona' => 'string|max:255',
             'fecha' => 'required|date',
             'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
             'hora_fin' => 'required',
@@ -80,7 +80,6 @@ class ReservaController extends Controller
 
             $imagen = $request->file('tatuaje.ruta_imagen');
 
-
             // Obtener el número total de tatuajes
             $totalTatuajes = Tatuaje::count();
             $nuevoNumero = $totalTatuajes + 1;
@@ -106,10 +105,10 @@ class ReservaController extends Controller
                 'artista_id' => $validated['artista_id'],
                 'ruta_imagen' => 'uploads/tatuajes/' . $nombreImagen,
                 'precio' => $validated['tatuaje']['precio'],
-                'zona' => $validated['tatuaje']['zona'],
-                'tipo' => $validated['tatuaje']['tipo'],
                 'tamano' => $validated['tatuaje']['tamano'],
                 'color' => $validated['tatuaje']['color'],
+                'relleno' => $validated['tatuaje']['relleno'],
+                'zona' => $validated['tatuaje']['zona'],
             ]);
         }
 

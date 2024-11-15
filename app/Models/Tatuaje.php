@@ -14,7 +14,7 @@ class Tatuaje extends Model
         'zona',
         'color',
         'tamano',
-        'tipo',
+        'relleno',
         'ruta_imagen',
         'artista_id',
 
