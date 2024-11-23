@@ -134,7 +134,9 @@ class ReservaController extends Controller
             'duracion' => $validated['duracion']
         ]);
 
-        return redirect()->route('reservas.create')->with('success', 'Reserva creada con éxito.');
+        session()->flash('message', 'La reserva se ha producido correctamente.');
+
+        return redirect('reservas/create')->with('flashMessage', session('message'));
     }
 
 

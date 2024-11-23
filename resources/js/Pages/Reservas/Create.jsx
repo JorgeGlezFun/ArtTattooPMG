@@ -7,6 +7,8 @@ import axios from 'axios';
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
 import { Head } from '@inertiajs/react';
+import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
+import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
 const Create = ({ auth, artistas }) => {
     const nombre = auth.user ? auth.user.nombre : '';
@@ -34,8 +36,8 @@ const Create = ({ auth, artistas }) => {
         },
         fecha: '',
         hora_inicio: '',
-        hora_fin: '',
-        duracion: ''
+        hora_fin: 'No hay ninguna hora marcada',
+        duracion: 'No hay ninguna hora marcada'
     });
 
     const [tatuajeOptions, setTatuajeOptions] = useState({
@@ -44,6 +46,9 @@ const Create = ({ auth, artistas }) => {
         color: '',
         zona: ''
     });
+
+    const [imagenPreview, setImagePreviewUrl] = useState(null);
+
 
     console.log(data.tatuaje);
 
@@ -59,14 +64,9 @@ const Create = ({ auth, artistas }) => {
         }
     }, [data.hora_inicio, data.tatuaje.tiempo, data.fecha]);
 
-    useEffect(() => {
-        if (data.fecha) {
-            fetchHorasDisponibles(data.fecha);
-        }
-    }, [data.fecha]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log(e.target);
         const [parent, key] = name.split('.');
         if (key) {
             setData(parent, { ...data[parent], [key]: value });
@@ -74,6 +74,39 @@ const Create = ({ auth, artistas }) => {
             setData(name, value);
         }
     };
+
+    const handleCalendarChange = (newDate) => {
+
+        // Crea un nuevo objeto Date a partir de la fecha seleccionada
+
+        const date = new Date(newDate);
+
+
+        // Ajusta la fecha a la zona horaria local
+
+        const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+
+
+        // Formatea la fecha a 'YYYY-MM-DD'
+
+        let p = localDate.toISOString().split('T')[0];
+
+        console.log(p);
+
+
+
+        // Establece la fecha seleccionada
+
+        setData('fecha', p);
+
+    };
+
+    useEffect(() => {
+        if (data.fecha) {
+            fetchHorasDisponibles(data.fecha);
+        }
+    }, [data.fecha]);
 
     const handleTatuajeOptionsChange = (e) => {
         const { name, value } = e.target;
@@ -83,8 +116,19 @@ const Create = ({ auth, artistas }) => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
+        console.log(file); // Aquí puedes ver el archivo en la consola
+        if (file) {
+            // Establecer la vista previa de la imagen
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreviewUrl(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+        // Actualizar el estado con el archivo seleccionado
         setData('tatuaje', { ...data.tatuaje, ruta_imagen: file });
     };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -187,7 +231,7 @@ const Create = ({ auth, artistas }) => {
                 if ((['11:30', '12:30', '13:30'].includes(data.hora_inicio) && horaFinStringTatuaje > '14:30') || horaFinStringTatuaje > '21:30') {
                     setData(prevState => ({
                         ...prevState,
-                        hora_fin: 'La hora a la que se termina el tatuaje sobrepasa el horario permitido.',
+                        hora_fin: 'La hora final supera al horario permitido.',
                         duracion: 'La duración de la reserva es excesiva.'
                     }));
                 } else {
@@ -234,50 +278,55 @@ const Create = ({ auth, artistas }) => {
                 }
             });
 
-            if (horasDisponibles.length === 0) {
-
-                setAvailableHours("No hay horas disponibles");
-
-            } else {
-
-                setAvailableHours(horasDisponibles);
-
-            }
+            setAvailableHours(horasDisponibles);
         })
 
-        .catch(error => {
-            console.error("Error recogiendo las horas disponibles", error);
-            setAvailableHours("No hay horas disponibles");
-        });
+        // .catch(error => {
+        //     console.error("Error recogiendo las horas disponibles", error);
+        //     setAvailableHours("No hay horas disponibles");
+        // });
     };
 
-    const desactivarDiasInvalidos = (e) => {
-        const dateInput = e.target;
-        const today = new Date();
-        const minDate = new Date(today);
-        minDate.setDate(today.getDate() + 2);
+    // const desactivarDiasInvalidos = (e) => {
+    //     console.log(e.target);
+    //     const dateInput = e.target;
+    //     const today = new Date();
+    //     const minDate = new Date(today);
+    //     minDate.setDate(today.getDate() + 2);
 
-        dateInput.min = minDate.toISOString().split('T')[0];
+    //     dateInput.min = minDate.toISOString().split('T')[0];
 
-        const saturday = 6;
-        const sunday = 0;
+    //     const saturday = 6;
+    //     const sunday = 0;
 
-        dateInput.addEventListener('input', function (e) {
-            const selectedDate = new Date(e.target.value);
-            const day = selectedDate.getDay();
-            if (day === saturday || day === sunday || selectedDate < minDate) {
-                e.target.setCustomValidity('No se pueden seleccionar sábados, domingos o fechas con menos de 2 días de antelación.');
-            } else {
-                e.target.setCustomValidity('');
-            }
-        });
-    };
+    //     dateInput.addEventListener('input', function (e) {
+    //         const selectedDate = new Date(e.target.value);
+    //         const day = selectedDate.getDay();
+    //         if (day === saturday || day === sunday || selectedDate < minDate) {
+    //             e.target.setCustomValidity('No se pueden seleccionar sábados, domingos o fechas con menos de 2 días de antelación.');
+    //         } else {
+    //             e.target.setCustomValidity('');
+    //         }
+    //     });
+    //     console.log('Esta es la fecha que devuelve el calendario sin desplegar: ', dateInput.value);
+    // };
+
+
+    // Simulando la obtención de un mensaje flash (esto debería ser reemplazado por la lógica real)
+
+    const message = window.sessionStorage.getItem('flashMessage');
+
+    // Limpiar el mensaje de la sesión después de mostrarlo
+    if (message) {
+        window.sessionStorage.removeItem('flashMessage');
+    }
 
     return (
         <>
             <Head title="Reservas" />
             <Header user={auth.user} />
             <div className='main'>
+                <MensajeFlash message={message} />
                 <div className="contenedorReserva">
                     <div className='flex flex-col 2xl:flex-row'>
                         <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
@@ -355,56 +404,206 @@ const Create = ({ auth, artistas }) => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className='columnaDragandDrop'>
-                                    <label htmlFor="">Diseño del tatuaje:</label>
+                                {/* <div className='columnaDragandDrop'>
+                                    <label>Diseño del tatuaje:</label>
                                     <div className='w-full h-auto p-4'>
-                                        <DragandDrop />
+                                        <DragandDrop name='ruta_imagen' value={data.tatuaje.ruta_imagen} onChange={handleFileChange}/>
                                     </div>
+                                </div> */}
+                            </div>
+                            <div className='columnas'>
+                                <label>Imagen de referencia:</label>
+                                <div className='divInputImagen'>
+                                    <label className='inputImagen'>
+                                        {!imagenPreview && (
+                                        <span>Haz click aquí para subir una imagen</span>
+                                        )}
+
+                                        <input className='inputImagen' type="file" accept='image/*'name="ruta_imagen" onChange={handleFileChange} />
+                                        {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
+                                        {imagenPreview && (
+                                            <div>
+                                                <img src={imagenPreview} alt="Diseño del tatuaje" className='previewImagen' />
+                                            </div>
+                                            )}
+                                    </label>
                                 </div>
                             </div>
-                            {/* <div className='columnas'>
-                                <label>Imagen de referencia:</label>
-                                <input className='inputs' type="file" name="tatuaje.ruta_imagen" onChange={handleFileChange} />
-                                {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
-                            </div> */}
                             <div className='w-full flex flex-col xl:space-x-0'>
                                 <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
                                     <div className='columnas'>
-                                        <label>Fecha:</label>
+                                        {/* <label>Fecha:</label>
                                         <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
-                                        {errors.fecha && <div>{errors.fecha}</div>}
+                                        {errors.fecha && <div>{errors.fecha}</div>} */}
+                                        <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
-                                    <div className='columnas'>
+                                    {/* <div className='columnas'>
                                         <label>Hora Inicio:</label>
                                         <select className='inputs' name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
                                             {Array.isArray(availableHours) && availableHours.length > 0 ? (
                                                 <>
-                                                    <option value="">Seleccionar hora de inicio</option>
                                                     {availableHours.map(hora => (
                                                         <option key={hora} value={hora}>{hora}</option>
                                                     ))}
                                                 </>
                                             ) : (
-                                                <option value="" disabled>No hay horas disponibles</option> // Opción deshabilitada si no hay horas
+                                                <option disabled>No hay horas disponibles</option> // Opción deshabilitada si no hay horas
                                             )}
                                         </select>
                                         {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                    </div> */}
+                                    <div className='columnas'>
+                                        <label>Hora Inicio:</label>
+                                        <div className='w-full flex flex-row space-x-2'>
+                                            {/* {Array.isArray(availableHours) && availableHours.length > 0 ? (
+                                                <>
+                                                    {availableHours.reduce((acc, hora, index) => {
+                                                        // Agrupar las horas en subarreglos de 3
+                                                        if (index % 3 === 0) acc.push([]); // Crear un nuevo grupo
+                                                        acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
+                                                        return acc;
+                                                    }, []).map((group, groupIndex) => (
+                                                        <div key={groupIndex} className='w-full'>
+                                                            {group.map(hora => (
+                                                                <div key={hora}>
+                                                                    <label className='opcion'>
+                                                                        <input
+                                                                            type="radio"
+                                                                            name="hora_inicio"
+                                                                            value={hora}
+                                                                            checked={data.hora_inicio === hora}
+                                                                            onChange={handleChange}
+                                                                            className=''
+                                                                        />
+                                                                        <span>{hora}</span>
+                                                                    </label>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            ) : (
+                                                <div>No hay horas disponibles</div> // Mensaje si no hay horas
+                                            )}
+                                        </div>
+                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>} */}
+                                        {/* {Array.isArray(availableHours) && availableHours.length > 0 ? ( */}
+
+                                                    <div className='w-full'>
+                                                        <div>
+                                                            <label className="opcion">
+                                                                <input
+                                                                    id="hora0"
+                                                                    type="radio"
+                                                                    name="hora_inicio"
+                                                                    value="11:30"
+                                                                    checked={data.hora_inicio === '11:30'}
+                                                                    onChange={handleChange}
+                                                                    disabled={availableHours.includes('11:30') ? false : true}
+                                                                    className=''
+                                                                />
+                                                                <span>11:30</span>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label className="opcion">
+                                                                <input
+                                                                    id="hora1"
+                                                                    type="radio"
+                                                                    name="hora_inicio"
+                                                                    value="12:30"
+                                                                    checked={data.hora_inicio === '12:30'}
+                                                                    onChange={handleChange}
+                                                                    disabled={availableHours.includes('12:30') ? false : true}
+                                                                    className=''
+                                                                />
+                                                                <span>12:30</span>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label className="opcion">
+                                                                <input
+                                                                    id="hora2"
+                                                                    type="radio"
+                                                                    name="hora_inicio"
+                                                                    value="13:30"
+                                                                    checked={data.hora_inicio === '13:30'}
+                                                                    onChange={handleChange}
+                                                                    disabled={availableHours.includes('13:30') ? false : true}
+                                                                    className=''
+                                                                />
+                                                                <span>13:30</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div className='w-full'>
+                                                        <div>
+                                                            <label className="opcion">
+                                                                <input
+                                                                    id="hora3"
+                                                                    type="radio"
+                                                                    name="hora_inicio"
+                                                                    value="18:00"
+                                                                    checked={data.hora_inicio === '18:00'}
+                                                                    onChange={handleChange}
+                                                                    disabled={availableHours.includes('18:00') ? false : true}
+                                                                    className=''
+                                                                />
+                                                                <span>18:00</span>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label className="opcion">
+                                                                <input
+                                                                    id="hora4"
+                                                                    type="radio"
+                                                                    name="hora_inicio"
+                                                                    value="19:00"
+                                                                    checked={data.hora_inicio === '19:00'}
+                                                                    onChange={handleChange}
+                                                                    disabled={availableHours.includes('19:00') ? false : true}
+                                                                    className=''
+                                                                />
+                                                                <span>19:00</span>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <label className="opcion">
+                                                                <input
+                                                                    id="hora5"
+                                                                    type="radio"
+                                                                    name="hora_inicio"
+                                                                    value="20:00"
+                                                                    checked={data.hora_inicio === '20:00'}
+                                                                    onChange={handleChange}
+                                                                    disabled={availableHours.includes('20:00') ? false : true}
+                                                                    className=''
+                                                                />
+                                                                <span>20:00</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                            {/* ) : (
+                                                <div>No hay horas disponibles</div> // Mensaje si no hay horas
+                                            )} */}
+                                        </div>
+                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
                                     </div>
                                     <div className='columnas'>
-                                        <label>Precio Estimado:</label>
-                                        <input className='inputs' type="text" value={data.tatuaje.precio} readOnly />
+                                        <label>Precio de la señal:</label>
+                                        <input className='inputSeñal' type="text" value={data.tatuaje.precio + '€'} readOnly />
                                     </div>
                                 </div>
                                 <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
-
                                     <div className='columnas'>
                                         <label>Hora Fin:</label>
-                                        <input className='inputs' type="text" name="hora_fin" value={data.hora_fin} readOnly />
+                                        <input className='inputFin' type="text" name="hora_fin" value={data.hora_fin} readOnly />
                                         {errors.hora_fin && <div>{errors.hora_fin}</div>}
                                     </div>
                                     <div className='columnas'>
                                         <label>Duracion estimada:</label>
-                                        <input className='inputs' type="text" name="duracion" value={data.duracion} readOnly />
+                                        <input className='inputFin' type="text" name="duracion" value={data.duracion} readOnly />
                                         {errors.duracion && <div>{errors.duracion}</div>}
                                     </div>
                                 </div>

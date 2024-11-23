@@ -486,8 +486,8 @@ html {
 }
 
 .filaUno {
-    @apply flex flex-col w-full items-center justify-start
-    xl:flex-row xl:space-y-0;
+    @apply flex flex-col w-full space-x-0
+    xl:flex-row xl:space-x-5;
 }
 
 .filaFecha {
@@ -510,15 +510,51 @@ html {
     @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-black;
 }
 
-.filaDos {
-    @apply flex flex-row w-full h-auto my-2;
+.divInputImagen {
+    @apply w-full p-4;
 }
 
-.opciones {
-    @apply
-    flex items-center justify-center bg-black text-yellow-500 w-full h-12 font-bold rounded border-b-4 border-[#efb810] transition-all duration-500 ease-in-out transform hover:bg-yellow-500 hover:text-black
+.inputImagen {
+    @apply w-full flex items-center justify-center h-52 bg-white/90 border-4 border-black border-dashed;
+}
 
-    2xl:hover:-translate-y-1 2xl:hover:scale-100;
+.inputImagen input[type="file"] {
+    @apply hidden;
+}
+
+.inputSeñal {
+    @apply w-full text-8xl text-right border-none bg-transparent;
+}
+
+.inputFin {
+    @apply w-full text-xl text-left border-none bg-transparent py-1 px-0;
+}
+
+.filaDos {
+    @apply flex flex-col w-full h-auto my-2;
+}
+
+.opcion {
+    @apply
+    w-full flex items-center justify-center my-3 bg-[#efb810] text-black h-12 font-bold rounded transition-all duration-500 ease-in-out transform hover:bg-black hover:text-[#efb810];
+}
+
+.opcion input[type="radio"] {
+    @apply hidden; /* Oculta el botón de radio original */
+}
+
+/* Estilo para el label cuando el radio está seleccionado */
+.opcion input[type="radio"]:checked + span {
+    @apply bg-black text-[#efb810]; /* Cambia el color de fondo y texto cuando está seleccionado */
+}
+
+.opcion input[type="radio"]:disabled + span {
+    @apply bg-gray-600 text-black /* Cambia el color de fondo y texto cuando está seleccionado */
+}
+
+/* Agregar un pseudoelemento para mostrar el estado del radio */
+.opcion span {
+    @apply w-full h-full flex items-center justify-center rounded; /* Asegura que el span ocupe todo el espacio */
 }
 
 .columnaTipodeReserva {
@@ -597,4 +633,123 @@ footer a {
 
 footer li {
     @apply first:text-[0.9375rem] first:font-thin first:text-left;
+}
+
+label {
+    @apply text-xl mt-2;
+}
+
+.previewImagen {
+    @apply w-40 h-40;
+}
+
+
+/* Estilos Calendar */
+.react-calendar {
+    @apply
+    w-full h-full border-2 border-black border-solid rounded
+    2xl:w-96;
+}
+
+.react-calendar button {
+    @apply m-0 border-none outline-none;
+}
+
+.react-calendar button:enabled:hover {
+    @apply cursor-pointer;
+}
+
+.react-calendar__navigation {
+    @apply h-11 flex text-lg text-[#efb810] bg-black;
+}
+
+.react-calendar__navigation button {
+    @apply capitalize leading-snug min-w-11;
+}
+
+.react-calendar__navigation button:disabled {
+    @apply bg-[#f0f0f0;]
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    @apply bg-[#efb810] text-black transition duration-500 ease-in-out;
+}
+
+.react-calendar__month-view__weekdays {
+    @apply text-[#efb810] text-center text-xs font-bold uppercase bg-black leading-tight;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    @apply p-2;
+}
+
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+    @apply flex items-center justify-center text-inherit text-xs font-bold;
+}
+
+.react-calendar__month-view__days__day--weekend {
+    @apply text-[#d10000];
+}
+
+.react-calendar__month-view__days__day--neighboringMonth,
+.react-calendar__decade-view__years__year--neighboringDecade,
+.react-calendar__century-view__decades__decade--neighboringCentury {
+    @apply text-[#757575];
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+    @apply px-8 py-2;
+}
+
+.react-calendar__tile {
+    @apply w-full h-full p-3 text-center text-xs;
+}
+
+.react-calendar__tile:disabled {
+    @apply bg-gray-300 text-gray-500;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth:disabled,
+.react-calendar__decade-view__years__year--neighboringDecade:disabled,
+.react-calendar__century-view__decades__decade--neighboringCentury:disabled {
+    @apply text-gray-600;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    @apply bg-[#efb810] text-black transition ease-in-out duration-500;
+}
+
+.react-calendar__tile--now {
+    @apply bg-[#ffff76];
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+    @apply bg-[#ffffa9];
+}
+
+.react-calendar__tile--hasActive {
+    @apply bg-[#76baff];
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+    @apply bg-[#a9d4ff];
+}
+
+.react-calendar__tile--active {
+    @apply text-black bg-[#efb810];
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+    @apply bg-[#efb810];
+}
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+    @apply bg-black text-[#efb810];
 }
