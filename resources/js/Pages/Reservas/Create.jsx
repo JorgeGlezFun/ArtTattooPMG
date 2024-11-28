@@ -49,7 +49,6 @@ const Create = ({ auth, artistas }) => {
 
     const [imagenPreview, setImagePreviewUrl] = useState(null);
 
-
     console.log(data.tatuaje);
 
     const [availableHours, setAvailableHours] = useState([]);
@@ -328,7 +327,7 @@ const Create = ({ auth, artistas }) => {
             <div className='main'>
                 <MensajeFlash message={message} />
                 <div className="contenedorReserva">
-                    <div className='flex flex-col 2xl:flex-row'>
+                    <div className='contenedorFormulario'>
                         <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
                             <h1 className="titulo">Reserva tu cita</h1>
                             <hr className="separadorFormulario"/>

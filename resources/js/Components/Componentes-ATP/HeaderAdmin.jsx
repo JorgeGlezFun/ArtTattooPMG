@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import ApplicationLogoAdmin from '@/Components/ComponentesAdmin/ApplicationLogoAdmin';
+import NavLinkAdmin from '@/Components/ComponentesAdmin/NavLinkAdmin';
+import DropdownAdmin from '@/Components/ComponentesAdmin/DropdownAdmin';
+import ResponsiveNavLinkAdmin from '@/Components/ComponentesAdmin/ResponsiveNavLinkAdmin';
 import { Link } from '@inertiajs/react';
 
 export default function HeaderAdmin({ user }) {
@@ -14,34 +14,31 @@ export default function HeaderAdmin({ user }) {
                 <div className="contenedorXLAdmin">
                     <div className="contenedorLogoAdmin">
                         <Link href={route('/')}>
-                            <ApplicationLogo />
+                            <ApplicationLogoAdmin />
                         </Link>
                     </div>
 
                     <div className="contenedorBotonesNavAdmin">
-                        <NavLink href={route('/')} active={route().current('/')}>
+                        <NavLinkAdmin href={route('/')} active={route().current('/')}>
                             Inicio
-                        </NavLink>
-                        <NavLink href={route('sobrenosotros')} active={route().current('sobrenosotros')}>
-                            Sobre Nosotros
-                        </NavLink>
-                        <NavLink href={route('galeria')} active={route().current('galeria')}>
+                        </NavLinkAdmin>
+                        <NavLinkAdmin href={route('galeria')} active={route().current('galeria')}>
                             Galería
-                        </NavLink>
-                        <NavLink href={route('eventos')} active={route().current('eventos')}>
+                        </NavLinkAdmin>
+                        <NavLinkAdmin href={route('eventos')} active={route().current('eventos')}>
                             Eventos
-                        </NavLink>
-                        <NavLink href={route('reservas.create')} active={route().current('reservas.create')}>
-                            Reservar Cita
-                        </NavLink>
+                        </NavLinkAdmin>
+                        <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.index')}>
+                            Reservas
+                        </NavLinkAdmin>
                         {user ?
                             (
-                                <Dropdown>
-                                    <Dropdown.Trigger>
+                                <DropdownAdmin>
+                                    <DropdownAdmin.Trigger>
                                         <span className="rounded-md">
                                         <button
                                             type="button"
-                                            className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-[#efb810] hover:text-black hover:bg-[#efb810] transition ease-in-out duration-500"
+                                            className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-black hover:text-[#efb810] hover:bg-black transition ease-in-out duration-500"
                                         >
                                             <span className="hidden 2xl:inline">{user.nombre}</span>
 
@@ -59,15 +56,15 @@ export default function HeaderAdmin({ user }) {
                                             </svg>
                                         </button>
                                         </span>
-                                    </Dropdown.Trigger>
+                                    </DropdownAdmin.Trigger>
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
+                                    <DropdownAdmin.Content>
+                                        <DropdownAdmin.Link href={route('profile.edit')}>Perfil</DropdownAdmin.Link>
+                                        <DropdownAdmin.Link href={route('logout')} method="post" as="button">
                                             Cerrar Sesión
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
+                                        </DropdownAdmin.Link>
+                                    </DropdownAdmin.Content>
+                                </DropdownAdmin>
                             ) :
                             (
                                 <Link href={route('login')} active={route().current('login')} className='linkUsuario'/>
@@ -78,9 +75,9 @@ export default function HeaderAdmin({ user }) {
                     <div className="contenedorXSAdmin">
                         <button
                             onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                            className="botonUsuario"
+                            className="botonUsuarioAdmin"
                         >
-                            <svg className="flechaBotonUsuario" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <svg className="flechaBotonUsuarioAdmin" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path
                                     className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                     strokeLinecap="round"
@@ -101,35 +98,22 @@ export default function HeaderAdmin({ user }) {
                 </div>
 
                 <div className={'xl:hidden ' + (showingNavigationDropdown ? 'block' : 'hidden') + ' xl:hidden'}>
-                    <ResponsiveNavLink href={route('/')} active={route().current('/')}>
+                    <ResponsiveNavLinkAdmin href={route('/')} active={route().current('/')}>
                         Inicio
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('sobrenosotros')} active={route().current('sobrenosotros')}>
-                        Sobre Nosotros
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('galeria')} active={route().current('galeria')}>
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('galeria')} active={route().current('galeria')}>
                         Galería
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('eventos')} active={route().current('eventos')}>
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('eventos')} active={route().current('eventos')}>
                         Eventos
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('reservas.create')} active={route().current('reservas.create')}>
-                        Reservar Cita
-                    </ResponsiveNavLink>
-                    { user ?
-                    (
-                        <>
-                            <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Desconectarse
-                            </ResponsiveNavLink>
-                        </>
-                    ) : (
-                        <ResponsiveNavLink href={route('login')} active={route().current('login')}>
-                            Iniciar Sesión
-                        </ResponsiveNavLink>
-                     )
-                    }
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('reservas.index')} active={route().current('reservas.index')}>
+                        Reservas
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('profile.edit')}>Perfil</ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin method="post" href={route('logout')} as="button">
+                        Desconectarse
+                    </ResponsiveNavLinkAdmin>
                 </div>
             </nav>
         </>

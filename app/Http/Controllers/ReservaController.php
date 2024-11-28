@@ -136,18 +136,32 @@ class ReservaController extends Controller
 
         session()->flash('message', 'La reserva se ha producido correctamente.');
 
-        return redirect('reservas/create')->with('flashMessage', session('message'));
+        return redirect('Reservas/Create');
     }
 
 
     public function show(Reserva $reserva)
     {
-        return inertia('Reservas/Show', ['reserva' => $reserva]);
-    }
 
+        if ($reserva->tatuaje && $reserva->tatuaje->ruta_imagen) {
+            $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
+        }
+
+        return inertia('Reservas/Show', [
+            'reserva' => $reserva,
+            'cliente' => $reserva->cliente,
+            'artistas' => $reserva->artista,
+            'tatuaje' => $reserva->tatuaje
+        ]);
+    }
     public function edit(Reserva $reserva)
     {
-        return inertia('Reservas/Edit', ['reserva' => $reserva]);
+        return inertia('Reservas/Edit', [
+            'reserva' => $reserva,
+            'cliente' => $reserva->cliente,
+            'artistas' => $reserva->artista,
+            'tatuaje' => $reserva->tatuaje
+        ]);
     }
 
     public function update(Request $request, Reserva $reserva)
@@ -167,11 +181,15 @@ class ReservaController extends Controller
         return redirect()->route('reservas.index')->with('success', 'Reserva actualizada con éxito.');
     }
 
-    public function destroy(Reserva $reserva)
+    public function destroy($id)
     {
+        $reserva = Reserva::findOrFail($id);
+        $reserva->tatuaje->delete();
         $reserva->delete();
-        return redirect()->route('reservas.index')->with('success', 'Reserva eliminada con éxito.');
+
+        return response()->json(['message' => 'Reserva eliminada con éxito.'], 200);
     }
+
 
     // Función para obtener la última hora_fin en una fecha específica
     public function obtenerUltimaHoraFin(Request $request)

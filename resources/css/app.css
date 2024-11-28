@@ -109,6 +109,11 @@ html {
     @apply flex bg-[url('../img/Logo-Fondo/usuario.png')] bg-cover bg-center w-20 h-20 hover:bg-[url('../img/Logo-Fondo/usuarioHover.png')];
 }
 
+/* Estilos Body Admin */
+.mainAdmin{
+    @apply flex flex-col items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen;
+}
+
 /* Estilos Body */
 .main {
     @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
@@ -391,7 +396,6 @@ html {
 
 }
 
-
 .contenedorEventos {
     @apply
 
@@ -439,10 +443,23 @@ html {
 
 .imagenEvento {
     @apply
+    relative
     w-96 hover:opacity-0 transition ease-in-out duration-300
     lg:w-fit lg:h-fit;
 }
 
+.nombreImagen {
+
+    @apply absolute text-pink-500 top-1/2 right-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300; /* Inicialmente oculto */
+
+}
+
+
+.contenedorImagenEvento:hover .nombreImagen {
+
+    @apply opacity-100; /* Mostrar texto al hacer hover */
+
+}
 
 /* Estilos Reservar */
 
@@ -643,11 +660,23 @@ label {
     @apply w-40 h-40;
 }
 
+th {
+    @apply p-2 border-solid border-black border-2 text-xl font-bold;
+}
+
+
+td {
+    @apply p-2 border-solid border-black border-2 text-xl;
+}
+
+td:first-child {
+    @apply text-right;
+}
 
 /* Estilos Calendar */
 .react-calendar {
     @apply
-    w-full h-full border-2 border-black border-solid rounded
+    w-full h-full border-2 border-black border-solid rounded bg-white
     2xl:w-96;
 }
 
@@ -668,7 +697,7 @@ label {
 }
 
 .react-calendar__navigation button:disabled {
-    @apply bg-[#f0f0f0;]
+    @apply bg-[#f0f0f0];
 }
 
 .react-calendar__navigation button:enabled:hover,
