@@ -10,27 +10,29 @@ import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
     const { data, setData, put, processing, errors } = useForm({
         cliente: {
-            nombre: cliente.nombre,
-            apellidos: cliente.apellidos,
-            telefono: cliente.telefono,
-            email: cliente.email,
+            nombre: reserva.cliente.nombre,
+            apellidos: reserva.cliente.apellidos,
+            telefono: reserva.cliente.telefono,
+            email: reserva.cliente.email,
         },
         artista_id: reserva.artista_id,
         tatuaje: {
-            ruta_imagen: tatuaje.ruta_imagen,
-            precio: tatuaje.precio,
-            tiempo: tatuaje.tiempo,
-            tamano: tatuaje.tamano,
-            relleno: tatuaje.relleno,
-            color: tatuaje.color,
-            zona: tatuaje.zona
+            ruta_imagen: reserva.tatuaje.ruta_imagen,
+            precio: reserva.tatuaje.precio,
+            tiempo: reserva.tatuaje.tiempo,
+            tamano: reserva.tatuaje.tamano,
+            relleno: reserva.tatuaje.relleno,
+            color: reserva.tatuaje.color,
+            zona: reserva.tatuaje.zona
         },
         fecha: reserva.fecha,
         hora_inicio: reserva.hora_inicio,
         hora_fin: reserva.hora_fin,
         duracion: reserva.duracion
     });
-    console.log(data);
+
+    console.log(data.tatuaje.ruta_imagen instanceof File); // Debería devolver true
+
     const [tatuajeOptions, setTatuajeOptions] = useState({
         tamano: reserva.tatuaje.tamano,
         relleno: reserva.tatuaje.relleno,
@@ -38,7 +40,7 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
         zona: reserva.tatuaje.zona
     });
 
-    const [imagenPreview, setImagePreviewUrl] = useState(null);
+    const [imagenPreview, setImagePreviewUrl] = useState();
     const [availableHours, setAvailableHours] = useState([]);
 
     useEffect(() => {
@@ -80,6 +82,12 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
         calcularPrecioTatuaje({ ...tatuajeOptions, [name]: value });
     };
 
+    useEffect(() => {
+        if (reserva.tatuaje.ruta_imagen) {
+            setImagePreviewUrl(tatuaje.ruta_imagen);
+        }
+    }, [tatuaje.ruta_imagen]);
+
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -92,11 +100,53 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
         setData('tatuaje', { ...data.tatuaje, ruta_imagen: file });
     };
 
-    const handleSubmit = (e) => {
+    // const handleSubmit = async (e) => {
+        //     e.preventDefault();
+        //     try {
+            //         await put(route('reservas.update', reserva.id), {
+                //             ...data,
+                //             _method: 'put',
+                //         });
+                //         console.log('Estos son lo datos que pasamos', data);
+                //         console.log('Reserva actualizada con éxito');
+                //     } catch (error) {
+                    //         console.error('Error al actualizar la reserva:', error.response ? error.response.data : error.message);
+                    //     }
+                    // };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        put(route('reservas.update', reserva.id), {
-            forceFormData: true,
-        });
+        const formData = new FormData();
+        formData.append('_method', 'PUT');
+        formData.append('cliente[nombre]', data.cliente.nombre);
+        formData.append('cliente[apellidos]', data.cliente.apellidos);
+        formData.append('cliente[telefono]', data.cliente.telefono);
+        formData.append('cliente[email]', data.cliente.email);
+        formData.append('artista_id', data.artista_id);
+        formData.append('fecha', data.fecha);
+        formData.append('hora_inicio', data.hora_inicio);
+        formData.append('hora_fin', data.hora_fin);
+        formData.append('duracion', data.duracion);
+        // formData.append('tatuaje[ruta_imagen]', data.tatuaje.ruta_imagen);
+        formData.append('tatuaje[precio]', data.tatuaje.precio);
+        formData.append('tatuaje[tiempo]', data.tatuaje.tiempo);
+        formData.append('tatuaje[tamano]', data.tatuaje.tamano);
+        formData.append('tatuaje[relleno]', data.tatuaje.relleno);
+        formData.append('tatuaje[color]', data.tatuaje.color);
+        formData.append('tatuaje[zona]', data.tatuaje.zona);
+
+        console.log(formData.get('tatuaje[ruta_imagen]'));
+        try {
+            await put(route('reservas.update', reserva.id), formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    forceFormData: true,
+                }
+            });
+            console.log('Reserva actualizada con éxito');
+        } catch (error) {
+            console.error('Error al actualizar la reserva:', error.response ? error.response.data : error.message);
+        }
     };
 
     const calcularPrecioTatuaje = (options) => {
@@ -114,10 +164,10 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                 break;
             default:
                 break;
-        }
+            }
 
-        setData('tatuaje', { ...data.tatuaje, precio });
-    };
+            setData('tatuaje', { ...data.tatuaje, precio });
+        };
 
     const calcularTiempoTatuaje = () => {
         let tiempo = 0;
@@ -126,18 +176,18 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
             case 'Grande':
                 tiempo += 180; // 3 horas en minutos
                 break;
-            case 'Mediano':
-                tiempo += 90; // 1.5 horas en minutos
-                break;
-            case 'Pequeño':
-                tiempo += 30; // 0.5 horas en minutos
-                break;
-            default:
-                break;
-        }
+                case 'Mediano':
+                    tiempo += 90; // 1.5 horas en minutos
+                    break;
+                    case 'Pequeño':
+                        tiempo += 30; // 0.5 horas en minutos
+                        break;
+                        default:
+                            break;
+                        }
 
-        if (tatuajeOptions.color === 'A color') {
-            tiempo += 30;
+                        if (tatuajeOptions.color === 'A color') {
+                            tiempo += 30;
         }
 
         if (tatuajeOptions.relleno === 'Con relleno') {
@@ -253,7 +303,7 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                 <MensajeFlash message={message} />
                 <div className="contenedorReserva">
                     <div className='contenedorFormulario'>
-                        <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
+                        <form onSubmit={handleSubmit} className='formulario'>
                             <h1 className="titulo">Editar tu cita</h1>
                             <hr className="separadorFormulario"/>
                             <div className='filaUno'>
@@ -282,10 +332,7 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                                 <label>Artista:</label>
                                 <select className='listaTatuajes' name="artista_id" value={data.artista_id} onChange={handleChange}>
                                     <option value="">Seleccionar artista</option>
-                                    {/* {artistas.map(artista => (
-                                        <option key={artista.id} value={artista.id}>{artista.nombre}</option>
-                                    ))} */}
-                                    {artistas && artistas.length > 1 ? (
+                                    {artistas && artistas.length > 0 ? (
                                         artistas.map(artista => (
                                             <option key={artista.id} value={artista.id}>{artista.nombre}</option>
                                         ))
@@ -336,13 +383,10 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='columnas'>
+                            {/* <div className='columnas'>
                                 <label> Imagen de referencia:</label>
                                 <div className='divInputImagen'>
                                     <label className='inputImagen'>
-                                        {!imagenPreview && (
-                                        <span>Haz click aquí para subir una imagen</span>
-                                        )}
                                         <input className='inputImagen' type="file" accept='image/*' name="ruta_imagen" onChange={handleFileChange} />
                                         {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
                                         {imagenPreview && (
@@ -352,7 +396,7 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                                         )}
                                     </label>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='w-full flex flex-col xl:space-x-0'>
                                 <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
                                     <div className='columnas'>
@@ -470,7 +514,7 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" disabled={processing} className='botonFormulario'>Actualizar Reserva</button>
+                            <button type="submit" className='botonFormulario'>Actualizar Reserva</button>
                         </form>
                     </div>
 

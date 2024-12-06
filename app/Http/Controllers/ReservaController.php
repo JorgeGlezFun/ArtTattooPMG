@@ -8,6 +8,7 @@ use App\Models\Cliente;
 use App\Models\Tatuaje;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -24,14 +25,12 @@ class ReservaController extends Controller
             }
         }
 
-        // return response()->json($reservas);
         return inertia('Reservas/Index', ['reservas' => $reservas]);
     }
 
     public function create()
     {
-        // Cargar clientes, artistas y tatuajes para el formulario de creación
-        $artistas = Artista::all(); // Obtener todos los artistas
+        $artistas = Artista::all();
         return inertia('Reservas/Create', ['artistas' => $artistas]);
     }
 
@@ -136,7 +135,7 @@ class ReservaController extends Controller
 
         session()->flash('message', 'La reserva se ha producido correctamente.');
 
-        return redirect('Reservas/Create');
+        return redirect('reservas/create');
     }
 
 
@@ -154,36 +153,131 @@ class ReservaController extends Controller
             'tatuaje' => $reserva->tatuaje
         ]);
     }
+
     public function edit(Reserva $reserva)
     {
+        if ($reserva->tatuaje) {
+            $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
+        }
+
         return inertia('Reservas/Edit', [
             'reserva' => $reserva,
             'cliente' => $reserva->cliente,
-            'artistas' => $reserva->artista,
+            'artistas' => Artista::all(), // Obtener todos los artistas
             'tatuaje' => $reserva->tatuaje
         ]);
     }
 
     public function update(Request $request, Reserva $reserva)
     {
+        // dd($request->hasFile('tatuaje.ruta_imagen'));
+        // dd($request->all());
         $validated = $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
+            'cliente.nombre' => 'required|string|max:255',
+            'cliente.apellidos' => 'required|string|max:255',
+            'cliente.telefono' => 'required|integer',
+            'cliente.email' => 'required|string|email|max:255',
             'artista_id' => 'required|exists:artistas,id',
-            'tatuaje_id' => 'required|exists:tatuajes,id',
+            'tatuaje.precio' => 'integer',
+            'tatuaje.tamano' => 'string|max:255',
+            'tatuaje.color' => 'string|max:255',
+            'tatuaje.relleno' => 'string|max:255',
+            'tatuaje.zona' => 'string|max:255',
+            // 'tatuaje.ruta_imagen' => 'nullable|file|mimes:jpg,png,jpeg',
             'fecha' => 'required|date',
             'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
-            'hora_fin' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00,21:00',
+            'hora_fin' => 'required',
             'duracion' => 'required|integer'
         ]);
+        // dd('Estos son los datos despues de validarlos: ', $request->all());
 
-        $reserva->update($validated);
+        $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
+        $currentDatetime = Carbon::now();
 
-        return redirect()->route('reservas.index')->with('success', 'Reserva actualizada con éxito.');
+        // Verificar si la fecha y hora son pasadas
+        if ($reservaDatetime->lt($currentDatetime)) {
+            return redirect()->back()->withErrors(['fecha' => 'No se puede reservar en una fecha y hora pasadas.']);
+        }
+
+        // Verificar si la hora ya está reservada, excluyendo la reserva actual
+        $existingReservation = Reserva::where('fecha', $validated['fecha'])
+            ->where('hora_inicio', $validated['hora_inicio'])
+            ->where('artista_id', $validated['artista_id'])
+            ->where('id', '!=', $reserva->id)
+            ->exists();
+
+        if ($existingReservation) {
+            return redirect()->back()->withErrors(['hora_inicio' => 'Esta hora ya está reservada.']);
+        }
+
+        // Actualizar el cliente
+        $cliente = $reserva->cliente;
+        $cliente->update([
+            'nombre' => $validated['cliente']['nombre'],
+            'apellidos' => $validated['cliente']['apellidos'],
+            'telefono' => $validated['cliente']['telefono'],
+            'email' => $validated['cliente']['email'],
+        ]);
+
+        // Verificar si se proporciona una nueva imagen de tatuaje
+        if (isset($validated['tatuaje']) && isset($validated['tatuaje']['ruta_imagen'])) {
+            $imagen = $request->file('tatuaje.ruta_imagen');
+            // Generar un nuevo nombre para la imagen
+            $extensionOriginal = $imagen->getClientOriginalExtension();
+            $nombreImagen = 'tatuaje_' . $reserva->tatuaje->id . '.' . $extensionOriginal; // Usar el ID del tatuaje existente
+            // Guardar la imagen con el nuevo nombre
+            $imagen->storeAs('uploads/tatuajes', $nombreImagen, 'public');
+            // Procesar la imagen
+            $manager = new ImageManager(new Driver());
+            $imageR = $manager->read(Storage::disk('public')->get('uploads/tatuajes/' . $nombreImagen));
+            $imageR->resize(400, 400, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $ruta = Storage::path('public/uploads/tatuajes/' . $nombreImagen);
+            $imageR->save($ruta);
+            // Actualizar el tatuaje en la base de datos
+            $reserva->tatuaje->update([
+                'artista_id' => $validated['artista_id'],
+                'ruta_imagen' => 'uploads/tatuajes/' . $nombreImagen,
+                'precio' => $validated['tatuaje']['precio'],
+                'tamano' => $validated['tatuaje']['tamano'],
+                'color' => $validated['tatuaje']['color'],
+                'relleno' => $validated['tatuaje']['relleno'],
+                'zona' => $validated['tatuaje']['zona'],
+            ]);
+        }
+
+        // Actualizar la reserva
+        $reserva->update([
+            'artista_id' => $validated['artista_id'],
+            'fecha' => $validated['fecha'],
+            'hora_inicio' => $validated['hora_inicio'],
+            'hora_fin' => $validated['hora_fin'],
+            'duracion' => $validated['duracion'],
+        ]);
+
+        // dd($request->all());
+        session()->flash('message', 'La reserva se ha actualizado correctamente.');
+
+        $updated = $reserva->update($validated);
+
+        if ($updated) {
+            Log::info('Reserva actualizada', ['reserva_id' => $reserva->id]);
+            return redirect()->route('reservas.index')->with('success', 'Reserva actualizada exitosamente.');
+        } else {
+            Log::error('Error al actualizar la reserva', ['reserva_id' => $reserva->id]);
+            return redirect()->back()->with('error', 'No se pudo actualizar la reserva.');
+
+        }
+
     }
 
     public function destroy($id)
     {
         $reserva = Reserva::findOrFail($id);
+        if ($reserva->tatuaje->ruta_imagen && Storage::disk('public')->exists($reserva->tatuaje->ruta_imagen)) {
+            Storage::disk('public')->delete($reserva->tatuaje->ruta_imagen);
+        }
         $reserva->tatuaje->delete();
         $reserva->delete();
 

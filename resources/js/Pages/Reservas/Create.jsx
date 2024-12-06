@@ -49,8 +49,6 @@ const Create = ({ auth, artistas }) => {
 
     const [imagenPreview, setImagePreviewUrl] = useState(null);
 
-    console.log(data.tatuaje);
-
     const [availableHours, setAvailableHours] = useState([]);
 
     useEffect(() => {
@@ -65,7 +63,6 @@ const Create = ({ auth, artistas }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(e.target);
         const [parent, key] = name.split('.');
         if (key) {
             setData(parent, { ...data[parent], [key]: value });
@@ -75,30 +72,13 @@ const Create = ({ auth, artistas }) => {
     };
 
     const handleCalendarChange = (newDate) => {
-
         // Crea un nuevo objeto Date a partir de la fecha seleccionada
-
         const date = new Date(newDate);
-
-
         // Ajusta la fecha a la zona horaria local
-
         const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-
-
-
         // Formatea la fecha a 'YYYY-MM-DD'
-
-        let p = localDate.toISOString().split('T')[0];
-
-        console.log(p);
-
-
-
-        // Establece la fecha seleccionada
-
-        setData('fecha', p);
-
+        let formateo = localDate.toISOString().split('T')[0];
+        setData('fecha', formateo);
     };
 
     useEffect(() => {
@@ -115,16 +95,13 @@ const Create = ({ auth, artistas }) => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        console.log(file); // Aquí puedes ver el archivo en la consola
         if (file) {
-            // Establecer la vista previa de la imagen
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreviewUrl(reader.result);
             };
             reader.readAsDataURL(file);
         }
-        // Actualizar el estado con el archivo seleccionado
         setData('tatuaje', { ...data.tatuaje, ruta_imagen: file });
     };
 
@@ -418,7 +395,7 @@ const Create = ({ auth, artistas }) => {
                                         <span>Haz click aquí para subir una imagen</span>
                                         )}
 
-                                        <input className='inputImagen' type="file" accept='image/*'name="ruta_imagen" onChange={handleFileChange} />
+                                        <input className='inputImagen' type="file" accept='image/*' name="ruta_imagen" onChange={handleFileChange} />
                                         {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
                                         {imagenPreview && (
                                             <div>

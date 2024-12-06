@@ -61,6 +61,7 @@ Route::get('/admin/reservas', function () {
 
 Route::resource('reservas', ReservaController::class);
 
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
