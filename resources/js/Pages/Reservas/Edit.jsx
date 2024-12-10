@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
-import Header from '@/Components/Componentes-ATP/Header';
-import Footer from '@/Components/Componentes-ATP/Footer';
+import Header from '@/Components/Componentes-ATP/HeaderAdmin';
 import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
@@ -398,7 +397,7 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                                 </div>
                             </div> */}
                             <div className='w-full flex flex-col xl:space-x-0'>
-                                <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
+                                <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-10'>
                                     <div className='columnas'>
                                         <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
@@ -514,13 +513,15 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" className='botonFormulario'>Actualizar Reserva</button>
+                            <div className='w-full flex space-y-0 space-x-5'>
+                                <a href={route('reservas.index')} className='botonEdit'>Volver</a>
+                                <button type="submit" className='botonFormulario'>Actualizar Reserva</button>
+                            </div>
                         </form>
                     </div>
 
                 </div>
             </div>
-            <Footer />
         </>
     );
 };

@@ -18,9 +18,9 @@ const CustomCalendar = ({ value, onChange, name, className}) => {
         return !fechasValidas(date);
     };
     return (
-        <div className='w-full'>
+        <div className='w-fit'>
             <label>{name}:</label>
-            <div className='w-full flex flex-col items-center'>
+            <div className='w-fit flex flex-col'>
                 <Calendar
                     onChange={onChange}
                     value={value}

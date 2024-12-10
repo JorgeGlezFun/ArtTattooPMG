@@ -22,13 +22,13 @@ export default function HeaderAdmin({ user }) {
                         <NavLinkAdmin href={route('/')} active={route().current('/')}>
                             Inicio
                         </NavLinkAdmin>
-                        <NavLinkAdmin href={route('galeria')} active={route().current('galeria')}>
+                        <NavLinkAdmin href={route('galeria')} active={route().current('galeria.*')}>
                             Galería
                         </NavLinkAdmin>
-                        <NavLinkAdmin href={route('eventos')} active={route().current('eventos')}>
+                        <NavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>
                             Eventos
                         </NavLinkAdmin>
-                        <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.index')}>
+                        <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
                             Reservas
                         </NavLinkAdmin>
                         {user ?
