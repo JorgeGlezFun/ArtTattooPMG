@@ -40,6 +40,7 @@ const Index = ({ auth, reservas }) => {
 
             setReservasState(prevReservas => prevReservas.filter(reserva => reserva.id !== reservaAEliminar));
             setMensajeConfirmacion(true);
+            console.log('Reserva eliminada con éxito.');
         } catch (error) {
             console.error('Error al eliminar la reserva:', error);
             alert('Error al eliminar la reserva. Intenta de nuevo más tarde.');
@@ -106,7 +107,7 @@ const Index = ({ auth, reservas }) => {
                                                         </div>
                                                     </div>
                                                 </Modal>
-                                                <Modal show={mensajeConfirmacion} onClose={closeMensaje}>
+                                                {/* <Modal show={mensajeConfirmacion} onClose={closeMensaje}>
                                                     <div className='p-8 flex flex-col items-center'>
                                                         <div className='w-full flex items-right'>
                                                             <SecondaryButton className='text-black flex justify-center' onClick={closeMensaje}>x</SecondaryButton>
@@ -115,7 +116,7 @@ const Index = ({ auth, reservas }) => {
                                                             Reserva eliminada con éxito.
                                                         </h2>
                                                     </div>
-                                                </Modal>
+                                                </Modal> */}
                                             </div>
                                         </td>
                                     </tr>

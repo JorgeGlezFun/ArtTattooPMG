@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('color');
             $table->string('relleno');
             $table->string('zona');
-            $table->integer('precio');
+            $table->float('precio');
             $table->timestamps();
         });
     }

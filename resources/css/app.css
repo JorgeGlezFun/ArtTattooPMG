@@ -138,19 +138,19 @@ html {
 }
 
 
-thead th {
+.tablaAdmin thead th {
     @apply bg-[#efb810] border-solid border-2 border-black text-2xl;
 }
 
-tbody tr {
+.tablaAdmin tbody tr {
     @apply border-solid border-2 border-black;
 }
 
-tbody tr td:first-child {
+.tablaAdmin tbody tr td:first-child {
     @apply text-center text-4xl;
 }
 
-tbody tr td {
+.tablaAdmin tbody tr td {
     @apply text-center;
 }
 
@@ -166,6 +166,41 @@ tbody tr td {
     flex w-full h-14 text-2xl bg-[#efb810] text-black justify-center items-center transition duration-500 hover:bg-black hover:text-[#efb810]
 
     2xl:w-fit px-10;
+}
+
+/* Estilos Profile */
+.detallesReservaProfile {
+    @apply w-full flex space-x-12 ml-6
+}
+.detallesReservaProfile h2 {
+    font-family: 'Josefin Slab';
+    @apply font-bold text-3xl w-full;
+}
+
+.detallesReservaProfile strong {
+    font-family: 'Josefin Slab';
+    @apply font-bold text-2xl;
+}
+
+.detallesReservaProfile p {
+    font-family: 'Josefin Slab';
+    @apply text-2xl;
+}
+
+.previewImagenProfile {
+    @apply w-72 h-fit;
+}
+
+thead th {
+    @apply bg-[#efb810] border-solid border-2 border-black text-2xl;
+}
+
+tbody tr {
+    @apply border-solid border-2 border-black;
+}
+
+tbody tr td:first-child {
+    @apply text-center text-xl;
 }
 
 /* Estilos Body */
@@ -714,6 +749,10 @@ label {
     @apply w-fit h-fit;
 }
 
+.previewImagenFormulario {
+    @apply w-40 h-40;
+}
+
 th {
     @apply p-2 border-solid border-black border-2 text-xl font-bold;
 }
@@ -731,7 +770,7 @@ td:first-child {
 .react-calendar {
     @apply
     w-full h-full border-2 border-black border-solid rounded bg-white
-    2xl:w-[32.85rem];
+    2xl:w-[26rem];
 }
 
 .react-calendar button {
@@ -835,4 +874,23 @@ td:first-child {
 
 .react-calendar--selectRange .react-calendar__tile--hover {
     @apply bg-black text-[#efb810];
+}
+
+.opcionPerfil {
+    @apply
+    w-full shadow-md bg-white rounded-md flex items-center justify-center text-[#efb810] hover:bg-black transition-all duration-500 ease-in-out font-bold;
+}
+
+.opcionPerfil input[type="radio"] {
+    @apply hidden;
+}
+
+/* Estilo para el label cuando el radio está seleccionado */
+.opcionPerfil input[type="radio"]:checked + span {
+    @apply bg-black text-[#efb810]; /* Cambia el color de fondo y texto cuando está seleccionado */
+}
+
+/* Agregar un pseudoelemento para mostrar el estado del radio */
+.opcionPerfil span {
+    @apply w-full p-8 h-full flex items-center justify-center rounded-md; /* Asegura que el span ocupe todo el espacio */
 }

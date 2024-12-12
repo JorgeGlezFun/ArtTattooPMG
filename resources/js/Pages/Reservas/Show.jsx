@@ -4,8 +4,6 @@ import { Head } from '@inertiajs/react';
 
 const Show = ({ auth, reserva, cliente, tatuaje }) => {
 
-    console.log(tatuaje.ruta_imagen);
-
     const formatearFecha = (fecha) => {
         const fechaFormateada = new Date(fecha);
         return fechaFormateada.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });

@@ -31,6 +31,11 @@ class ReservaController extends Controller
     public function create()
     {
         $artistas = Artista::all();
+        if (auth()->check()) {
+            $clienteId = auth()->user()->cliente_id;
+            $reservas = Reserva::where('cliente_id', $clienteId)->get();
+            return inertia('Reservas/Create', ['artistas' => $artistas, 'reservas' => $reservas]);
+        }
         return inertia('Reservas/Create', ['artistas' => $artistas]);
     }
 
@@ -44,7 +49,7 @@ class ReservaController extends Controller
             'cliente.email' => 'required|string|email|max:255',
             'artista_id' => 'required|exists:artistas,id',
             'tatuaje.ruta_imagen' => 'mimes:jpg,png,jpeg',
-            'tatuaje.precio' => 'integer',
+            'tatuaje.precio' => 'numeric',
             'tatuaje.tamano' => 'string|max:255',
             'tatuaje.color' => 'string|max:255',
             'tatuaje.relleno' => 'string|max:255',
@@ -178,7 +183,7 @@ class ReservaController extends Controller
             'cliente.telefono' => 'required|integer',
             'cliente.email' => 'required|string|email|max:255',
             'artista_id' => 'required|exists:artistas,id',
-            'tatuaje.precio' => 'integer',
+            'tatuaje.precio' => 'numeric',
             'tatuaje.tamano' => 'string|max:255',
             'tatuaje.color' => 'string|max:255',
             'tatuaje.relleno' => 'string|max:255',

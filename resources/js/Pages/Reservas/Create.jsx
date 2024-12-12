@@ -10,12 +10,11 @@ import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
-const Create = ({ auth, artistas }) => {
+const Create = ({ auth, artistas, reservas }) => {
     const nombre = auth.user ? auth.user.nombre : '';
     const apellido = auth.user ? auth.user.email : '';
     const correo = auth.user ? auth.user.email : '';
     const telefono = auth.user ? auth.user.email : '';
-
 
     const { data, setData, post, processing, errors } = useForm({
         cliente: {
@@ -128,6 +127,11 @@ const Create = ({ auth, artistas }) => {
                 break;
             default:
                 break;
+        }
+
+        if ((reservas.length % 8 === 0) && (reservas.length !== 0)) {
+            precio *= 0.9;
+
         }
 
         setData('tatuaje', { ...data.tatuaje, precio });
@@ -399,7 +403,7 @@ const Create = ({ auth, artistas }) => {
                                         {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
                                         {imagenPreview && (
                                             <div>
-                                                <img src={imagenPreview} alt="Diseño del tatuaje" className='previewImagen' />
+                                                <img src={imagenPreview} alt="Diseño del tatuaje" className='previewImagenFormulario' />
                                             </div>
                                             )}
                                     </label>
@@ -408,9 +412,6 @@ const Create = ({ auth, artistas }) => {
                             <div className='w-full flex flex-col xl:space-x-0'>
                                 <div className='w-full flex flex-col space-x-0 2xl:flex-row 2xl:space-x-5'>
                                     <div className='columnas'>
-                                        {/* <label>Fecha:</label>
-                                        <input className='inputs' type="date" name="fecha" value={data.fecha} onChange={handleChange} onClick={desactivarDiasInvalidos} />
-                                        {errors.fecha && <div>{errors.fecha}</div>} */}
                                         <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
                                     {/* <div className='columnas'>
@@ -464,7 +465,6 @@ const Create = ({ auth, artistas }) => {
                                         </div>
                                         {errors.hora_inicio && <div>{errors.hora_inicio}</div>} */}
                                         {/* {Array.isArray(availableHours) && availableHours.length > 0 ? ( */}
-
                                                     <div className='w-full'>
                                                         <div>
                                                             <label className="opcion">
