@@ -5,7 +5,7 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
-// Restaurando la app
+// Restaurando la app 2
 const Index = ({ auth, reservas }) => {
     const [confirmandoEliminacionReserva, setConfirmandoEliminacionReserva] = useState(false);
     const [mensajeConfirmacion, setMensajeConfirmacion] = useState(false);
