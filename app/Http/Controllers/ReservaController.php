@@ -6,6 +6,7 @@ use App\Models\Artista;
 use App\Models\Reserva;
 use App\Models\Cliente;
 use App\Models\Tatuaje;
+use App\Models\Horario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -31,12 +32,19 @@ class ReservaController extends Controller
     public function create()
     {
         $artistas = Artista::all();
+        $horarios = Horario::all();
+
+        $horarios->transform(function ($horario) {
+            $horario->horas = json_decode($horario->horas, true);
+            return $horario;
+        });
+
         if (auth()->check()) {
             $clienteId = auth()->user()->cliente_id;
             $reservas = Reserva::where('cliente_id', $clienteId)->get();
-            return inertia('Reservas/Create', ['artistas' => $artistas, 'reservas' => $reservas]);
+            return inertia('Reservas/Create', ['artistas' => $artistas, 'reservas' => $reservas, 'horarios' => $horarios]);
         }
-        return inertia('Reservas/Create', ['artistas' => $artistas]);
+        return inertia('Reservas/Create', ['artistas' => $artistas, 'horarios' => $horarios]);
     }
 
     public function store(Request $request)
@@ -55,11 +63,10 @@ class ReservaController extends Controller
             'tatuaje.relleno' => 'string|max:255',
             'tatuaje.zona' => 'string|max:255',
             'fecha' => 'required|date',
-            'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
+            'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required',
             'duracion' => 'required|integer'
         ]);
-
         $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
         $currentDatetime = Carbon::now();
 
@@ -190,7 +197,7 @@ class ReservaController extends Controller
             'tatuaje.zona' => 'string|max:255',
             // 'tatuaje.ruta_imagen' => 'nullable|file|mimes:jpg,png,jpeg',
             'fecha' => 'required|date',
-            'hora_inicio' => 'required|date_format:H:i|in:11:30,12:30,13:30,18:00,19:00,20:00',
+            'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required',
             'duracion' => 'required|integer'
         ]);

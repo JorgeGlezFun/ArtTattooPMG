@@ -15,6 +15,8 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
         return fechaFormateada.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
     };
 
+    console.log(reservas);
+
     return (
         <>
             <Head title="Perfil" />
@@ -60,7 +62,7 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
                         </div>
                     </div>
                     <div className="max-w-7xl sm:px-6 lg:px-8 space-y-6 w-full">
-                        {activeSection === 'perfil' && ( // Renderizar sección de perfil
+                        {activeSection === 'perfil' && (
                             <>
                                 <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                                     <UpdateProfileInformationForm
@@ -80,7 +82,7 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
                             </>
                         )}
 
-                        {activeSection === 'reservas' && ( // Renderizar sección de reservas
+                        {activeSection === 'reservas' && (
                             <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                                 {reservas.length === 0 ? (
                                     <h1 className='titulo'>No tienes reservas</h1>
@@ -124,10 +126,10 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
                                 )}
                             </div>
                         )}
-                        {activeSection === 'sellos' && ( // Renderizar sección de tarjeta de sellos
+                        {activeSection === 'sellos' && (
                             <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                                 <h1 className="titulo">Tarjeta de Sellos</h1>
-                                <p>Tienes un total de {totalReservas} reservas.</p>
+                                {/* <p>Tienes un total de {totalReservas} reservas.</p> */}
                                 <table className="table-auto w-full">
                                     <tbody>
                                         {[...Array(2)].map((_, index) => (
@@ -150,10 +152,10 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
                                     </tbody>
                                 </table>
                                 {((totalReservas % 8) === 0) && (reservas.length != 0) ? (
-                                    <>
+                                    <div>
                                         <p className="text-green-600 font-bold">¡Felicidades! Has completado 8 reservas y obtienes un descuento.</p>
-                                        <button className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Usar Descuento</button>
-                                    </>
+                                        <a href={route('reservas.create')} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Usar Descuento</a>
+                                    </div>
                                 ) : (
                                     <p>Completa {8 - (totalReservas % 8)} reservas más para obtener un descuento.</p>
                                 )}

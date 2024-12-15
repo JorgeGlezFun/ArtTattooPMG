@@ -28,6 +28,9 @@ export default function HeaderAdmin({ user }) {
                         <NavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>
                             Eventos
                         </NavLinkAdmin>
+                        <NavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
+                            Horarios
+                        </NavLinkAdmin>
                         <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
                             Reservas
                         </NavLinkAdmin>

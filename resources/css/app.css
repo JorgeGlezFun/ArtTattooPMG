@@ -769,7 +769,7 @@ td:first-child {
 /* Estilos Calendar */
 .react-calendar {
     @apply
-    w-full h-full border-2 border-black border-solid rounded bg-white
+    w-full border-2 border-black border-solid rounded bg-white
     2xl:w-[26rem];
 }
 

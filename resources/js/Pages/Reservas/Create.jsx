@@ -1,7 +1,4 @@
-// Hay que borrar todo lo relacionado con los piercings y dejar solo lo de los tatuajes
-
 import React, { useState, useEffect } from 'react';
-import DragandDrop from '@/Components/Componentes-ATP/DragandDrop';
 import { useForm } from '@inertiajs/react';
 import axios from 'axios';
 import Header from '@/Components/Componentes-ATP/Header';
@@ -10,7 +7,7 @@ import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
-const Create = ({ auth, artistas, reservas }) => {
+const Create = ({ auth, artistas, reservas, horarios }) => {
     const nombre = auth.user ? auth.user.nombre : '';
     const apellido = auth.user ? auth.user.email : '';
     const correo = auth.user ? auth.user.email : '';
@@ -46,8 +43,9 @@ const Create = ({ auth, artistas, reservas }) => {
         zona: ''
     });
 
-    const [imagenPreview, setImagePreviewUrl] = useState(null);
+    console.log(data.hora_inicio);
 
+    const [imagenPreview, setImagePreviewUrl] = useState(null);
     const [availableHours, setAvailableHours] = useState([]);
 
     useEffect(() => {
@@ -56,7 +54,7 @@ const Create = ({ auth, artistas, reservas }) => {
 
     useEffect(() => {
         if (data.fecha) {
-        verificarDisponibilidad(data.fecha);
+            verificarDisponibilidad(data.fecha);
         }
     }, [data.hora_inicio, data.tatuaje.tiempo, data.fecha]);
 
@@ -71,11 +69,8 @@ const Create = ({ auth, artistas, reservas }) => {
     };
 
     const handleCalendarChange = (newDate) => {
-        // Crea un nuevo objeto Date a partir de la fecha seleccionada
         const date = new Date(newDate);
-        // Ajusta la fecha a la zona horaria local
         const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-        // Formatea la fecha a 'YYYY-MM-DD'
         let formateo = localDate.toISOString().split('T')[0];
         setData('fecha', formateo);
     };
@@ -104,7 +99,6 @@ const Create = ({ auth, artistas, reservas }) => {
         setData('tatuaje', { ...data.tatuaje, ruta_imagen: file });
     };
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('reservas.store'), {
@@ -128,10 +122,10 @@ const Create = ({ auth, artistas, reservas }) => {
             default:
                 break;
         }
-
-        if ((reservas.length % 8 === 0) && (reservas.length !== 0)) {
-            precio *= 0.9;
-
+        if (reservas != undefined) {
+            if ((reservas.length % 8 === 0) && (reservas.length !== 0)) {
+                precio *= 0.9;
+            }
         }
 
         setData('tatuaje', { ...data.tatuaje, precio });
@@ -199,7 +193,7 @@ const Create = ({ auth, artistas, reservas }) => {
             const duracionTatuaje = Math.ceil(data.tatuaje.tiempo / 60);
             const horaFinStringTatuaje = horaFinTatuaje.toTimeString().slice(0, 5);
 
-            let horaReservaMinima = minutosTotales == [] ? 0 : Math.min(...minutosTotales);
+            let horaReservaMinima = minutosTotales.length === 0 ? 0 : Math.min(...minutosTotales);
 
             if ((minutosTotalesInicio <= horaReservaMinima) && (minutosTotalesFinTatuaje >= horaReservaMinima)) {
                 setData(prevState => ({
@@ -222,12 +216,11 @@ const Create = ({ auth, artistas, reservas }) => {
                     }));
                 }
             }
-        })
+        });
     };
 
-    function fetchHorasDisponibles(fecha) {
-        let horas = ['11:30', '12:30', '13:30', '18:00', '19:00', '20:00'];
-        let horasDisponibles = [...horas];
+    const fetchHorasDisponibles = (fecha) => {
+        let horasDisponibles = horarios.map(horario => horario.hora); // Asumiendo que 'horarios' tiene un campo 'hora'
 
         axios.get('/api/ultima-hora-fin', {
             params: { fecha: fecha },
@@ -244,62 +237,32 @@ const Create = ({ auth, artistas, reservas }) => {
                 let minutos = horaInicio[1];
 
                 for (let tiempo = 0; tiempo <= duracion; tiempo++) {
-
                     let nuevaHora = `${hora}:${minutos}`;
 
-                    // Verifica si la hora existe en el array antes de eliminarla
                     let index = horasDisponibles.indexOf(nuevaHora);
                     if (index !== -1) {
                         horasDisponibles.splice(index, 1);
                     }
 
-                    // Incrementa la hora
                     hora += 1;
                 }
             });
 
             setAvailableHours(horasDisponibles);
-        })
-
-        // .catch(error => {
-        //     console.error("Error recogiendo las horas disponibles", error);
-        //     setAvailableHours("No hay horas disponibles");
-        // });
+        });
     };
-
-    // const desactivarDiasInvalidos = (e) => {
-    //     console.log(e.target);
-    //     const dateInput = e.target;
-    //     const today = new Date();
-    //     const minDate = new Date(today);
-    //     minDate.setDate(today.getDate() + 2);
-
-    //     dateInput.min = minDate.toISOString().split('T')[0];
-
-    //     const saturday = 6;
-    //     const sunday = 0;
-
-    //     dateInput.addEventListener('input', function (e) {
-    //         const selectedDate = new Date(e.target.value);
-    //         const day = selectedDate.getDay();
-    //         if (day === saturday || day === sunday || selectedDate < minDate) {
-    //             e.target.setCustomValidity('No se pueden seleccionar sábados, domingos o fechas con menos de 2 días de antelación.');
-    //         } else {
-    //             e.target.setCustomValidity('');
-    //         }
-    //     });
-    //     console.log('Esta es la fecha que devuelve el calendario sin desplegar: ', dateInput.value);
-    // };
-
-
-    // Simulando la obtención de un mensaje flash (esto debería ser reemplazado por la lógica real)
 
     const message = window.sessionStorage.getItem('flashMessage');
 
-    // Limpiar el mensaje de la sesión después de mostrarlo
     if (message) {
         window.sessionStorage.removeItem('flashMessage');
     }
+
+    const horasOrdenadas = horarios.flatMap(horario => horario.horas).sort((a, b) => {
+        const [aHoras, aMinutos] = a.split(':').map(Number);
+        const [bHoras, bMinutos] = b.split(':').map(Number);
+        return aHoras - bHoras || aMinutos - bMinutos; // Ordena primero por horas, luego por minutos
+    });
 
     return (
         <>
@@ -384,12 +347,6 @@ const Create = ({ auth, artistas, reservas }) => {
                                         </select>
                                     </div>
                                 </div>
-                                {/* <div className='columnaDragandDrop'>
-                                    <label>Diseño del tatuaje:</label>
-                                    <div className='w-full h-auto p-4'>
-                                        <DragandDrop name='ruta_imagen' value={data.tatuaje.ruta_imagen} onChange={handleFileChange}/>
-                                    </div>
-                                </div> */}
                             </div>
                             <div className='columnas'>
                                 <label>Imagen de referencia:</label>
@@ -398,14 +355,13 @@ const Create = ({ auth, artistas, reservas }) => {
                                         {!imagenPreview && (
                                         <span>Haz click aquí para subir una imagen</span>
                                         )}
-
                                         <input className='inputImagen' type="file" accept='image/*' name="ruta_imagen" onChange={handleFileChange} />
                                         {errors['tatuaje.ruta_imagen'] && <div>{errors['tatuaje.ruta_imagen']}</div>}
                                         {imagenPreview && (
                                             <div>
                                                 <img src={imagenPreview} alt="Diseño del tatuaje" className='previewImagenFormulario' />
                                             </div>
-                                            )}
+                                        )}
                                     </label>
                                 </div>
                             </div>
@@ -414,158 +370,27 @@ const Create = ({ auth, artistas, reservas }) => {
                                     <div className='columnas'>
                                         <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
-                                    {/* <div className='columnas'>
-                                        <label>Hora Inicio:</label>
-                                        <select className='inputs' name="hora_inicio" value={data.hora_inicio} onChange={handleChange}>
-                                            {Array.isArray(availableHours) && availableHours.length > 0 ? (
-                                                <>
-                                                    {availableHours.map(hora => (
-                                                        <option key={hora} value={hora}>{hora}</option>
-                                                    ))}
-                                                </>
-                                            ) : (
-                                                <option disabled>No hay horas disponibles</option> // Opción deshabilitada si no hay horas
-                                            )}
-                                        </select>
-                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-                                    </div> */}
                                     <div className='columnas'>
-                                        <label>Hora Inicio:</label>
-                                        <div className='w-full flex flex-row space-x-2'>
-                                            {/* {Array.isArray(availableHours) && availableHours.length > 0 ? (
-                                                <>
-                                                    {availableHours.reduce((acc, hora, index) => {
-                                                        // Agrupar las horas en subarreglos de 3
-                                                        if (index % 3 === 0) acc.push([]); // Crear un nuevo grupo
-                                                        acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
-                                                        return acc;
-                                                    }, []).map((group, groupIndex) => (
-                                                        <div key={groupIndex} className='w-full'>
-                                                            {group.map(hora => (
-                                                                <div key={hora}>
-                                                                    <label className='opcion'>
-                                                                        <input
-                                                                            type="radio"
-                                                                            name="hora_inicio"
-                                                                            value={hora}
-                                                                            checked={data.hora_inicio === hora}
-                                                                            onChange={handleChange}
-                                                                            className=''
-                                                                        />
-                                                                        <span>{hora}</span>
-                                                                    </label>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    ))}
-                                                </>
-                                            ) : (
-                                                <div>No hay horas disponibles</div> // Mensaje si no hay horas
-                                            )}
-                                        </div>
-                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>} */}
-                                        {/* {Array.isArray(availableHours) && availableHours.length > 0 ? ( */}
-                                                    <div className='w-full'>
-                                                        <div>
-                                                            <label className="opcion">
-                                                                <input
-                                                                    id="hora0"
-                                                                    type="radio"
-                                                                    name="hora_inicio"
-                                                                    value="11:30"
-                                                                    checked={data.hora_inicio === '11:30'}
-                                                                    onChange={handleChange}
-                                                                    disabled={availableHours.includes('11:30') ? false : true}
-                                                                    className=''
-                                                                />
-                                                                <span>11:30</span>
-                                                            </label>
-                                                        </div>
-                                                        <div>
-                                                            <label className="opcion">
-                                                                <input
-                                                                    id="hora1"
-                                                                    type="radio"
-                                                                    name="hora_inicio"
-                                                                    value="12:30"
-                                                                    checked={data.hora_inicio === '12:30'}
-                                                                    onChange={handleChange}
-                                                                    disabled={availableHours.includes('12:30') ? false : true}
-                                                                    className=''
-                                                                />
-                                                                <span>12:30</span>
-                                                            </label>
-                                                        </div>
-                                                        <div>
-                                                            <label className="opcion">
-                                                                <input
-                                                                    id="hora2"
-                                                                    type="radio"
-                                                                    name="hora_inicio"
-                                                                    value="13:30"
-                                                                    checked={data.hora_inicio === '13:30'}
-                                                                    onChange={handleChange}
-                                                                    disabled={availableHours.includes('13:30') ? false : true}
-                                                                    className=''
-                                                                />
-                                                                <span>13:30</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div className='w-full'>
-                                                        <div>
-                                                            <label className="opcion">
-                                                                <input
-                                                                    id="hora3"
-                                                                    type="radio"
-                                                                    name="hora_inicio"
-                                                                    value="18:00"
-                                                                    checked={data.hora_inicio === '18:00'}
-                                                                    onChange={handleChange}
-                                                                    disabled={availableHours.includes('18:00') ? false : true}
-                                                                    className=''
-                                                                />
-                                                                <span>18:00</span>
-                                                            </label>
-                                                        </div>
-                                                        <div>
-                                                            <label className="opcion">
-                                                                <input
-                                                                    id="hora4"
-                                                                    type="radio"
-                                                                    name="hora_inicio"
-                                                                    value="19:00"
-                                                                    checked={data.hora_inicio === '19:00'}
-                                                                    onChange={handleChange}
-                                                                    disabled={availableHours.includes('19:00') ? false : true}
-                                                                    className=''
-                                                                />
-                                                                <span>19:00</span>
-                                                            </label>
-                                                        </div>
-                                                        <div>
-                                                            <label className="opcion">
-                                                                <input
-                                                                    id="hora5"
-                                                                    type="radio"
-                                                                    name="hora_inicio"
-                                                                    value="20:00"
-                                                                    checked={data.hora_inicio === '20:00'}
-                                                                    onChange={handleChange}
-                                                                    disabled={availableHours.includes('20:00') ? false : true}
-                                                                    className=''
-                                                                />
-                                                                <span>20:00</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-
-                                            {/* ) : (
-                                                <div>No hay horas disponibles</div> // Mensaje si no hay horas
-                                            )} */}
-                                        </div>
-                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-                                    </div>
+    <label>Hora Inicio:</label>
+    <div className='w-full'>
+        {horasOrdenadas.map((hora, index) => (
+            <div key={index}>
+                <label className="opcion">
+                    <input
+                        type="radio"
+                        name="hora_inicio"
+                        value={hora} // Usamos la hora individual
+                        checked={data.hora_inicio === hora}
+                        onChange={handleChange}
+                        disabled={availableHours.includes(hora)}
+                    />
+                    <span>{hora}</span> {/* Muestra la hora aquí */}
+                </label>
+            </div>
+        ))}
+    </div>
+    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+</div>
                                     <div className='columnas'>
                                         <label>Precio de la señal:</label>
                                         <input className='inputSeñal' type="text" value={data.tatuaje.precio + '€'} readOnly />
@@ -597,7 +422,8 @@ const Create = ({ auth, artistas, reservas }) => {
                                 <h1 className="titulo">Donde nos encontramos</h1>
                                 <hr className="separadorFormulario"/>
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199.3470050739778!2d-6.066423831767834!3d36.924972570650986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0d939f67715b2f%3A0x2fe1b09f9b009cfc!2sArttattoo%20pmg!5e0!3m2!1ses!2ses!4v1716230894555!5m2!1ses!2ses"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199.3470050739778!2d-6.066423831767834!3d36.924972570650986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0 ```javascript
+xd0d939f67715b2f%3A0x2fe1b09f9b009cfc!2sArttattoo%20pmg!5e0!3m2!1ses!2ses!4v1716230894555!5m2!1ses!2ses"
                                     allowFullScreen=""
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
