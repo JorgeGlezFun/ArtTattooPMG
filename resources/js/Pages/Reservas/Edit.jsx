@@ -134,7 +134,6 @@ const Edit = ({ auth, artistas, reserva, cliente, tatuaje }) => {
         formData.append('tatuaje[color]', data.tatuaje.color);
         formData.append('tatuaje[zona]', data.tatuaje.zona);
 
-        console.log(formData.get('tatuaje[ruta_imagen]'));
         try {
             await put(route('reservas.update', reserva.id), formData, {
                 headers: {

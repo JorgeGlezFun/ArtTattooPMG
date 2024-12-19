@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\GaleriaController;
+use App\Http\Controllers\EventoController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -59,8 +64,10 @@ Route::get('/admin/reservas', function () {
     return Inertia::render('ReservasAdmin');
 })->name('reservasadmin');
 
-Route::resource('reservas', ReservaController::class);
 
+Route::resource('horarios', HorarioController::class);
+Route::resource('estaciones', EstacionController::class);
+Route::resource('reservas', ReservaController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
