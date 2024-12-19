@@ -9,16 +9,16 @@ import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
 const Create = ({ auth, artistas, reservas, horarios }) => {
     const nombre = auth.user ? auth.user.nombre : '';
-    const apellido = auth.user ? auth.user.email : '';
+    const apellido = auth.user ? auth.user.apellidos : '';
     const correo = auth.user ? auth.user.email : '';
-    const telefono = auth.user ? auth.user.email : '';
+    const telefono = auth.user ? auth.user.telefono : '';
 
     const { data, setData, post, processing, errors } = useForm({
         cliente: {
-            nombre: '',
-            apellidos: '',
-            telefono: '',
-            email: '',
+            nombre: nombre,
+            apellidos: apellido,
+            telefono: telefono,
+            email: correo,
         },
         artista_id: '',
         tatuaje: {
@@ -43,10 +43,9 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
         zona: ''
     });
 
-    console.log(data.hora_inicio);
-
     const [imagenPreview, setImagePreviewUrl] = useState(null);
     const [availableHours, setAvailableHours] = useState([]);
+    const [horasEstacion, setHorasEstacion] = useState([]);
 
     useEffect(() => {
         calcularTiempoTatuaje();
@@ -57,6 +56,18 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
             verificarDisponibilidad(data.fecha);
         }
     }, [data.hora_inicio, data.tatuaje.tiempo, data.fecha]);
+
+    useEffect(() => {
+        if (data.fecha) {
+            fetchHorasDisponibles(data.fecha);
+        }
+    }, [data.fecha]);
+
+    useEffect(() => {
+        if (data.fecha) {
+            fetchHorasPorEstacion(data.fecha);
+        }
+    }, [data.fecha]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -74,12 +85,6 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
         let formateo = localDate.toISOString().split('T')[0];
         setData('fecha', formateo);
     };
-
-    useEffect(() => {
-        if (data.fecha) {
-            fetchHorasDisponibles(data.fecha);
-        }
-    }, [data.fecha]);
 
     const handleTatuajeOptionsChange = (e) => {
         const { name, value } = e.target;
@@ -164,7 +169,7 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
             zona: tatuajeOptions.zona
         });
     };
-
+    console.log(availableHours);
     const verificarDisponibilidad = (fecha) => {
         if (!data.hora_inicio || !data.tatuaje.tiempo) {
             return;
@@ -202,7 +207,7 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                     duracion: 'La duración de la reserva es excesiva.'
                 }));
             } else {
-                if ((['11:30', '12:30', '13:30'].includes(data.hora_inicio) && horaFinStringTatuaje > '14:30') || horaFinStringTatuaje > '21:30') {
+                if ((['11:30', '12:30', '13:30'].includes(data.hora_inicio) && horaFinStringTatuaje > '15:30') || horaFinStringTatuaje > '22:30') {
                     setData(prevState => ({
                         ...prevState,
                         hora_fin: 'La hora final supera al horario permitido.',
@@ -220,7 +225,9 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
     };
 
     const fetchHorasDisponibles = (fecha) => {
-        let horasDisponibles = horarios.map(horario => horario.hora); // Asumiendo que 'horarios' tiene un campo 'hora'
+        let horasDisponibles = horasEstacion; // Asumiendo que 'horarios' tiene un campo 'hora'
+
+
 
         axios.get('/api/ultima-hora-fin', {
             params: { fecha: fecha },
@@ -247,9 +254,50 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                     hora += 1;
                 }
             });
-
+            console.log('Estas son las horas disponibles:', horasDisponibles);
             setAvailableHours(horasDisponibles);
         });
+    };
+
+    const fetchHorasPorEstacion = async (fecha) => {
+        const mes = new Date(fecha).getMonth();
+        let estacion = '';
+
+        if (mes >= 5 && mes <= 7) {
+            estacion = 'Verano';
+        } else if (mes >= 8 && mes <= 10) {
+            estacion = 'Otoño';
+        } else if (mes === 11 || mes === 0 || mes === 1) {
+            estacion = 'Invierno';
+        } else {
+            estacion = 'Primavera';
+        }
+
+        try {
+            const response = await axios.get('/api/horas-por-estacion', {
+                params:{estacion: estacion},
+            });
+
+            if (response.data && response.data.horas) {
+                setHorasEstacion(response.data.horas);
+            } else {
+                fetchTodasLasHoras();
+            }
+        } catch (error) {
+            console.error("Error consiguiendo las horas por estación:", error.response ? error.response.data : error.message);
+            fetchTodasLasHoras();
+        }
+    };
+
+    const fetchTodasLasHoras = async () => {
+        try {
+            const response = await axios.get('/api/todas-las-horas');
+            if (response.data && response.data.horas) {
+                setHorasEstacion(response.data.horas);
+            }
+        } catch (error) {
+            console.error("Error fetching all hours:", error);
+        }
     };
 
     const message = window.sessionStorage.getItem('flashMessage');
@@ -257,12 +305,6 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
     if (message) {
         window.sessionStorage.removeItem('flashMessage');
     }
-
-    const horasOrdenadas = horarios.flatMap(horario => horario.horas).sort((a, b) => {
-        const [aHoras, aMinutos] = a.split(':').map(Number);
-        const [bHoras, bMinutos] = b.split(':').map(Number);
-        return aHoras - bHoras || aMinutos - bMinutos; // Ordena primero por horas, luego por minutos
-    });
 
     return (
         <>
@@ -371,26 +413,30 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                                         <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
                                     <div className='columnas'>
-    <label>Hora Inicio:</label>
-    <div className='w-full'>
-        {horasOrdenadas.map((hora, index) => (
-            <div key={index}>
-                <label className="opcion">
-                    <input
-                        type="radio"
-                        name="hora_inicio"
-                        value={hora} // Usamos la hora individual
-                        checked={data.hora_inicio === hora}
-                        onChange={handleChange}
-                        disabled={availableHours.includes(hora)}
-                    />
-                    <span>{hora}</span> {/* Muestra la hora aquí */}
-                </label>
-            </div>
-        ))}
-    </div>
-    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-</div>
+                                        <label>Hora Inicio:</label>
+                                        <div className='w-full'>
+                                            {horasEstacion.length > 0 ? (
+                                                horasEstacion.map((hora, index) => (
+                                                    <div key={index}>
+                                                        <label className="opcion">
+                                                            <input
+                                                                type="radio"
+                                                                name="hora_inicio"
+                                                                value={hora}
+                                                                checked={data.hora_inicio === hora}
+                                                                disabled={availableHours.includes(hora) ? false : true}
+                                                                onChange={handleChange}
+                                                            />
+                                                            <span>{hora}</span>
+                                                        </label>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p>No hay horas disponibles.</p>
+                                            )}
+                                        </div>
+                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                    </div>
                                     <div className='columnas'>
                                         <label>Precio de la señal:</label>
                                         <input className='inputSeñal' type="text" value={data.tatuaje.precio + '€'} readOnly />
@@ -422,8 +468,7 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                                 <h1 className="titulo">Donde nos encontramos</h1>
                                 <hr className="separadorFormulario"/>
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199.3470050739778!2d-6.066423831767834!3d36.924972570650986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0 ```javascript
-xd0d939f67715b2f%3A0x2fe1b09f9b009cfc!2sArttattoo%20pmg!5e0!3m2!1ses!2ses!4v1716230894555!5m2!1ses!2ses"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199.3470050739778!2d-6.066423831767834!3d36.924972570650986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0d939f67715b2f%3A0x2fe1b09f9b009cfc!2sArttattoo%20pmg!5e0!3m2!1ses!2ses!4v1716230894555!5m2!1ses!2ses"
                                     allowFullScreen=""
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"

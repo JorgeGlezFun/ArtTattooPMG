@@ -9,13 +9,14 @@ class Estacion extends Model
 {
     use HasFactory;
 
+    protected $table = 'estaciones';
+
     protected $fillable = [
         'nombre',
-        'horario_id'
     ];
 
     public function horas()
     {
-        return $this->hasMany(Horario::class);
+        return $this->belongsToMany(Horario::class, 'estacion_horario');
     }
 }

@@ -28,8 +28,11 @@ export default function HeaderAdmin({ user }) {
                         <NavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>
                             Eventos
                         </NavLinkAdmin>
+                        <NavLinkAdmin href={route('estaciones.index')} active={route().current('estaciones.*')}>
+                            Estaciones
+                        </NavLinkAdmin>
                         <NavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
-                            Horarios
+                            Horas
                         </NavLinkAdmin>
                         <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
                             Reservas
@@ -104,13 +107,19 @@ export default function HeaderAdmin({ user }) {
                     <ResponsiveNavLinkAdmin href={route('/')} active={route().current('/')}>
                         Inicio
                     </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('galeria')} active={route().current('galeria')}>
+                    <ResponsiveNavLinkAdmin href={route('galeria')} active={route().current('galeria.*')}>
                         Galería
                     </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('eventos')} active={route().current('eventos')}>
+                    <ResponsiveNavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>
                         Eventos
                     </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('reservas.index')} active={route().current('reservas.index')}>
+                    <ResponsiveNavLinkAdmin href={route('estaciones.index')} active={route().current('estaciones.*')}>
+                        Estaciones
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
+                        Horas
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
                         Reservas
                     </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('profile.edit')}>Perfil</ResponsiveNavLinkAdmin>

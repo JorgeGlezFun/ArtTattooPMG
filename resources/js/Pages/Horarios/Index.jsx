@@ -60,63 +60,65 @@ const Index = ({ auth, horarios }) => {
             <HeaderAdmin user={auth.user} />
             <div className='mainAdmin'>
                 <div>
-                    <h1 className='text-4xl text-center'>Horarios</h1>
                     {horariosState.length > 0 ? (
-                        <table className='tablaAdmin'>
-                            <thead>
-                                <tr className=''>
-                                    <th>ID Horario</th>
-                                    <th>Estación</th>
-                                    <th>Horario</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {horariosState.map((horario) => (
-                                    <tr key={horario.id}>
-                                        <td>{horario.id}</td>
-                                        <td>{horario.estacion}</td>
-                                        <td>
-                                            {horario.horas.sort().join(', ')} {/* Une las horas en una cadena */}
-                                        </td>
-                                        <td className='p-0'>
-                                            <div className='flex flex-col p-0 h-full'>
-                                                <a href={`/horarios/${horario.id}`} className='w-full h-full inline-flex items-center text-center px-4 py-[0.9225rem] bg-blue-600 border border-transparent font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 transition ease-in-out duration-150'>Ver</a>
-                                                <a href={`/horarios/${horario.id}/edit`} className='w-full h-full inline-flex items-center px-4 py-[0.9225rem] bg-yellow-600 border border-transparent font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-500 active:bg-yellow-700 transition ease-in-out duration-150'>Editar</a>
-                                                <DangerButton className='w-full h-full rounded-none py-[0.9225rem]' onClick={() => confirmarEliminacionHorario(horario.id)}>Eliminar</DangerButton>
-                                                <Modal show={confirmandoEliminacionHorario} onClose={closeModal}>
-                                                    <div className='p-6'>
-                                                        <h2 className="text-lg font-medium text-gray-900">
-                                                            ¿Estás seguro de que quieres borrar el horario?
-                                                        </h2>
-                                                        <div className="mt-6 flex justify-end">
-                                                            <SecondaryButton onClick={closeModal}>Cancelar</SecondaryButton>
-                                                            <DangerButton onClick={handleDelete} className="ms-3">
-                                                                Eliminar
-                                                            </DangerButton>
-                                                        </div>
-                                                    </div>
-                                                </Modal>
-                                                <Modal show={mensajeConfirmacion} onClose={closeMensaje}>
-                                                    <div className='p-8 flex flex-col items-center'>
-                                                        <div className='w-full flex items-right'>
-                                                            <SecondaryButton className='text-black flex justify-center' onClick={closeMensaje}>x</SecondaryButton>
-                                                        </div>
-                                                        <h2 className="text-3xl font-medium text-gray-900 p-6 w-full text-center">
-                                                            Horario eliminado con éxito.
-                                                        </h2>
-                                                    </div>
-                                                </Modal>
-                                            </div>
-                                        </td>
+                        <>
+                            <div className='w-full flex justify-between mb-2'>
+                                <h1 className='text-4xl text-center flex items-center justify-center'>Horas</h1>
+                                <a href={route('horarios.create')} className='w-fit items-center justify-center flex rounded-md p-2 bg-green-400 hover:bg-green-700 transition duration-300 ease-in-out'> Nueva hora </a>
+                            </div>
+                            <table className='tablaAdmin rounded-lg'>
+                                <thead>
+                                    <tr>
+                                        <th>ID Hora</th>
+                                        <th>Hora</th>
+                                        <th>Acciones</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {horariosState.map((horario) => (
+                                        <tr key={horario.id}>
+                                            <td>{horario.id}</td>
+                                            <td>{horario.hora}</td>
+                                            <td className='p-0'>
+                                                <div className='flex flex-row p-0 h-full'>
+                                                    <a href={`/horarios/${horario.id}`} className='w-full h-full inline-flex items-center text-center px-4 py-5 bg-blue-600 border border-transparent font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 transition ease-in-out duration-150'>Ver</a>
+                                                    <a href={`/horarios/${horario.id}/edit`} className='w-full h-full inline-flex items-center px-4 py-5 bg-yellow-600 border border-transparent font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-500 active:bg-yellow-700 transition ease-in-out duration-150'>Editar</a>
+                                                    <DangerButton className='w-full h-full rounded-none py-5' onClick={() => confirmarEliminacionHorario(horario.id)}>Eliminar</DangerButton>
+                                                    <Modal show={confirmandoEliminacionHorario} onClose={closeModal}>
+                                                        <div className='p-6'>
+                                                            <h2 className="text-lg font-medium text-gray-900">
+                                                                ¿Estás seguro de que quieres borrar el horario?
+                                                            </h2>
+                                                            <div className="mt-6 flex justify-end">
+                                                                <SecondaryButton onClick={closeModal}>Cancelar</SecondaryButton>
+                                                                <DangerButton onClick={handleDelete} className="ms-3">
+                                                                    Eliminar
+                                                                </DangerButton>
+                                                            </div>
+                                                        </div>
+                                                    </Modal>
+                                                    <Modal show={mensajeConfirmacion} onClose={closeMensaje}>
+                                                        <div className='p-8 flex flex-col items-center'>
+                                                            <div className='w-full flex items-right'>
+                                                                <SecondaryButton className='text-black flex justify-center' onClick={closeMensaje}>x</SecondaryButton>
+                                                            </div>
+                                                            <h2 className="text-3xl font-medium text-gray-900 p-6 w-full text-center">
+                                                                Horario eliminado con éxito.
+                                                            </h2>
+                                                        </div>
+                                                    </Modal>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </>
                     ) : (
-                        <div>
-                            <h1 className="text-center h-10">No hay horarios.</h1>
-                            <a href={route('horarios.create')} className='text-center p-5 bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Crear un nuevo horario </a>
+                        <div className='space-y-2'>
+                            <h1 className='text-4xl text-center flex items-center justify-center'>Horas</h1>
+                            <h1 className="text-center">No hay horas.</h1>
+                            <a href={route('horarios.create')} className='flex text-center p-5 rounded-md bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Crear un nuevo horario </a>
                         </div>
                     )}
                 </div>

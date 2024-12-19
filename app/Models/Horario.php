@@ -15,7 +15,7 @@ class Horario extends Model
 
     public function estacion()
     {
-        return $this->belongsTo(Estacion::class);
+        return $this->belongsToMany(Estacion::class, 'estacion_horario');
     }
 
 }

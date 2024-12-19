@@ -7,14 +7,18 @@ import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
 const Create = ({ auth }) => {
     const { data, setData, post, processing, errors } = useForm({
-        estacion: '',
-        horas: [],
+        hora: '', // Inicializa como un string vacío
     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setData(name, value);
-    };
+    const [hora, setHora] = useState('');
+    const [minuto, setMinuto] = useState('');
+
+    // Actualiza el string de hora cada vez que cambian los inputs
+    useEffect(() => {
+        const horaFormateada = hora.padStart(2, '0');
+        const minutoFormateado = minuto.padStart(2, '0');
+        setData('hora', `${horaFormateada}:${minutoFormateado}`);
+    }, [hora, minuto]); // Dependencias para actualizar cuando cambian hora o minuto
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -30,21 +34,6 @@ const Create = ({ auth }) => {
         window.sessionStorage.removeItem('flashMessage');
     }
 
-    const [hora, setHora] = useState('');
-    const [minuto, setMinuto] = useState('');
-
-    const anadirHoras = () => {
-        if (hora && minuto) {
-            const horaFormateada = hora.padStart(2, '0');
-            const minutoFormateado = minuto.padStart(2, '0');
-
-            const nuevaHora = `${horaFormateada}:${minutoFormateado}`;
-            setData('horas', [...data.horas, nuevaHora]);
-            setHora('');
-            setMinuto('');
-        }
-    };
-
     return (
         <>
             <Head title="Reservas" />
@@ -57,11 +46,6 @@ const Create = ({ auth }) => {
                             <h1 className="titulo">Crea el horario</h1>
                             <hr className="separadorFormulario"/>
                             <div className='filaDos'>
-                                <div className='columnaNombre'>
-                                    <label>Estación:</label>
-                                    <input className='inputs' type="text" name="estacion" value={data.estacion} onChange={handleChange} />
-                                    {errors['estacion'] && <div>{errors['estacion']}</div>}
-                                </div>
                                 <div className='columnaApellido'>
                                     <label>Horas:</label>
                                     <div className='filaUno'>
@@ -84,10 +68,8 @@ const Create = ({ auth }) => {
                                             value={minuto}
                                             onChange={(e) => setMinuto(e.target.value)}
                                         />
-                                        <button type="button" onClick={anadirHoras} className='botonFormulario'>Añadir horas</button>
                                     </div>
-                                    <p>Horas añadidas: {data.horas.join(', ')}</p>
-                                    {errors['horas'] && <div>{errors['horas']}</div>}
+                                    {errors['hora'] && <div>{errors['hora']}</div>}
                                 </div>
                             </div>
                             <button type="submit" disabled={processing} className='botonFormulario'>Crear horario</button>
