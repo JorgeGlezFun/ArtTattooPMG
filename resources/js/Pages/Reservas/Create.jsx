@@ -169,7 +169,7 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
             zona: tatuajeOptions.zona
         });
     };
-    console.log(availableHours);
+
     const verificarDisponibilidad = (fecha) => {
         if (!data.hora_inicio || !data.tatuaje.tiempo) {
             return;

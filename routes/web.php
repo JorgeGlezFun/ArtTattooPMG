@@ -4,6 +4,7 @@ use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\DescansoController;
 use App\Http\Controllers\GaleriaController;
 use App\Http\Controllers\EventoController;
 
@@ -67,6 +68,7 @@ Route::get('/admin/reservas', function () {
 
 Route::resource('horarios', HorarioController::class);
 Route::resource('estaciones', EstacionController::class);
+Route::resource('descansos', DescansoController::class);
 Route::resource('reservas', ReservaController::class);
 
 Route::get('/dashboard', function () {

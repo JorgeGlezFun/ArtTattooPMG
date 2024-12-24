@@ -32,7 +32,7 @@ const Index = ({ auth, horarios }) => {
         if (!horarioAEliminar) return;
 
         try {
-            console.log('Eliminando horario con ID:', horarioAEliminar); // Verifica el ID
+            console.log('Eliminando horario con ID:', horarioAEliminar);
             const response = await axios.delete(`/horarios/${horarioAEliminar}`, {
                 headers: {
                     'X-CSRF-Token': csrfToken,
