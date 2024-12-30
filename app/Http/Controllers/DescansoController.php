@@ -80,9 +80,18 @@ class DescansoController extends Controller
      */
     public function destroy($id)
     {
-
         $descanso = Descanso::findOrFail($id);
         $descanso->delete();
         return redirect()->route('descansos.index')->with('success', 'Día de descanso eliminado exitosamente.');
+    }
+
+    public function vacaciones()
+    {
+        $descansos = Descanso::all();
+        $fechas = $descansos->map(function ($descanso) {
+            return $descanso->fecha;
+        });
+        return response()->json($fechas);
+
     }
 }

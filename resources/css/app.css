@@ -826,11 +826,14 @@ td:first-child {
 }
 
 .react-calendar__tile {
-    @apply w-full h-full p-3 text-center text-lg;
+    @apply w-full h-full p-3 text-center text-lg text-black;
 }
 
 .react-calendar__tile:disabled {
-    @apply bg-gray-300 text-gray-500;
+    @apply bg-gray-300 text-gray-700;
+}
+.react-calendar__tile.react-calendar__tile--descanso:disabled {
+    @apply bg-red-600 text-red-200;
 }
 
 .react-calendar__month-view__days__day--neighboringMonth:disabled,
