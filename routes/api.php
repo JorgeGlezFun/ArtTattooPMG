@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DescansoController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\EstacionController;
 use Illuminate\Http\Request;
@@ -23,3 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/ultima-hora-fin', [ReservaController::class, 'obtenerUltimaHoraFin']);
 Route::get('/horas-por-estacion', [EstacionController::class, 'conseguirHorasPorEstacion']);
 Route::get('/todas-las-horas', [EstacionController::class, 'conseguirTodasLasHoras']);
+Route::get('/vacaciones', [DescansoController::class, 'vacaciones']);
