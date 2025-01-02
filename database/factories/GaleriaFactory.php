@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\2024_12_13_203334_create_estacion_horario_table>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Galeria>
  */
-class 20241213203334CreateEstacionHorarioTableFactory extends Factory
+class GaleriaFactory extends Factory
 {
     /**
      * Define the model's default state.

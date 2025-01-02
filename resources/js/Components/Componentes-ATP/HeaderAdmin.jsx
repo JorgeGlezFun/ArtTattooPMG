@@ -22,7 +22,7 @@ export default function HeaderAdmin({ user }) {
                         <NavLinkAdmin href={route('/')} active={route().current('/')}>
                             Inicio
                         </NavLinkAdmin>
-                        <NavLinkAdmin href={route('galeria')} active={route().current('galeria.*')}>
+                        <NavLinkAdmin href={route('galerias.index')} active={route().current('galerias.*')}>
                             Galería
                         </NavLinkAdmin>
                         <NavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>

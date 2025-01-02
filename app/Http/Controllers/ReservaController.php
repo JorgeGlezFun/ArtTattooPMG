@@ -67,6 +67,7 @@ class ReservaController extends Controller
             'hora_fin' => 'required',
             'duracion' => 'required|integer'
         ]);
+
         $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
         $currentDatetime = Carbon::now();
 

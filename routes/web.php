@@ -69,6 +69,7 @@ Route::get('/admin/reservas', function () {
 Route::resource('horarios', HorarioController::class);
 Route::resource('estaciones', EstacionController::class);
 Route::resource('descansos', DescansoController::class);
+Route::resource('galerias', GaleriaController::class);
 Route::resource('reservas', ReservaController::class);
 
 Route::get('/dashboard', function () {
