@@ -7,7 +7,7 @@ import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
 const Edit = ({ auth, horario }) => { // Recibe 'horario' como prop
     const { data, setData, put, processing, errors } = useForm({
-        hora: horario.hora || '', // Inicializa con la hora existente
+        hora: horario.hora || '',
     });
 
     const [hora, setHora] = useState('');
@@ -27,7 +27,7 @@ const Edit = ({ auth, horario }) => { // Recibe 'horario' como prop
         const horaFormateada = hora.padStart(2, '0');
         const minutoFormateado = minuto.padStart(2, '0');
         setData('hora', `${horaFormateada}:${minutoFormateado}`);
-    }, [hora, minuto]); // Dependencias para actualizar cuando cambian hora o minuto
+    }, [hora, minuto]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
