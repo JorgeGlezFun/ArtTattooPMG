@@ -107,7 +107,7 @@ export default function HeaderAdmin({ user }) {
                     <ResponsiveNavLinkAdmin href={route('/')} active={route().current('/')}>
                         Inicio
                     </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('galeria')} active={route().current('galeria.*')}>
+                    <ResponsiveNavLinkAdmin href={route('galerias.index')} active={route().current('galeria.*')}>
                         Galería
                     </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>

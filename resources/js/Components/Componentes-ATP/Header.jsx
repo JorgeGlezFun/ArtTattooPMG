@@ -25,7 +25,7 @@ export default function Header({ user }) {
                         <NavLink href={route('sobrenosotros')} active={route().current('sobrenosotros')}>
                             Sobre Nosotros
                         </NavLink>
-                        <NavLink href={route('galeria')} active={route().current('galeria')}>
+                        <NavLink href={route('galerias.public')} active={route().current('galerias.public')}>
                             Galería
                         </NavLink>
                         <NavLink href={route('eventos')} active={route().current('eventos')}>
@@ -107,7 +107,7 @@ export default function Header({ user }) {
                     <ResponsiveNavLink href={route('sobrenosotros')} active={route().current('sobrenosotros')}>
                         Sobre Nosotros
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('galeria')} active={route().current('galeria')}>
+                    <ResponsiveNavLink href={route('galerias.public')} active={route().current('galerias.public')}>
                         Galería
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('eventos')} active={route().current('eventos')}>

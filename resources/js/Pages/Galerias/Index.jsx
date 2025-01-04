@@ -3,14 +3,14 @@ import HeaderAdmin from '@/Components/Componentes-ATP/HeaderAdmin';
 import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import axios from 'axios';
 
 const Index = ({ auth, galerias }) => {
     const [confirmandoEliminacionGaleria, setConfirmandoEliminacionGaleria] = useState(false);
     const [mensajeConfirmacion, setMensajeConfirmacion] = useState(false);
     const [galeriaAEliminar, setGaleriaAEliminar] = useState(null);
-    const [galeriaState, setGaleriaState] = useState(galerias);
+    const [galeriaState, setGaleriaState] = useState(galerias.data);
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -119,6 +119,15 @@ const Index = ({ auth, galerias }) => {
                             <h1 className='text-4xl text-center flex items-center justify-center'>Galerias</h1>
                             <h1 className="text-center">No hay fotos para la galeria.</h1>
                             <a href={route('galerias.create')} className='flex items-center justify-center text-center p-5 rounded-md bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Añadir imagen. </a>
+                        </div>
+                    )}
+                    {galerias.data.length > 0 && (
+                        <div className="pagination">
+                            {galerias.links.map((link) => (
+                                <Link key={link.label} href={link.url} className={link.active ? 'paginationActive' : ''}>
+                                    {link.label === '&laquo; Previous' ? 'Anterior' : link.label === 'Next &raquo;' ? 'Siguiente' : link.label}
+                                </Link>
+                            ))}
                         </div>
                     )}
                 </div>

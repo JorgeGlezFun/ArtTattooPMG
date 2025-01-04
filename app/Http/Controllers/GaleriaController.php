@@ -18,16 +18,18 @@ class GaleriaController extends Controller
      */
     public function index()
     {
-        $galerias = Galeria::all();
+        $galerias = Galeria::paginate(5);
+
         foreach ($galerias as $galeria) {
             if ($galeria->ruta_imagen) {
                 $galeria->ruta_imagen = asset('storage/' . $galeria->ruta_imagen);
             }
         }
 
-        return inertia('Galerias/Index', ['galerias' => $galerias]);
+        return inertia('Galerias/Index', [
+            'galerias' => $galerias,
+        ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -164,5 +166,20 @@ class GaleriaController extends Controller
         // Eliminar el registro de la base de datos
         $galeria->delete();
         return response()->json(['success' => true, 'message' => 'Imagen eliminada exitosamente.']);
+    }
+
+    public function indexPublic()
+    {
+        $galerias = Galeria::paginate(12);
+
+        foreach ($galerias as $galeria) {
+            if ($galeria->ruta_imagen) {
+                $galeria->ruta_imagen = asset('storage/' . $galeria->ruta_imagen);
+            }
+        }
+
+        return inertia('Galerias/Public', [
+            'galerias' => $galerias,
+        ]);
     }
 }

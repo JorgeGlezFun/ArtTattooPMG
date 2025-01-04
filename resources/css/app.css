@@ -915,3 +915,28 @@ td:first-child {
 .opcionPerfil span {
     @apply w-full p-8 h-full flex items-center justify-center rounded-md; /* Asegura que el span ocupe todo el espacio */
 }
+
+/* Estilos para la paginacion */
+.pagination {
+    @apply flex justify-center m-5;
+}
+
+.pagination a {
+    @apply px-4 py-2 border border-black bg-[#efb810] text-black transition-colors duration-300;
+}
+
+.pagination a:first-child {
+    @apply rounded-l-lg; /* Esquinas redondeadas a la izquierda para el primer botón */
+}
+
+.pagination a:last-child {
+    @apply rounded-r-lg; /* Esquinas redondeadas a la derecha para el último botón */
+}
+
+.pagination a:hover {
+    @apply bg-black text-[#efb810]; /* Fondo negro y texto dorado al hacer hover */
+}
+
+.paginationActive {
+    @apply bg-black text-[#efb810]
+}

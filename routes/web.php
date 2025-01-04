@@ -41,9 +41,11 @@ Route::get('/sobrenosotros', function () {
     return Inertia::render('SobreNosotros');
 })->name('sobrenosotros');
 
-Route::get('/galeria', function () {
-    return Inertia::render('Galeria');
-})->name('galeria');
+Route::get('/galeria', [GaleriaController::class, 'indexPublic'])->name('galerias.public');
+
+// Route::get('/galeria', function () {
+//     return Inertia::render('Galeria');
+// })->name('galeria');
 
 Route::get('/eventos', function () {
     return Inertia::render('Eventos');
