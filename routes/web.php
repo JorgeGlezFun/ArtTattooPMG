@@ -42,18 +42,15 @@ Route::get('/sobrenosotros', function () {
 })->name('sobrenosotros');
 
 Route::get('/galeria', [GaleriaController::class, 'indexPublic'])->name('galerias.public');
+Route::get('/evento', [EventoController::class, 'indexPublic'])->name('eventos.public');
 
 // Route::get('/galeria', function () {
 //     return Inertia::render('Galeria');
 // })->name('galeria');
 
-Route::get('/eventos', function () {
-    return Inertia::render('Eventos');
-})->name('eventos');
-
-Route::get('/tienda', function () {
-    return Inertia::render('Tienda');
-})->name('tienda');
+// Route::get('/eventos', function () {
+//     return Inertia::render('Eventos');
+// })->name('eventos');
 
 Route::get('/reservar', function () {
     return Inertia::render('Reservar');
@@ -72,6 +69,7 @@ Route::resource('horarios', HorarioController::class);
 Route::resource('estaciones', EstacionController::class);
 Route::resource('descansos', DescansoController::class);
 Route::resource('galerias', GaleriaController::class);
+Route::resource('eventos', EventoController::class);
 Route::resource('reservas', ReservaController::class);
 
 Route::get('/dashboard', function () {

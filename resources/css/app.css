@@ -173,6 +173,10 @@ html {
     @apply text-center;
 }
 
+.tablaAdmin tbody tr .prueba{
+    @apply text-left;
+}
+
 .botonShow {
     @apply
     flex w-full h-14 text-2xl rounded-md bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
@@ -552,7 +556,7 @@ tbody tr td:first-child {
 .imagenEvento {
     @apply
     relative
-    w-96 hover:opacity-0 transition ease-in-out duration-300
+    w-fit hover:opacity-0 transition ease-in-out duration-300
     lg:w-fit lg:h-fit;
 }
 
