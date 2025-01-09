@@ -8,12 +8,12 @@ function Footer() {
         <ul>
             <li>Contactanos:</li>
             <li><a href="">+34 651 68 77 17</a></li>
-            <li><a> Calle Paraguay 6, Lebrija, 41740, Sevilla</a></li>
+            <li><a> Avda cangas, 79, 41740 Lebrija, Sevilla</a></li>
         </ul>
         <ul>
             <li>Horario:</li>
             <li>Lunes a Viernes: 11:30-13:30 / 18:00-21:00</li>
-            <li>Sábado: 11:30-13:30</li>
+            <li>Sábado: Cerrado</li>
             <li>Domingo: Cerrado</li>
         </ul>
         <ul>

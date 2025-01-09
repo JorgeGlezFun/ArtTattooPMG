@@ -25,7 +25,7 @@ export default function HeaderAdmin({ user }) {
                         <NavLinkAdmin href={route('galerias.index')} active={route().current('galerias.*')}>
                             Galería
                         </NavLinkAdmin>
-                        <NavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>
+                        <NavLinkAdmin href={route('eventos.index')} active={route().current('eventos.*')}>
                             Eventos
                         </NavLinkAdmin>
                         <NavLinkAdmin href={route('estaciones.index')} active={route().current('estaciones.*')}>
@@ -110,7 +110,7 @@ export default function HeaderAdmin({ user }) {
                     <ResponsiveNavLinkAdmin href={route('galerias.index')} active={route().current('galeria.*')}>
                         Galería
                     </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('eventos')} active={route().current('eventos.*')}>
+                    <ResponsiveNavLinkAdmin href={route('eventos.index')} active={route().current('eventos.*')}>
                         Eventos
                     </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('estaciones.index')} active={route().current('estaciones.*')}>

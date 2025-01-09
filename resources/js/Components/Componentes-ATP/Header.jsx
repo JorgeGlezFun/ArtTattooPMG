@@ -28,7 +28,7 @@ export default function Header({ user }) {
                         <NavLink href={route('galerias.public')} active={route().current('galerias.public')}>
                             Galería
                         </NavLink>
-                        <NavLink href={route('eventos')} active={route().current('eventos')}>
+                        <NavLink href={route('eventos.public')} active={route().current('eventos.public')}>
                             Eventos
                         </NavLink>
                         <NavLink href={route('reservas.create')} active={route().current('reservas.create')}>
@@ -110,7 +110,7 @@ export default function Header({ user }) {
                     <ResponsiveNavLink href={route('galerias.public')} active={route().current('galerias.public')}>
                         Galería
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('eventos')} active={route().current('eventos')}>
+                    <ResponsiveNavLink href={route('eventos.public')} active={route().current('eventos.public')}>
                         Eventos
                     </ResponsiveNavLink>
                     <ResponsiveNavLink href={route('reservas.create')} active={route().current('reservas.create')}>
