@@ -26,15 +26,15 @@ export default function Eventos({ auth, eventos }) {
                             <div className='imagenesEventos'>
                                 {eventoState.map((evento) => (
                                     <div key={evento.id} className='contenedorImagenEvento'>
-                                        <Link href={`/eventos/${evento.id}`} className=''>
+                                        <Link href={`/evento/${evento.id}`} className='flex items-center justify-center'>
                                             <img
                                                 src={evento.ruta_imagen}
                                                 alt={`Imagen de ${evento.titulo}`}
                                                 className='imagenEvento'
                                             />
-                                            <span className='nombreImagen'>
+                                            <p className='nombreImagen'>
                                                 {evento.titulo}
-                                            </span>
+                                            </p>
                                         </Link>
                                     </div>
                                 ))}

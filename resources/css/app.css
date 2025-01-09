@@ -504,8 +504,7 @@ tbody tr td:first-child {
 
 /* Estilos Eventos */
 .mainEventos {
-    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
-
+    @apply flex flex-col xl:flex-row items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
 }
 
 .contenedorEventos {
@@ -522,12 +521,36 @@ tbody tr td:first-child {
     lg:w-[58rem]
 
     md:w-[42rem];
+}
 
+.contenedorEventosShow {
+    @apply
+
+    flex items-center justify-center w-[37rem] mx-4
+
+    3xl:w-[110rem]
+
+    2xl:w-[90rem]
+
+    xl:w-[75rem]
+
+    lg:w-[58rem]
+
+    md:w-[42rem];
 }
 
 .infoEventos {
     @apply
+
     2xl:w-[83.125rem] h-auto flex-col m-0 mt-10 last:mb-10 p-4
+
+    lg:w-full;
+}
+
+.infoEventosShow {
+    @apply
+    bg-white/80
+    2xl:w-[70rem] 2xl:h-96 flex-col m-0 mt-10 last:mb-10 p-8
 
     lg:w-full;
 }
@@ -541,8 +564,13 @@ tbody tr td:first-child {
     @apply text-xl leading-5 w-full py-4;
 }
 
+.textoEventosShow {
+    font-family: 'Josefin Slab';
+    @apply text-2xl leading-10 w-full py-4;
+}
+
 .contenedorImagenesEventos {
-    @apply flex w-full items-center justify-center;
+    @apply flex relative w-full items-center justify-center;
 }
 
 .imagenesEventos {
@@ -560,17 +588,30 @@ tbody tr td:first-child {
     lg:w-fit lg:h-fit;
 }
 
-.nombreImagen {
-
-    @apply absolute text-pink-500 top-1/2 right-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300; /* Inicialmente oculto */
-
+.imagenEventosShow {
+    @apply
+    xl:flex xl:w-[37.5rem] xl:h-[50rem] xl:mt-0
+    w-fit h-fit mt-8;
 }
 
+.nombreImagen {
+    font-family: 'Josefin Slab';
+    @apply text-2xl font-bold text-black absolute opacity-0 transition-opacity duration-300 w-72 flex items-center justify-center;
+}
 
 .contenedorImagenEvento:hover .nombreImagen {
+    @apply opacity-100;
+}
 
-    @apply opacity-100; /* Mostrar texto al hacer hover */
+.contenedorImagenEvento:hover .imagenEvento {
+    @apply opacity-0;
+}
 
+.botonEventoShow {
+    @apply
+    flex w-full h-14 text-2xl rounded-md bg-black text-[#efb810] justify-center items-center transition duration-500 hover:bg-[#efb810] hover:text-black
+
+    xl:w-fit px-10;
 }
 
 /* Estilos Reservar */

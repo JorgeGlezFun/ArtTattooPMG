@@ -43,6 +43,7 @@ Route::get('/sobrenosotros', function () {
 
 Route::get('/galeria', [GaleriaController::class, 'indexPublic'])->name('galerias.public');
 Route::get('/evento', [EventoController::class, 'indexPublic'])->name('eventos.public');
+Route::get('/evento/{id}', [EventoController::class, 'showPublic'])->name('eventos.publicshow');
 
 // Route::get('/galeria', function () {
 //     return Inertia::render('Galeria');

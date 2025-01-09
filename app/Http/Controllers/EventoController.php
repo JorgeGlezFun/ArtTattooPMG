@@ -143,7 +143,7 @@ class EventoController extends Controller
             // Procesar la imagen
             $manager = new ImageManager(new Driver());
             $imageR = $manager->read(Storage::disk('public')->get('uploads/eventos/' . $nombreImagen));
-            $imageR->resize(400, 600, function ($constraint) {
+            $imageR->resize(400, 800, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $ruta = Storage::path('public/uploads/eventos/' . $nombreImagen);
@@ -188,6 +188,19 @@ class EventoController extends Controller
 
         return inertia('Eventos/Public', [
             'eventos' => $eventos,
+        ]);
+    }
+
+    public function showPublic($id)
+    {
+
+        $evento = Evento::findOrFail($id);
+        if ($evento->ruta_imagen) {
+            $evento->ruta_imagen = asset('storage/' . $evento->ruta_imagen);
+        }
+
+        return inertia('Eventos/PublicShow', [
+            'evento' => $evento,
         ]);
     }
 }
