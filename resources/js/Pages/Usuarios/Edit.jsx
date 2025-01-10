@@ -10,7 +10,7 @@ const Edit = ({ auth, usuario }) => {
         nombre: usuario.nombre,
         apellidos: usuario.apellidos,
         telefono: usuario.telefono,
-        email: '',
+        // email: '',
     });
 
     const message = window.sessionStorage.getItem('flashMessage');
@@ -23,7 +23,6 @@ const Edit = ({ auth, usuario }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         const [parent, key] = name.split('.');
-        console.log('Parent:', parent, 'Key:', key, 'Value:', value);
         if (key) {
             setData(parent, { ...data[parent], [key]: value });
         } else {
@@ -33,37 +32,37 @@ const Edit = ({ auth, usuario }) => {
 
     console.log(data);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await put(route('usuarios.update', usuario.id), data);
-            console.log('Usuario actualizado con éxito');
-        } catch (error) {
-            console.error('Error al actualizar el usuario:', error.response ? error.response.data : error.message);
-        }
-    };
-
     // const handleSubmit = async (e) => {
     //     e.preventDefault();
-    //     const formData = new FormData();
-    //     formData.append('_method', 'PUT');
-    //     formData.append('nombre', data.nombre);
-    //     formData.append('apellidos', data.apellidos);
-    //     formData.append('telefono', data.telefono);
-    //     formData.append('email', data.email);
-
     //     try {
-    //         await put(route('usuarios.update', usuario.id), formData, {
-    //             forcedFormData: true,
-    //             headers: {
-    //                 'Content-Type': 'multipart/form-data',
-    //             }
-    //         });
+    //         await put(route('usuarios.update', usuario.id), data);
     //         console.log('Usuario actualizado con éxito');
     //     } catch (error) {
     //         console.error('Error al actualizar el usuario:', error.response ? error.response.data : error.message);
     //     }
     // };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('_method', 'PUT');
+        formData.append('nombre', data.nombre);
+        formData.append('apellidos', data.apellidos);
+        formData.append('telefono', data.telefono);
+        // formData.append('email', data.email);
+
+        try {
+            await put(route('usuarios.update', usuario.id), formData, {
+                forcedFormData: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            console.log('Usuario actualizado con éxito');
+        } catch (error) {
+            console.error('Error al actualizar el usuario:', error.response ? error.response.data : error.message);
+        }
+    };
 
     return (
         <>
@@ -93,11 +92,11 @@ const Edit = ({ auth, usuario }) => {
                                 <input className='inputs' type="text" name="telefono" value={data.telefono} onChange={handleChange} />
                                 {errors['telefono'] && <div>{errors['telefono']}</div>}
                             </div>
-                            <div className='columnas'>
+                            {/* <div className='columnas'>
                                 <label>Email:</label>
                                 <input className='inputs' type="email" name="email" value={data.email} onChange={handleChange} />
                                 {errors['email'] && <div>{errors['email']}</div>}
-                            </div>
+                            </div> */}
                             {/* <div className='columnas'>
                                 <label>Contraseña:</label>
                                 <input className='inputs' type="password" name="password" value={data.password} onChange={handleChange} />

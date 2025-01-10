@@ -91,17 +91,17 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        dd($request);
+        // dd($request);
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'telefono' => 'nullable|integer', // Permitir nulo
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            // 'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         ]);
 
-        $user->update($request->only(['nombre', 'apellidos', 'telefono', 'email']));
-
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado exitosamente.');
+        $user->update($request->all());
+        // dd($user);
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
     /**
