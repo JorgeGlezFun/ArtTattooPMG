@@ -119,6 +119,12 @@ export default function HeaderAdmin({ user }) {
                     <ResponsiveNavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
                         Horas
                     </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('artistas.index')} active={route().current('artistas.*')}>
+                        Artistas
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('usuarios.index')} active={route().current('usuarios.*')}>
+                        Usuarios
+                    </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
                         Reservas
                     </ResponsiveNavLinkAdmin>

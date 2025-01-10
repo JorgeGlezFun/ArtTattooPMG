@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreArtistaRequest;
-use App\Http\Requests\UpdateArtistaRequest;
 use App\Models\Artista;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ArtistaController extends Controller
 {
@@ -13,7 +13,8 @@ class ArtistaController extends Controller
      */
     public function index()
     {
-        //
+        $artistas = Artista::all();
+        return Inertia::render('Artistas/Index', ['artistas' => $artistas]);
     }
 
     /**
@@ -21,15 +22,20 @@ class ArtistaController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Artistas/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreArtistaRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+        ]);
+        Artista::create($request->all());
+        return redirect()->route('artistas.index');
     }
 
     /**
@@ -37,7 +43,7 @@ class ArtistaController extends Controller
      */
     public function show(Artista $artista)
     {
-        //
+        return Inertia::render('Artistas/Show', ['artista' => $artista]);
     }
 
     /**
@@ -45,15 +51,20 @@ class ArtistaController extends Controller
      */
     public function edit(Artista $artista)
     {
-        //
+        return Inertia::render('Artistas/Edit', ['artista' => $artista]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtistaRequest $request, Artista $artista)
+    public function update(Request $request, Artista $artista)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+        ]);
+        $artista->update($request->all());
+        return redirect()->route('artistas.index');
     }
 
     /**
@@ -61,6 +72,7 @@ class ArtistaController extends Controller
      */
     public function destroy(Artista $artista)
     {
-        //
+        $artista->delete();
+        return redirect()->route('artistas.index');
     }
 }
