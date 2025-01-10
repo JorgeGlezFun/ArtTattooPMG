@@ -6,13 +6,12 @@ import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
 const Edit = ({ auth, galeria }) => {
     const { data, setData, put, processing, errors } = useForm({
-        ruta_imagen: null, // Inicialmente null
+        ruta_imagen: null,
     });
 
     const [imagenPreview, setImagePreviewUrl] = useState(null);
 
     useEffect(() => {
-        // Cargar la ruta de la imagen existente
         setData('ruta_imagen', galeria.ruta_imagen);
         setImagePreviewUrl(galeria.ruta_imagen);
     }, [galeria]);

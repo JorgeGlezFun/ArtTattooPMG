@@ -138,6 +138,25 @@ html {
     @apply text-2xl;
 }
 
+.detallesUsuario {
+    @apply w-full flex justify-start;
+}
+
+.detallesUsuario h2 {
+    font-family: 'Josefin Slab';
+    @apply font-bold text-3xl w-full;
+}
+
+.detallesUsuario strong {
+    font-family: 'Josefin Slab';
+    @apply font-bold text-2xl;
+}
+
+.detallesUsuario p {
+    font-family: 'Josefin Slab';
+    @apply text-2xl;
+}
+
 .detallesReserva {
     @apply w-full flex justify-center space-x-36;
 }
@@ -583,7 +602,6 @@ tbody tr td:first-child {
 
 .imagenEvento {
     @apply
-    relative
     w-fit hover:opacity-0 transition ease-in-out duration-300
     lg:w-fit lg:h-fit;
 }
@@ -596,7 +614,10 @@ tbody tr td:first-child {
 
 .nombreImagen {
     font-family: 'Josefin Slab';
-    @apply text-2xl font-bold text-black absolute opacity-0 transition-opacity duration-300 w-72 flex items-center justify-center;
+    @apply text-2xl font-bold text-black absolute opacity-0 transition-opacity duration-300 flex items-center justify-center
+    sm:w-80
+    lg:w-60
+    xl:w-72
 }
 
 .contenedorImagenEvento:hover .nombreImagen {

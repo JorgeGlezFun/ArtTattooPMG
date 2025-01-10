@@ -5,19 +5,13 @@ import Footer from '@/Components/Componentes-ATP/Footer';
 import { Head } from '@inertiajs/react';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
-const Edit = ({ auth, horarios, estacion }) => { // Recibe 'estacion' como prop
+const Edit = ({ auth, horarios, estacion }) => {
     const { data, setData, put, processing, errors } = useForm({
         nombre: estacion.nombre,
-        horas: estacion.horas.map(h => h.id.toString()) || [], // Inicializa con las horas asociadas
+        horas: estacion.horas.map(h => h.id.toString()) || [],
     });
-
-    console.log(data.nombre)
-    console.log(data.estacion)
-    console.log(estacion)
-    console.log(horarios)
     const message = window.sessionStorage.getItem('flashMessage');
 
-    // Limpiar el mensaje de la sesión después de mostrarlo
     if (message) {
         window.sessionStorage.removeItem('flashMessage');
     }
@@ -27,7 +21,7 @@ const Edit = ({ auth, horarios, estacion }) => { // Recibe 'estacion' como prop
         const formData = new FormData();
         formData.append('_method', 'PUT');
         formData.append('nombre', data.nombre);
-        data.horas.forEach(hora => formData.append('horas[]', hora)); // Agrega cada hora al FormData
+        data.horas.forEach(hora => formData.append('horas[]', hora));
 
         try {
             await put(route('estaciones.update', estacion.id), formData, {
@@ -44,9 +38,9 @@ const Edit = ({ auth, horarios, estacion }) => { // Recibe 'estacion' como prop
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
         if (checked) {
-            setData('horas', [...data.horas, value]); // Agrega la hora seleccionada
+            setData('horas', [...data.horas, value]);
         } else {
-            setData('horas', data.horas.filter(hora => hora !== value)); // Elimina la hora deseleccionada
+            setData('horas', data.horas.filter(hora => hora !== value));
         }
     };
 
@@ -61,8 +55,6 @@ const Edit = ({ auth, horarios, estacion }) => { // Recibe 'estacion' como prop
                         <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
                             <h1 className="titulo">Edita la estación</h1>
                             <hr className="separadorFormulario"/>
-
-                            {/* Campo para el nombre de la estación */}
                             <div className='filaDos'>
                                 <div className='columnaApellido'>
                                     <label>Nombre de la estación:</label>
@@ -88,7 +80,7 @@ const Edit = ({ auth, horarios, estacion }) => { // Recibe 'estacion' como prop
                                                     type="checkbox"
                                                     value={horario.id}
                                                     onChange={handleCheckboxChange}
-                                                    checked={data.horas.includes(horario.id.toString())} // Asegúrate de que el valor sea un string
+                                                    checked={data.horas.includes(horario.id.toString())}
                                                 />
                                                 <label>{horario.hora}</label>
                                             </div>

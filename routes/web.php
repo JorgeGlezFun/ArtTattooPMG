@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtistaController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HorarioController;
@@ -7,7 +8,7 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\DescansoController;
 use App\Http\Controllers\GaleriaController;
 use App\Http\Controllers\EventoController;
-
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -72,6 +73,8 @@ Route::resource('descansos', DescansoController::class);
 Route::resource('galerias', GaleriaController::class);
 Route::resource('eventos', EventoController::class);
 Route::resource('reservas', ReservaController::class);
+Route::resource('usuarios', UsuarioController::class);
+Route::resource('artistas', ArtistaController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
