@@ -46,6 +46,7 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
     const [imagenPreview, setImagePreviewUrl] = useState(null);
     const [availableHours, setAvailableHours] = useState([]);
     const [horasEstacion, setHorasEstacion] = useState([]);
+    const [horariosCompleto, setHorarios] = useState([]);
 
     useEffect(() => {
         calcularTiempoTatuaje();
@@ -68,6 +69,10 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
             fetchHorasPorEstacion(data.fecha);
         }
     }, [data.fecha]);
+
+    useEffect(() => {
+        fetchHorarios();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -225,9 +230,8 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
     };
 
     const fetchHorasDisponibles = (fecha) => {
-        let horasDisponibles = horasEstacion; // Asumiendo que 'horarios' tiene un campo 'hora'
-
-
+        let horasDisponibles = [...horariosCompleto];
+        console.log('Horas disponibles al inicio:', horasDisponibles.sort())
 
         axios.get('/api/ultima-hora-fin', {
             params: { fecha: fecha },
@@ -244,17 +248,21 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                 let minutos = horaInicio[1];
 
                 for (let tiempo = 0; tiempo <= duracion; tiempo++) {
-                    let nuevaHora = `${hora}:${minutos}`;
-
+                    let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
                     let index = horasDisponibles.indexOf(nuevaHora);
                     if (index !== -1) {
                         horasDisponibles.splice(index, 1);
                     }
-
                     hora += 1;
                 }
+                let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
+
+                if (nuevaHora > horasDisponibles[0]) {
+                    let index = horasDisponibles.indexOf(horasDisponibles[0]);
+                    horasDisponibles.splice(index, 1)
+                }
             });
-            console.log('Estas son las horas disponibles:', horasDisponibles);
+            console.log('Estas son las horas que quedan disponibles al final:', horasDisponibles)
             setAvailableHours(horasDisponibles);
         });
     };
@@ -299,6 +307,19 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
             console.error("Error fetching all hours:", error);
         }
     };
+
+    const fetchHorarios = async () => {
+        try {
+            const response = await axios.get('/api/todas-las-horas');
+            if (response.data && response.data.horas) {
+                setHorarios(response.data.horas);
+            }
+        } catch (error) {
+            console.error("Error fetching all hours:", error);
+        }
+    };
+
+    console.log('Muestro el horario completo:', horariosCompleto)
 
     const message = window.sessionStorage.getItem('flashMessage');
 
@@ -413,30 +434,42 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                                         <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
                                     <div className='columnas'>
-                                        <label>Hora Inicio:</label>
-                                        <div className='w-full'>
-                                            {horasEstacion.length > 0 ? (
-                                                horasEstacion.map((hora, index) => (
-                                                    <div key={index}>
-                                                        <label className="opcion">
-                                                            <input
-                                                                type="radio"
-                                                                name="hora_inicio"
-                                                                value={hora}
-                                                                checked={data.hora_inicio === hora}
-                                                                disabled={availableHours.includes(hora) ? false : true}
-                                                                onChange={handleChange}
-                                                            />
-                                                            <span>{hora}</span>
-                                                        </label>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <p>No hay horas disponibles.</p>
-                                            )}
-                                        </div>
-                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-                                    </div>
+    <label>Hora Inicio:</label>
+    <div className='w-full flex space-x-2'>
+        {Array.isArray(horasEstacion) && horasEstacion.length > 0 ? (
+            <>
+                {horasEstacion.sort().reduce((acc, hora, index) => {
+                    // Agrupar las horas en subarreglos de 5
+                    if (index % 4 === 0) acc.push([]); // Crear un nuevo grupo
+                    acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
+                    return acc;
+                }, []).map((group, groupIndex) => (
+                    <div key={groupIndex} className='flex flex-col w-full'>
+                        {group.map((hora, horaIndex) => (
+                            <div key={horaIndex} className=''>
+                                <label className='opcion'>
+                                    <input
+                                        type="radio"
+                                        name="hora_inicio"
+                                        value={hora}
+                                        checked={data.hora_inicio === hora}
+                                        disabled={!availableHours.includes(hora)}
+                                        onChange={handleChange}
+                                        className=''
+                                    />
+                                    <span>{hora}</span>
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </>
+        ) : (
+            <div>No hay horas disponibles</div> // Mensaje si no hay horas
+        )}
+    </div>
+    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+</div>
                                     <div className='columnas'>
                                         <label>Precio de la señal:</label>
                                         <input className='inputSeñal' type="text" value={data.tatuaje.precio + '€'} readOnly />
