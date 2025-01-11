@@ -22,7 +22,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(8);
         return Inertia::render('Usuarios/Index', ['usuarios' => $users]);
     }
 

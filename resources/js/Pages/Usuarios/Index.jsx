@@ -3,7 +3,7 @@ import HeaderAdmin from '@/Components/Componentes-ATP/HeaderAdmin';
 import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import axios from 'axios';
 
 const Index = ({ auth, usuarios }) => {
@@ -66,7 +66,7 @@ const Index = ({ auth, usuarios }) => {
             <HeaderAdmin user={auth.user} />
             <div className='mainAdmin'>
                 <div>
-                    {usuarioState.length > 0 ? (
+                    {usuarios.data.length > 0 ? (
                         <>
                         <div className='w-full flex justify-between mb-2'>
                             <h1 className='text-4xl text-center flex items-center justify-center'>Usuarios</h1>
@@ -85,7 +85,7 @@ const Index = ({ auth, usuarios }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {usuarioState.map((usuario) => (
+                                {usuarios.data.map((usuario) => (
                                     <tr key={usuario.id}>
                                         <td>{usuario.id}</td>
                                         <td className='text-4xl'>{usuario.cliente_id}</td>
@@ -133,6 +133,15 @@ const Index = ({ auth, usuarios }) => {
                             <h1 className='text-4xl text-center flex items-center justify-center'>Usuarios</h1>
                             <h1 className="text-center">No hay usuarios.</h1>
                             <a href={route('usuarios.create')} className='flex text-center p-5 rounded-md bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Crear un nuevo usuario </a>
+                        </div>
+                    )}
+                    {usuarios.data.length > 0 && (
+                        <div className="pagination">
+                            {usuarios.links.map((link) => (
+                                <Link key={link.label} href={link.url} className={link.active ? 'paginationActive' : ''}>
+                                    {link.label === '&laquo; Previous' ? 'Anterior' : link.label === 'Next &raquo;' ? 'Siguiente' : link.label}
+                                </Link>
+                            ))}
                         </div>
                     )}
                 </div>

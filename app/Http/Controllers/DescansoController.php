@@ -13,9 +13,9 @@ class DescansoController extends Controller
      */
     public function index()
     {
-        // Obtener todos los días de descanso y pasarlos a la vista de Inertia
+
         return Inertia::render('Descansos/Index', [
-            'descansos' => Descanso::all(),
+            'descansos' => Descanso::paginate(10),
         ]);
     }
 

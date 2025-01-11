@@ -3,7 +3,7 @@ import HeaderAdmin from '@/Components/Componentes-ATP/HeaderAdmin';
 import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import axios from 'axios';
 
 const Index = ({ auth, horarios }) => {
@@ -60,7 +60,7 @@ const Index = ({ auth, horarios }) => {
             <HeaderAdmin user={auth.user} />
             <div className='mainAdmin'>
                 <div>
-                    {horariosState.length > 0 ? (
+                    {horarios.data.length > 0 ? (
                         <>
                             <div className='w-full flex justify-between mb-2'>
                                 <h1 className='text-4xl text-center flex items-center justify-center'>Horas</h1>
@@ -75,7 +75,7 @@ const Index = ({ auth, horarios }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {horariosState.map((horario) => (
+                                    {horarios.data.map((horario) => (
                                         <tr key={horario.id}>
                                             <td>{horario.id}</td>
                                             <td>{horario.hora}</td>
@@ -119,6 +119,15 @@ const Index = ({ auth, horarios }) => {
                             <h1 className='text-4xl text-center flex items-center justify-center'>Horas</h1>
                             <h1 className="text-center">No hay horas.</h1>
                             <a href={route('horarios.create')} className='flex text-center p-5 rounded-md bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Crear un nuevo horario </a>
+                        </div>
+                    )}
+                    {horarios.data.length > 0 && (
+                        <div className="pagination">
+                            {horarios.links.map((link) => (
+                                <Link key={link.label} href={link.url} className={link.active ? 'paginationActive' : ''}>
+                                    {link.label === '&laquo; Previous' ? 'Anterior' : link.label === 'Next &raquo;' ? 'Siguiente' : link.label}
+                                </Link>
+                            ))}
                         </div>
                     )}
                 </div>
