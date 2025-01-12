@@ -12,7 +12,7 @@ const CustomCalendar = ({ value, onChange, name, className }) => {
     useEffect(() => {
         const fetchDescansos = async () => {
             try {
-                const response = await axios.get('/api/vacaciones'); // Cambia la URL según tu API
+                const response = await axios.get('/api/vacaciones');
                 setFechasDescansos(response.data);
             } catch (error) {
                 console.error('Error al obtener las fechas de descansos:', error);

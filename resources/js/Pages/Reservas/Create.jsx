@@ -3,6 +3,7 @@ import { useForm } from '@inertiajs/react';
 import axios from 'axios';
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
+import PaymentModal from '@/Components/Componentes-ATP/PaymentModal';
 import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
@@ -47,6 +48,19 @@ const Create = ({ auth, artistas, reservas }) => {
     const [availableHours, setAvailableHours] = useState([]);
     const [horasEstacion, setHorasEstacion] = useState([]);
     const [horariosCompleto, setHorarios] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsModalOpen(true);
+    };
+
+
+    const handlePaymentSuccess = () => {
+        post(route('reservas.store'), {
+            forceFormData: true,
+        });
+    };
 
     useEffect(() => {
         calcularTiempoTatuaje();
@@ -107,13 +121,6 @@ const Create = ({ auth, artistas, reservas }) => {
             reader.readAsDataURL(file);
         }
         setData('tatuaje', { ...data.tatuaje, ruta_imagen: file });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route('reservas.store'), {
-            forceFormData: true,
-        });
     };
 
     const calcularPrecioTatuaje = (options) => {
@@ -490,6 +497,12 @@ const Create = ({ auth, artistas, reservas }) => {
                             </div>
                             <button type="submit" disabled={processing} className='botonFormulario'>Reservar</button>
                         </form>
+                        <PaymentModal
+                            isOpen={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                            onPaymentSuccess={handlePaymentSuccess}
+                            amount={data.tatuaje.precio}
+                        />
                         <div className='w-full'>
                             <div className='contenedorContactos'>
                                 <h1 className="titulo">Otras formas de contacto</h1>

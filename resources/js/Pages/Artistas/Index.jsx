@@ -3,7 +3,7 @@ import HeaderAdmin from '@/Components/Componentes-ATP/HeaderAdmin';
 import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import axios from 'axios';
 
 const Index = ({ auth, artistas }) => {
@@ -37,7 +37,7 @@ const Index = ({ auth, artistas }) => {
                 throw new Error('El artista no existe.');
             }
 
-            console.log('Eliminando estación con ID:', artistaAEliminar);
+            console.log('Eliminando artista con ID:', artistaAEliminar);
             const response = await axios.delete(`/artistas/${artistaAEliminar}`, {
                 headers: {
                     'X-CSRF-Token': csrfToken,
@@ -62,15 +62,15 @@ const Index = ({ auth, artistas }) => {
 
     return (
         <>
-            <Head title="Usuarios" />
+            <Head title="Artistas" />
             <HeaderAdmin user={auth.user} />
             <div className='mainAdmin'>
                 <div>
                     {artistas.data.length > 0 ? (
                         <>
                         <div className='w-full flex justify-between mb-2'>
-                            <h1 className='text-4xl text-center flex items-center justify-center'>Usuarios</h1>
-                            <a href={route('artistas.create')} className='w-fit items-center justify-center flex rounded-md p-2 bg-green-400 hover:bg-green-700 transition duration-300 ease-in-out'> Nueva estación </a>
+                            <h1 className='text-4xl text-center flex items-center justify-center'>Artistas</h1>
+                            <a href={route('artistas.create')} className='w-fit items-center justify-center flex rounded-md p-2 bg-green-400 hover:bg-green-700 transition duration-300 ease-in-out'> Nuevo artista </a>
                         </div>
                         <table className='tablaAdmin'>
                             <thead>
@@ -124,7 +124,7 @@ const Index = ({ auth, artistas }) => {
                     </>
                     ) : (
                         <div className='space-y-2'>
-                            <h1 className='text-4xl text-center flex items-center justify-center'>Usuarios</h1>
+                            <h1 className='text-4xl text-center flex items-center justify-center'>Artistas</h1>
                             <h1 className="text-center">No hay artistas.</h1>
                             <a href={route('artistas.create')} className='flex text-center p-5 rounded-md bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Crear un nuevo artista </a>
                         </div>
