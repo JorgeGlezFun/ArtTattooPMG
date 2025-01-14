@@ -66,7 +66,7 @@ const Index = ({ auth, artistas }) => {
             <HeaderAdmin user={auth.user} />
             <div className='mainAdmin'>
                 <div>
-                    {artistas.data.length > 0 ? (
+                    {artistaState.length > 0 ? (
                         <>
                         <div className='w-full flex justify-between mb-2'>
                             <h1 className='text-4xl text-center flex items-center justify-center'>Artistas</h1>
@@ -82,7 +82,7 @@ const Index = ({ auth, artistas }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {artistas.data.map((artista) => (
+                                {artistaState.map((artista) => (
                                     <tr key={artista.id}>
                                         <td>{artista.id}</td>
                                         <td>{artista.nombre}</td>
@@ -127,15 +127,6 @@ const Index = ({ auth, artistas }) => {
                             <h1 className='text-4xl text-center flex items-center justify-center'>Artistas</h1>
                             <h1 className="text-center">No hay artistas.</h1>
                             <a href={route('artistas.create')} className='flex text-center p-5 rounded-md bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Crear un nuevo artista </a>
-                        </div>
-                    )}
-                    {artistas.data.length > 0 && (
-                        <div className="pagination">
-                            {artistas.links.map((link) => (
-                                <Link key={link.label} href={link.url} className={link.active ? 'paginationActive' : ''}>
-                                    {link.label === '&laquo; Previous' ? 'Anterior' : link.label === 'Next &raquo;' ? 'Siguiente' : link.label}
-                                </Link>
-                            ))}
                         </div>
                     )}
                 </div>

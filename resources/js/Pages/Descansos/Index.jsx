@@ -3,7 +3,7 @@ import HeaderAdmin from '@/Components/Componentes-ATP/HeaderAdmin';
 import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import DangerButton from '@/Components/DangerButton';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import axios from 'axios';
 
 const Index = ({ auth, descansos }) => {
@@ -71,7 +71,7 @@ const Index = ({ auth, descansos }) => {
             <HeaderAdmin user={auth.user} />
             <div className='mainAdmin'>
                 <div>
-                    {descansos.data.length > 0 ? (
+                    {descansosState.length > 0 ? (
                         <>
                         <div className='w-full flex justify-between mb-2'>
                             <h1 className='text-4xl text-center flex items-center justify-center'>Descansos</h1>
@@ -86,7 +86,7 @@ const Index = ({ auth, descansos }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {descansos.data.map((descanso) => (
+                                {descansosState.map((descanso) => (
                                     <tr key={descanso.id}>
                                         <td>{descanso.id}</td>
                                         <td>{formatearFecha(descanso.fecha)}</td>
@@ -130,15 +130,6 @@ const Index = ({ auth, descansos }) => {
                             <h1 className='text-4xl text-center flex items-center justify-center'>Descansos</h1>
                             <h1 className="text-center">No hay descansos.</h1>
                             <a href={route('descansos.create')} className='flex text-center p-5 rounded-md bg-green-400 hover:bg-green-700 transition duration-500 ease-in-out'> Crear nuevo descanso. </a>
-                        </div>
-                    )}
-                    {descansos.data.length > 0 && (
-                        <div className="pagination">
-                            {descansos.links.map((link) => (
-                                <Link key={link.label} href={link.url} className={link.active ? 'paginationActive' : ''}>
-                                    {link.label === '&laquo; Previous' ? 'Anterior' : link.label === 'Next &raquo;' ? 'Siguiente' : link.label}
-                                </Link>
-                            ))}
                         </div>
                     )}
                 </div>

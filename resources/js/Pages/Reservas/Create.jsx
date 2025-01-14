@@ -8,7 +8,7 @@ import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
-const Create = ({ auth, artistas, reservas }) => {
+const Create = ({ auth, artistas, reservas, horarios }) => {
     const nombre = auth.user ? auth.user.nombre : '';
     const apellido = auth.user ? auth.user.apellidos : '';
     const correo = auth.user ? auth.user.email : '';
@@ -441,42 +441,42 @@ const Create = ({ auth, artistas, reservas }) => {
                                         <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
                                     <div className='columnas'>
-                                        <label>Hora Inicio:</label>
-                                        <div className='w-full flex space-x-2'>
-                                            {Array.isArray(horasEstacion) && horasEstacion.length > 0 ? (
-                                                <>
-                                                    {horasEstacion.sort().reduce((acc, hora, index) => {
-                                                        // Agrupar las horas en subarreglos de 5
-                                                        if (index % 4 === 0) acc.push([]); // Crear un nuevo grupo
-                                                        acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
-                                                        return acc;
-                                                    }, []).map((group, groupIndex) => (
-                                                        <div key={groupIndex} className='flex flex-col w-full'>
-                                                            {group.map((hora, horaIndex) => (
-                                                                <div key={horaIndex} className=''>
-                                                                    <label className='opcion'>
-                                                                        <input
-                                                                            type="radio"
-                                                                            name="hora_inicio"
-                                                                            value={hora}
-                                                                            checked={data.hora_inicio === hora}
-                                                                            disabled={!availableHours.includes(hora)}
-                                                                            onChange={handleChange}
-                                                                            className=''
-                                                                        />
-                                                                        <span>{hora}</span>
-                                                                    </label>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    ))}
-                                                </>
-                                            ) : (
-                                                <div>No hay horas disponibles</div> // Mensaje si no hay horas
-                                            )}
-                                        </div>
-                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-                                    </div>
+    <label>Hora Inicio:</label>
+    <div className='w-full flex space-x-2'>
+        {Array.isArray(horasEstacion) && horasEstacion.length > 0 ? (
+            <>
+                {horasEstacion.sort().reduce((acc, hora, index) => {
+                    // Agrupar las horas en subarreglos de 5
+                    if (index % 4 === 0) acc.push([]); // Crear un nuevo grupo
+                    acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
+                    return acc;
+                }, []).map((group, groupIndex) => (
+                    <div key={groupIndex} className='flex flex-col w-full'>
+                        {group.map((hora, horaIndex) => (
+                            <div key={horaIndex} className=''>
+                                <label className='opcion'>
+                                    <input
+                                        type="radio"
+                                        name="hora_inicio"
+                                        value={hora}
+                                        checked={data.hora_inicio === hora}
+                                        disabled={!availableHours.includes(hora)}
+                                        onChange={handleChange}
+                                        className=''
+                                    />
+                                    <span>{hora}</span>
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </>
+        ) : (
+            <div>No hay horas disponibles</div> // Mensaje si no hay horas
+        )}
+    </div>
+    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+</div>
                                     <div className='columnas'>
                                         <label>Precio de la señal:</label>
                                         <input className='inputSeñal' type="text" value={data.tatuaje.precio + '€'} readOnly />

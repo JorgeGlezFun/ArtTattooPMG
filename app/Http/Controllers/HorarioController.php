@@ -13,8 +13,7 @@ class HorarioController extends Controller
      */
     public function index()
     {
-        $horarios = Horario::paginate(10);
-
+        $horarios = Horario::all(); // Obtener todos los horarios
         return Inertia::render('Horarios/Index', [
             'horarios' => $horarios,
         ]);
