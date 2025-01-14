@@ -3,7 +3,6 @@ import { useForm } from '@inertiajs/react';
 import axios from 'axios';
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
-import PaymentModal from '@/Components/Componentes-ATP/PaymentModal';
 import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
@@ -48,15 +47,9 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
     const [availableHours, setAvailableHours] = useState([]);
     const [horasEstacion, setHorasEstacion] = useState([]);
     const [horariosCompleto, setHorarios] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsModalOpen(true);
-    };
-
-
-    const handlePaymentSuccess = () => {
         post(route('reservas.store'), {
             forceFormData: true,
         });
@@ -441,42 +434,42 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                                         <CustomCalendar name={'Fecha'} value={data.fecha} onChange={handleCalendarChange} />
                                     </div>
                                     <div className='columnas'>
-    <label>Hora Inicio:</label>
-    <div className='w-full flex space-x-2'>
-        {Array.isArray(horasEstacion) && horasEstacion.length > 0 ? (
-            <>
-                {horasEstacion.sort().reduce((acc, hora, index) => {
-                    // Agrupar las horas en subarreglos de 5
-                    if (index % 4 === 0) acc.push([]); // Crear un nuevo grupo
-                    acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
-                    return acc;
-                }, []).map((group, groupIndex) => (
-                    <div key={groupIndex} className='flex flex-col w-full'>
-                        {group.map((hora, horaIndex) => (
-                            <div key={horaIndex} className=''>
-                                <label className='opcion'>
-                                    <input
-                                        type="radio"
-                                        name="hora_inicio"
-                                        value={hora}
-                                        checked={data.hora_inicio === hora}
-                                        disabled={!availableHours.includes(hora)}
-                                        onChange={handleChange}
-                                        className=''
-                                    />
-                                    <span>{hora}</span>
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </>
-        ) : (
-            <div>No hay horas disponibles</div> // Mensaje si no hay horas
-        )}
-    </div>
-    {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
-</div>
+                                        <label>Hora Inicio:</label>
+                                        <div className='w-full flex space-x-2'>
+                                            {Array.isArray(horasEstacion) && horasEstacion.length > 0 ? (
+                                                <>
+                                                    {horasEstacion.sort().reduce((acc, hora, index) => {
+                                                        // Agrupar las horas en subarreglos de 5
+                                                        if (index % 4 === 0) acc.push([]); // Crear un nuevo grupo
+                                                        acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
+                                                        return acc;
+                                                    }, []).map((group, groupIndex) => (
+                                                        <div key={groupIndex} className='flex flex-col w-full'>
+                                                            {group.map((hora, horaIndex) => (
+                                                                <div key={horaIndex} className=''>
+                                                                    <label className='opcion'>
+                                                                        <input
+                                                                            type="radio"
+                                                                            name="hora_inicio"
+                                                                            value={hora}
+                                                                            checked={data.hora_inicio === hora}
+                                                                            disabled={!availableHours.includes(hora)}
+                                                                            onChange={handleChange}
+                                                                            className=''
+                                                                        />
+                                                                        <span>{hora}</span>
+                                                                    </label>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            ) : (
+                                                <div>No hay horas disponibles</div> // Mensaje si no hay horas
+                                            )}
+                                        </div>
+                                        {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
+                                    </div>
                                     <div className='columnas'>
                                         <label>Precio de la señal:</label>
                                         <input className='inputSeñal' type="text" value={data.tatuaje.precio + '€'} readOnly />
@@ -497,12 +490,6 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                             </div>
                             <button type="submit" disabled={processing} className='botonFormulario'>Reservar</button>
                         </form>
-                        <PaymentModal
-                            isOpen={isModalOpen}
-                            onClose={() => setIsModalOpen(false)}
-                            onPaymentSuccess={handlePaymentSuccess}
-                            amount={data.tatuaje.precio}
-                        />
                         <div className='w-full'>
                             <div className='contenedorContactos'>
                                 <h1 className="titulo">Otras formas de contacto</h1>

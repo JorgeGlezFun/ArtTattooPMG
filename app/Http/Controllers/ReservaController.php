@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Stripe\Stripe;
-use Stripe\Charge;
 
 class ReservaController extends Controller
 {
@@ -68,7 +66,6 @@ class ReservaController extends Controller
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required',
             'duracion' => 'required|integer',
-            'token' => 'required|string', // Cambia esto
         ]);
 
         $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
@@ -79,7 +76,6 @@ class ReservaController extends Controller
             return redirect()->back()->withErrors(['fecha' => 'No se puede reservar en una fecha y hora pasadas.']);
         }
 
-
         // Verificar si la hora ya está reservada
         $existingReservation = Reserva::where('fecha', $validated['fecha'])
             ->where('hora_inicio', $validated['hora_inicio'])
@@ -88,21 +84,6 @@ class ReservaController extends Controller
 
         if ($existingReservation) {
             return redirect()->back()->withErrors(['hora_inicio' => 'Esta hora ya está reservada.']);
-        }
-
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        try {
-            // Crear el cargo
-            $charge = Charge::create([
-                'amount' => $validated['tatuaje']['precio'] * 100, // Monto en centavos
-                'currency' => 'usd',
-                'source' => $validated['stripeToken'],
-                'description' => 'Reserva de tatuaje',
-            ]);
-
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['payment' => 'Error al procesar el pago: ' . $e->getMessage()]);
         }
 
         // Si el pago es exitoso, proceder a crear el tatuaje y la reserva
