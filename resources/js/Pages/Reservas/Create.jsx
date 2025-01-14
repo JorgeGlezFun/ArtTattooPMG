@@ -8,7 +8,7 @@ import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
-const Create = ({ auth, artistas, reservas, horarios }) => {
+const Create = ({ auth, artistas, reservas }) => {
     const nombre = auth.user ? auth.user.nombre : '';
     const apellido = auth.user ? auth.user.apellidos : '';
     const correo = auth.user ? auth.user.email : '';
@@ -59,6 +59,20 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
         setModalOpen(false);
     };
 
+    const handlePostReservation = () => {
+        post(route('reservas.store'), {
+            forceFormData: true,
+            cliente: data.cliente,
+            artista_id: data.artista_id,
+            tatuaje: data.tatuaje,
+            fecha: data.fecha,
+            hora_inicio: data.hora_inicio,
+            hora_fin: data.hora_fin,
+            duracion: data.duracion,
+            precio: data.tatuaje.precio,
+        });
+        handleCloseModal();
+    };
     // const handleSubmit = (e) => {
     //     e.preventDefault();
     //     post(route('reservas.store'), {
@@ -505,7 +519,7 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                                 onClose={handleCloseModal}
                                 orderData={data}
                                 amount={data.tatuaje.precio}
-                                post={post}
+                                onConfirm={handlePostReservation}
                             />
                         </form>
                         <div className='w-full'>

@@ -1,8 +1,9 @@
 // CheckoutModal.jsx
 import React from 'react';
+import { useForm } from '@inertiajs/react';
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
-const CheckoutModal = ({ isOpen, onClose, orderData, post }) => {
+const CheckoutModal = ({ isOpen, onClose, onConfirm, orderData }) => {
     if (!isOpen) return null; // No renderizar si el modal no está abierto
 
     const onCreateOrder = (data, actions) => {
@@ -16,31 +17,7 @@ const CheckoutModal = ({ isOpen, onClose, orderData, post }) => {
     const onApprove = (data, actions) => {
         return actions.order.capture().then((details) => {
             alert(`Transacción completada por ${details.payer.name.given_name}`);
-
-            // Aquí debes asegurarte de que estás enviando los datos correctos
-            console.log('Datos de la reserva:', orderData);
-            post(route('reservas.store'), {
-                forceFormData: true,
-                cliente: orderData.cliente,
-                artista_id: orderData.artista_id,
-                tatuaje: orderData.tatuaje,
-                fecha: orderData.fecha,
-                hora_inicio: orderData.hora_inicio,
-                hora_fin: orderData.hora_fin,
-                duracion: orderData.duracion,
-                precio: orderData.tatuaje.precio,
-            }).then(response => {
-                if (response.props.success) {
-                    alert('Reserva completada con éxito');
-                    onClose();
-                } else {
-                    alert('Error al completar la reserva: ' + response.props.message);
-                }
-            }).catch(error => {
-                console.error('Error al realizar la reserva:', error);
-                alert('Hubo un problema al realizar la reserva.');
-            });
-
+            onConfirm();
         });
     };
 
