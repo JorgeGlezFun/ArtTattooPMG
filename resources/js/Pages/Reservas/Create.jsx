@@ -3,6 +3,7 @@ import { useForm } from '@inertiajs/react';
 import axios from 'axios';
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
+import CheckoutModal from '@/Components/Componentes-ATP/CheckoutModal';
 import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
@@ -47,13 +48,23 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
     const [availableHours, setAvailableHours] = useState([]);
     const [horasEstacion, setHorasEstacion] = useState([]);
     const [horariosCompleto, setHorarios] = useState([]);
+    const [isModalOpen, setModalOpen] = useState(false); // Estado para manejar el modal
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('reservas.store'), {
-            forceFormData: true,
-        });
+        setModalOpen(true);
     };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     post(route('reservas.store'), {
+    //         forceFormData: true,
+    //     });
+    // };
 
     useEffect(() => {
         calcularTiempoTatuaje();
@@ -489,6 +500,13 @@ const Create = ({ auth, artistas, reservas, horarios }) => {
                                 </div>
                             </div>
                             <button type="submit" disabled={processing} className='botonFormulario'>Reservar</button>
+                            <CheckoutModal
+                                isOpen={isModalOpen}
+                                onClose={handleCloseModal}
+                                orderData={data}
+                                amount={data.tatuaje.precio}
+                                post={post}
+                            />
                         </form>
                         <div className='w-full'>
                             <div className='contenedorContactos'>
