@@ -34,6 +34,15 @@ export default function HeaderAdmin({ user }) {
                         <NavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
                             Horas
                         </NavLinkAdmin>
+                        <NavLinkAdmin href={route('descansos.index')} active={route().current('descansos.*')}>
+                            Descansos
+                        </NavLinkAdmin>
+                        <NavLinkAdmin href={route('artistas.index')} active={route().current('artistas.*')}>
+                            Artistas
+                        </NavLinkAdmin>
+                        <NavLinkAdmin href={route('usuarios.index')} active={route().current('usuarios.*')}>
+                            Usuarios
+                        </NavLinkAdmin>
                         <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
                             Reservas
                         </NavLinkAdmin>
@@ -118,6 +127,9 @@ export default function HeaderAdmin({ user }) {
                     </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
                         Horas
+                    </ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('descansos.index')} active={route().current('descansos.*')}>
+                        Descansos
                     </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('artistas.index')} active={route().current('artistas.*')}>
                         Artistas

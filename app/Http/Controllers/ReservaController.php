@@ -65,7 +65,7 @@ class ReservaController extends Controller
             'fecha' => 'required|date',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required',
-            'duracion' => 'required|integer'
+            'duracion' => 'required|integer',
         ]);
 
         $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
@@ -73,7 +73,6 @@ class ReservaController extends Controller
 
         // Verificar si la fecha y hora son pasadas
         if ($reservaDatetime->lt($currentDatetime)) {
-
             return redirect()->back()->withErrors(['fecha' => 'No se puede reservar en una fecha y hora pasadas.']);
         }
 
@@ -84,12 +83,11 @@ class ReservaController extends Controller
             ->exists();
 
         if ($existingReservation) {
-
             return redirect()->back()->withErrors(['hora_inicio' => 'Esta hora ya está reservada.']);
         }
 
+        // Si el pago es exitoso, proceder a crear el tatuaje y la reserva
         if (isset($validated['tatuaje']) && isset($validated['tatuaje']['ruta_imagen'])) {
-
             $imagen = $request->file('tatuaje.ruta_imagen');
 
             // Obtener el número total de tatuajes
@@ -105,10 +103,11 @@ class ReservaController extends Controller
 
             // Procesar la imagen
             $manager = new ImageManager(new Driver());
-            $imageR = $manager->read(Storage::disk('public')->get('uploads/tatuajes/' . $nombreImagen));
+            $imageR = $manager ->read(Storage::disk('public')->get('uploads/tatuajes/' . $nombreImagen));
             $imageR->resize(400, 400, function ($constraint) {
                 $constraint->aspectRatio();
             });
+
             $ruta = Storage::path('public/uploads/tatuajes/' . $nombreImagen);
             $imageR->save($ruta);
 
@@ -135,7 +134,7 @@ class ReservaController extends Controller
             ]
         );
 
-        // Crea la reserva
+        // Crear la reserva
         Reserva::create([
             'cliente_id' => $cliente->id,
             'artista_id' => $validated['artista_id'],
@@ -154,7 +153,6 @@ class ReservaController extends Controller
 
     public function show(Reserva $reserva)
     {
-
         if ($reserva->tatuaje && $reserva->tatuaje->ruta_imagen) {
             $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
         }

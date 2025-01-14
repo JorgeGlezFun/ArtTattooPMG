@@ -13,6 +13,7 @@ createInertiaApp({
     setup({ el, App, props }) {
         const root = createRoot(el);
 
+        // Envuelve el componente App en el proveedor Elements
         root.render(<App {...props} />);
     },
     progress: {
