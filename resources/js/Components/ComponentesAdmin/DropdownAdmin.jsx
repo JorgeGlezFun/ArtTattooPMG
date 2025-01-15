@@ -70,13 +70,14 @@ const Content = ({ align = 'right', width = '44', contentClasses = 'bg-[#efb810]
     );
 };
 
-const DropdownLink = ({ className = '', children, ...props }) => {
+const DropdownLink = ({ className = '', active = false, children, ...props  }) => {
     return (
         <Link
             {...props}
             className={
-                'block w-full px-4 py-3 text-end text-xl leading-5 bg-[#efb810] text-black hover:bg-black hover:text-[#efb810] focus:outline-none focus:bg-gray-100 transition duration-500 ease-in-out ' +
-                className
+                active ? 'block w-full px-4 py-3 text-end text-xl leading-5 bg-black text-[#efb810] ' :
+                'block w-full px-4 py-3 text-end text-xl leading-5 bg-[#efb810] text-black hover:bg-black hover:text-[#efb810] focus:outline-none focus:bg-gray-100 transition duration-500 ease-in-out '
+
             }
         >
             {children}

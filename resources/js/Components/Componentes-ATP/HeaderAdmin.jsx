@@ -74,7 +74,7 @@ export default function HeaderAdmin({ user }) {
                                     </DropdownAdmin.Trigger>
 
                                     <DropdownAdmin.Content>
-                                        <DropdownAdmin.Link href={route('profile.edit')}>Perfil</DropdownAdmin.Link>
+                                        <DropdownAdmin.Link href={route('profile.edit')} active={route().current('profile.edit')}>Perfil</DropdownAdmin.Link>
                                         <DropdownAdmin.Link href={route('logout')} method="post" as="button">
                                             Cerrar Sesión
                                         </DropdownAdmin.Link>

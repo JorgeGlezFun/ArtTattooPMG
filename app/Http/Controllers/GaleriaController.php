@@ -113,9 +113,9 @@ class GaleriaController extends Controller
     public function update(Request $request, Galeria $galeria)
     {
         // Validar la solicitud
-        // $validated = $request->validate([
-        //     'ruta_imagen' => 'nullable|mimes:jpg,png,jpeg', // Permitir que la imagen sea nula
-        // ]);
+        $validated = $request->validate([
+            'ruta_imagen' => 'nullable|mimes:jpg,png,jpeg', // Permitir que la imagen sea nula
+        ]);
 
         // Verificar si se ha enviado una nueva imagen
         dd($request->file('ruta_imagen'));

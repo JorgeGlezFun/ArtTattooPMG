@@ -46,18 +46,6 @@ Route::get('/galeria', [GaleriaController::class, 'indexPublic'])->name('galeria
 Route::get('/evento', [EventoController::class, 'indexPublic'])->name('eventos.public');
 Route::get('/evento/{id}', [EventoController::class, 'showPublic'])->name('eventos.publicshow');
 
-// Route::get('/galeria', function () {
-//     return Inertia::render('Galeria');
-// })->name('galeria');
-
-// Route::get('/eventos', function () {
-//     return Inertia::render('Eventos');
-// })->name('eventos');
-
-Route::get('/reservar', function () {
-    return Inertia::render('Reservar');
-})->name('reservar');
-
 Route::get('/admin', function () {
     return Inertia::render('Admin');
 })->name('admin');
@@ -65,7 +53,6 @@ Route::get('/admin', function () {
 Route::get('/admin/reservas', function () {
     return Inertia::render('ReservasAdmin');
 })->name('reservasadmin');
-
 
 Route::resource('horarios', HorarioController::class);
 Route::resource('estaciones', EstacionController::class);

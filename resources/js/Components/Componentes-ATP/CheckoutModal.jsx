@@ -14,7 +14,7 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, orderData }) => {
         });
     };
 
-    const onApprove = (data, actions) => {
+    const onApprove = (actions) => {
         return actions.order.capture().then((details) => {
             alert(`Transacción completada por ${details.payer.name.given_name}`);
             onConfirm();
@@ -22,20 +22,15 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, orderData }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg w-96 relative">
-                <button className="absolute top -2 right-2 text-gray-600" onClick={onClose}>X</button>
-                <h1 className="text-lg font-semibold mb-4">Checkout</h1>
-                <div>
-                    <h3>Cliente:</h3>
-                    <p>Nombre: {orderData.cliente.nombre} {orderData.cliente.apellidos}</p>
-                </div>
-                <div>
-                    <h3>Tatuaje:</h3>
-                    <p>Precio: {orderData.tatuaje.precio}€</p>
-                    <p>Tamaño: {orderData.tatuaje.tamano}</p>
-                    <p>Color: {orderData.tatuaje.color}</p>
-                    <p>Zona: {orderData.tatuaje.zona}</p>
+        <div className="fondoPaypal">
+            <div className="formularioPaypal">
+                <button className="cerrarPaypal" onClick={onClose}>X</button>
+                <h1 className="tituloFormularioPaypal">Resumen de la reserva</h1>
+                <div className="resumenPaypal">
+                    <p><strong>Precio de la señal:</strong> {orderData.tatuaje.precio}€</p>
+                    <p><strong>Tamaño:</strong> {orderData.tatuaje.tamano}</p>
+                    <p><strong>Tipo de relleno:</strong> {orderData.tatuaje.color}</p>
+                    <p><strong>Zona:</strong> {orderData.tatuaje.zona}</p>
                 </div>
                 <PayPalButtons
                     createOrder={onCreateOrder}

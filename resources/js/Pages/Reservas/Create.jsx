@@ -157,6 +157,7 @@ const Create = ({ auth, artistas, reservas }) => {
             default:
                 break;
         }
+
         if (reservas != undefined) {
             if ((reservas.length % 8 === 0) && (reservas.length !== 0)) {
                 precio *= 0.9;
@@ -230,6 +231,7 @@ const Create = ({ auth, artistas, reservas }) => {
 
             let horaReservaMinima = minutosTotales.length === 0 ? 0 : Math.min(...minutosTotales);
 
+            // Este primer bloque coge la primera hora que hay sido reservada y la compara con la hora de inicio de la reserva y la hora final de la misma
             if ((minutosTotalesInicio <= horaReservaMinima) && (minutosTotalesFinTatuaje >= horaReservaMinima)) {
                 setData(prevState => ({
                     ...prevState,
@@ -237,7 +239,8 @@ const Create = ({ auth, artistas, reservas }) => {
                     duracion: 'La duración de la reserva es excesiva.'
                 }));
             } else {
-                if ((['11:30', '12:30', '13:30'].includes(data.hora_inicio) && horaFinStringTatuaje > '15:30') || horaFinStringTatuaje > '22:30') {
+                // Este segundo bloque mira la hora final y la compara si es mayor a las 14:00 o a las 21:30 para que no pase el horario permitido
+                if ((horaFinStringTatuaje > '14:00') || (horaFinStringTatuaje > '21:30')) {
                     setData(prevState => ({
                         ...prevState,
                         hora_fin: 'La hora final supera al horario permitido.',
@@ -256,7 +259,6 @@ const Create = ({ auth, artistas, reservas }) => {
 
     const fetchHorasDisponibles = (fecha) => {
         let horasDisponibles = [...horariosCompleto];
-        console.log('Horas disponibles al inicio:', horasDisponibles.sort())
 
         axios.get('/api/ultima-hora-fin', {
             params: { fecha: fecha },
@@ -271,7 +273,7 @@ const Create = ({ auth, artistas, reservas }) => {
                 let horaInicio = inicio.split(":");
                 let hora = parseInt(horaInicio[0]);
                 let minutos = horaInicio[1];
-
+                console.log('duracion:', duracion);
                 for (let tiempo = 0; tiempo <= duracion; tiempo++) {
                     let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
                     let index = horasDisponibles.indexOf(nuevaHora);
@@ -279,15 +281,17 @@ const Create = ({ auth, artistas, reservas }) => {
                         horasDisponibles.splice(index, 1);
                     }
                     hora += 1;
+                    console.log('Nueva hora del for:' , nuevaHora);
                 }
                 let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
-
-                if (nuevaHora > horasDisponibles[0]) {
+                console.log('Nueva hora fuera del for:' , nuevaHora);
+                console.log('Horas disponibles:', horasDisponibles[0]);
+                console.log('condicion del if:', horasDisponibles[0] > nuevaHora);
+                if (horasDisponibles[0] > nuevaHora) {
                     let index = horasDisponibles.indexOf(horasDisponibles[0]);
                     horasDisponibles.splice(index, 1)
                 }
             });
-            console.log('Estas son las horas que quedan disponibles al final:', horasDisponibles)
             setAvailableHours(horasDisponibles);
         });
     };
@@ -344,13 +348,13 @@ const Create = ({ auth, artistas, reservas }) => {
         }
     };
 
-    console.log('Muestro el horario completo:', horariosCompleto)
-
     const message = window.sessionStorage.getItem('flashMessage');
 
     if (message) {
         window.sessionStorage.removeItem('flashMessage');
     }
+
+    console.log(availableHours);
 
     return (
         <>
