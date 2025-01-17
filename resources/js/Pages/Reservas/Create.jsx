@@ -48,7 +48,7 @@ const Create = ({ auth, artistas, reservas }) => {
     const [availableHours, setAvailableHours] = useState([]);
     const [horasEstacion, setHorasEstacion] = useState([]);
     const [horariosCompleto, setHorarios] = useState([]);
-    const [isModalOpen, setModalOpen] = useState(false); // Estado para manejar el modal
+    const [isModalOpen, setModalOpen] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();

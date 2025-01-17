@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ArtistaController;
+use App\Http\Controllers\CaracteristicaController;
+use App\Http\Controllers\Caracteristica_TipoController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HorarioController;
@@ -62,6 +64,8 @@ Route::resource('eventos', EventoController::class);
 Route::resource('reservas', ReservaController::class);
 Route::resource('usuarios', UsuarioController::class);
 Route::resource('artistas', ArtistaController::class);
+Route::resource('caracteristicas', CaracteristicaController::class);
+Route::resource('caracteristica_tipo', Caracteristica_TipoController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
