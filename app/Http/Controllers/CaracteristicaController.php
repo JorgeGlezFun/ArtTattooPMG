@@ -91,4 +91,10 @@ class CaracteristicaController extends Controller
         $caracteristica->delete();
         return response()->json(['success' => true, 'message' => 'Característica eliminada exitosamente.']);
     }
+
+    public function conseguirTodasLasCaracteristicas()
+    {
+        $caracteristicas = Caracteristica::all();
+        return response()->json($caracteristicas);
+    }
 }

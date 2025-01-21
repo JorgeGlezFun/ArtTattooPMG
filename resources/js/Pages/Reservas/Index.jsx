@@ -70,8 +70,9 @@ const Index = ({ auth, reservas }) => {
                                     <th className='w-40'>Cliente</th>
                                     <th className='w-40'>Artista</th>
                                     <th>Fecha</th>
-                                    <th>Hora de inicio</th>
+                                    <th> Hora de inicio</th>
                                     <th className='w-fit'>Hora de fin</th>
+                                    <th>Características</th>
                                     <th>Duración</th>
                                     <th>Precio</th>
                                     <th>Acciones</th>
@@ -87,6 +88,15 @@ const Index = ({ auth, reservas }) => {
                                         <td>{formatearFecha(reserva.fecha)}</td>
                                         <td className='horaAdmin'>{reserva.hora_inicio.substring(0, 5)}</td>
                                         <td className='horaAdmin'>{reserva.hora_fin.substring(0, 5)}</td>
+                                        <td>
+                                            {reserva.tatuaje.caracteristicas.length > 0 ? (
+                                                reserva.tatuaje.caracteristicas.map((caracteristica) => (
+                                                    <span key={caracteristica.id}>{caracteristica.nombre}{', '}</span>
+                                                ))
+                                            ) : (
+                                                <span>No hay características</span>
+                                            )}
+                                        </td>
                                         {reserva.duracion > 1 ? <td>{reserva.duracion} horas</td> : <td>{reserva.duracion} hora</td>}
                                         <td>{reserva.tatuaje.precio}€</td>
                                         <td className='p-0'>
@@ -107,16 +117,6 @@ const Index = ({ auth, reservas }) => {
                                                         </div>
                                                     </div>
                                                 </Modal>
-                                                {/* <Modal show={mensajeConfirmacion} onClose={closeMensaje}>
-                                                    <div className='p-8 flex flex-col items-center'>
-                                                        <div className='w-full flex items-right'>
-                                                            <SecondaryButton className='text-black flex justify-center' onClick={closeMensaje}>x</SecondaryButton>
-                                                        </div>
-                                                        <h2 className="text-3xl font-medium text-gray-900 p-6 w-full text-center">
-                                                            Reserva eliminada con éxito.
-                                                        </h2>
-                                                    </div>
-                                                </Modal> */}
                                             </div>
                                         </td>
                                     </tr>

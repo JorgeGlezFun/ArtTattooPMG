@@ -31,9 +31,9 @@ const Create = ({ auth, horarios }) => {
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;
         if (checked) {
-            setData('horas', [...data.horas, value]); // Agrega la hora seleccionada
+            setData('horas', [...data.horas, value]);
         } else {
-            setData('horas', data.horas.filter(hora => hora !== value)); // Elimina la hora deseleccionada
+            setData('horas', data.horas.filter(hora => hora !== value));
         }
     };
 
@@ -82,7 +82,7 @@ const Create = ({ auth, horarios }) => {
                                                     type="checkbox"
                                                     value={horario.id}
                                                     onChange={handleCheckboxChange}
-                                                    checked={data.horas.includes(horario.id.toString())} // Asegúrate de que el valor sea un string
+                                                    checked={data.horas.includes(horario.id.toString())}
                                                 />
                                                 <label>{horario.hora}</label>
                                             </div>

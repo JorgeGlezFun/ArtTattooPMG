@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CaracteristicaController;
 use App\Http\Controllers\DescansoController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\EstacionController;
+use App\Models\Caracteristica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +27,4 @@ Route::get('/ultima-hora-fin', [ReservaController::class, 'obtenerUltimaHoraFin'
 Route::get('/horas-por-estacion', [EstacionController::class, 'conseguirHorasPorEstacion']);
 Route::get('/todas-las-horas', [EstacionController::class, 'conseguirTodasLasHoras']);
 Route::get('/vacaciones', [DescansoController::class, 'vacaciones']);
+Route::get('/todas-las-caracteristicas', [CaracteristicaController::class, 'conseguirTodasLasCaracteristicas']);

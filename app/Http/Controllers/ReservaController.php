@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artista;
+use App\Models\Caracteristica_Tipo;
 use App\Models\Reserva;
 use App\Models\Cliente;
 use App\Models\Tatuaje;
@@ -18,8 +19,7 @@ class ReservaController extends Controller
 {
     public function index()
     {
-        $reservas = Reserva::with(['cliente', 'artista', 'tatuaje'])->get();
-
+        $reservas = Reserva::with(['cliente', 'artista', 'tatuaje.caracteristicas', ])->get();
         foreach ($reservas as $reserva) {
             if ($reserva->tatuaje) {
                 $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
@@ -33,7 +33,8 @@ class ReservaController extends Controller
     {
         $artistas = Artista::all();
         $horarios = Horario::all();
-
+        $caracteristica_tipos = Caracteristica_Tipo::with('caracteristicas')->get();
+        // dd($);
         $horarios->transform(function ($horario) {
             $horario->horas = json_decode($horario->horas, true);
             return $horario;
@@ -42,9 +43,9 @@ class ReservaController extends Controller
         if (auth()->check()) {
             $clienteId = auth()->user()->cliente_id;
             $reservas = Reserva::where('cliente_id', $clienteId)->get();
-            return inertia('Reservas/Create', ['artistas' => $artistas, 'reservas' => $reservas, 'horarios' => $horarios]);
+            return inertia('Reservas/Create', ['artistas' => $artistas, 'reservas' => $reservas, 'horarios' => $horarios, 'tipos' => $caracteristica_tipos]);
         }
-        return inertia('Reservas/Create', ['artistas' => $artistas, 'horarios' => $horarios]);
+        return inertia('Reservas/Create', ['artistas' => $artistas, 'horarios' => $horarios, 'tipos' => $caracteristica_tipos]);
     }
 
     public function store(Request $request)
@@ -56,12 +57,10 @@ class ReservaController extends Controller
             'cliente.telefono' => 'required|integer',
             'cliente.email' => 'required|string|email|max:255',
             'artista_id' => 'required|exists:artistas,id',
-            'tatuaje.ruta_imagen' => 'mimes:jpg,png,jpeg',
-            'tatuaje.precio' => 'numeric',
-            'tatuaje.tamano' => 'string|max:255',
-            'tatuaje.color' => 'string|max:255',
-            'tatuaje.relleno' => 'string|max:255',
-            'tatuaje.zona' => 'string|max:255',
+            'tatuaje.ruta_imagen' => 'required|mimes:jpg,png,jpeg',
+            'tatuaje.precio' => 'required|numeric',
+            'tatuaje.caracteristicas' => 'array',
+            'tatuaje.caracteristicas.*' => 'exists:caracteristicas,id',
             'fecha' => 'required|date',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required',
@@ -115,12 +114,14 @@ class ReservaController extends Controller
             $tatuaje = Tatuaje::create([
                 'artista_id' => $validated['artista_id'],
                 'ruta_imagen' => 'uploads/tatuajes/' . $nombreImagen,
+                'caracteristicas' => $validated['tatuaje']['caracteristicas'],
                 'precio' => $validated['tatuaje']['precio'],
-                'tamano' => $validated['tatuaje']['tamano'],
-                'color' => $validated['tatuaje']['color'],
-                'relleno' => $validated['tatuaje']['relleno'],
-                'zona' => $validated['tatuaje']['zona'],
             ]);
+            // $tatuaje = Tatuaje::create($request->only('artista_id', 'ruta_imagen', 'precio'));
+            // Sincronizar caracteristicas
+            if (isset($validated['tatuaje']['caracteristicas'])) {
+                $tatuaje->caracteristicas()->sync($validated['tatuaje']['caracteristicas']);
+            }
         }
 
         // Crear el cliente
@@ -156,6 +157,7 @@ class ReservaController extends Controller
         if ($reserva->tatuaje && $reserva->tatuaje->ruta_imagen) {
             $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
         }
+        $tipos = Caracteristica_Tipo::all();
 
         return inertia('Reservas/Show', [
             'reserva' => $reserva,

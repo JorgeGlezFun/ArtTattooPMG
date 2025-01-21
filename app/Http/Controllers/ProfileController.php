@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Reserva;
 use App\Models\Tatuaje;
+use App\Models\Caracteristica_Tipo;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,8 +21,9 @@ class ProfileController extends Controller
      */
     public function edit(Request $request, Reserva $reserva): Response
     {
-        // Cargar las reservas del cliente actual con las relaciones necesarias
-        $reservas = Reserva::with(['cliente', 'artista', 'tatuaje'])
+        $tipos = Caracteristica_Tipo::all();
+
+        $reservas = Reserva::with(['cliente', 'artista', 'tatuaje.caracteristicas'])
             ->where('cliente_id', $request->user()->cliente_id)
             ->get();
 
@@ -32,7 +34,8 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'reservas' => $reservas, // Pasar las reservas con los tatuajes cargados
+            'reservas' => $reservas,
+            'tipos' => $tipos,
         ]);
     }
 

@@ -17,6 +17,6 @@ class Caracteristica_Tipo extends Model
 
     public function caracteristicas()
     {
-        return $this->hasMany(Caracteristica::class);
+        return $this->hasMany(Caracteristica::class, 'caracteristica_tipos_id');
     }
 }

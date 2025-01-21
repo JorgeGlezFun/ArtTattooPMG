@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('caracteristica_tipos_id')->constrained('caracteristica_tipos')->onDelete('cascade');
             $table->string('nombre');
-            $table->float('precio');
-            $table->integer('tiempo');
+            $table->integer('precio');
+            $table->float('tiempo');
             $table->timestamps();
         });
     }

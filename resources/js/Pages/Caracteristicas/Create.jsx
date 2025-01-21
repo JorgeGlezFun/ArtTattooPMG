@@ -8,7 +8,7 @@ const Create = ({ auth, tipos }) => {
     const { data, setData, post, processing, errors } = useForm({
         caracteristica_tipos_id: '',
         nombre: '',
-        precio: '',
+        precio: 0,
         tiempo: '',
     });
 
@@ -57,7 +57,7 @@ const Create = ({ auth, tipos }) => {
                                     <label>Precio:</label>
                                     <input
                                         className='inputs'
-                                        type="text"
+                                        type="number"
                                         placeholder="Precio de la aplicación de la característica"
                                         value={data.precio}
                                         onChange={(e) => setData('precio', e.target.value)}
@@ -71,6 +71,7 @@ const Create = ({ auth, tipos }) => {
                                         type="number"
                                         placeholder="Tiempo que dura la realización de la característica (en horas)"
                                         value={data.tiempo}
+                                        step={0.5}
                                         onChange={(e) => setData('tiempo', e.target.value)}
                                     />
                                     {errors['tiempo'] && <div>{errors['tiempo']}</div>}
