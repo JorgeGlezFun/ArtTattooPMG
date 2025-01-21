@@ -11,13 +11,6 @@ const Edit = ({ auth, artista }) => {
         apellidos: artista.apellidos,
     });
 
-    const message = window.sessionStorage.getItem('flashMessage');
-
-    // Limpiar el mensaje de la sesión después de mostrarlo
-    if (message) {
-        window.sessionStorage.removeItem('flashMessage');
-    }
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         const [parent, key] = name.split('.');

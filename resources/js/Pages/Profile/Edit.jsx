@@ -6,7 +6,7 @@ import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import { Head } from '@inertiajs/react';
 
-export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje }) {
+export default function Edit({ auth, mustVerifyEmail, status, reservas, tipos }) {
     const [activeSection, setActiveSection] = useState('perfil'); // Estado para la sección activa
     const totalReservas = reservas.length; // Total de reservas
 
@@ -14,8 +14,6 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
         const fechaFormateada = new Date(fecha);
         return fechaFormateada.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
     };
-
-    console.log(reservas);
 
     return (
         <>
@@ -92,8 +90,7 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
                                         <hr className="separadorFormulario"/>
                                         {reservas.map(reserva => (
                                             <div key={reserva.id} className='my-10'>
-                                                <div className='flex space ```javascript
-                                                -x-4 w-full'>
+                                                <div className='flex space-x-4 w-full'>
                                                     {reserva.tatuaje.ruta_imagen && (
                                                         <div className='border-8 border-solid border-black rounded-md'>
                                                             <img src={'storage/' + reserva.tatuaje.ruta_imagen} alt={reserva.tatuaje.ruta_imagen} className='previewImagenProfile' />
@@ -102,13 +99,6 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
                                                     <div className='flex flex-col space-y-16 w-full'>
                                                         <div className='detallesReservaProfile'>
                                                             <div className='w-full'>
-                                                                <h2>Detalles del Tatuaje</h2>
-                                                                <p><strong>Tamaño:</strong> {reserva.tatuaje.tamano}</p>
-                                                                <p><strong>Relleno:</strong> {reserva.tatuaje.relleno}</p>
-                                                                <p><strong>Color:</strong> {reserva.tatuaje.color}</p>
-                                                                <p><strong>Zona del Cuerpo:</strong> {reserva.tatuaje.zona}</p>
-                                                            </div>
-                                                            <div className='w-full'>
                                                                 <h2>Detalles de la Reserva</h2>
                                                                 <p><strong>Artista:</strong> {reserva.artista.nombre}</p>
                                                                 <p><strong>Fecha:</strong> {formatearFecha(reserva.fecha)}</p>
@@ -116,6 +106,17 @@ export default function Edit({ auth, mustVerifyEmail, status, reservas, tatuaje 
                                                                 <p><strong>Hora de Fin:</strong> {reserva.hora_fin.substring(0, 5)}</p>
                                                                 {reserva.duracion > 1 ? <p><strong>Duración Estimada:</strong> {reserva.duracion} horas</p> : <p><strong>Duración Estimada:</strong> {reserva.duracion} hora</p>}
                                                                 <p><strong>Precio de la Señal:</strong> {reserva.tatuaje.precio}€</p>
+                                                            </div>
+                                                            <div className='w-full'>
+                                                                <h2>Detalles del Tatuaje</h2>
+                                                                <p><strong>Caracteristicas:</strong></p>
+                                                                {reserva.tatuaje.caracteristicas.length > 0 ? (
+                                                                    reserva.tatuaje.caracteristicas.map(caracteristica => (
+                                                                        <p key={caracteristica.id}>{caracteristica.nombre}</p>
+                                                                    ))
+                                                                ) : (
+                                                                    <p>No hay características asociadas a este tatuaje.</p>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </div>

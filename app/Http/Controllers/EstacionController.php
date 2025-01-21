@@ -14,7 +14,7 @@ class EstacionController extends Controller
      */
     public function index()
     {
-        $estaciones = Estacion::with('horas')->get(); // Obtener todas las estaciones con sus horarios
+        $estaciones = Estacion::with('horas')->get();
         return Inertia::render('Estaciones/Index', [
             'estaciones' => $estaciones,
         ]);
@@ -25,7 +25,7 @@ class EstacionController extends Controller
      */
     public function create()
     {
-        $horarios = Horario::all(); // Obtener todos los horarios para el formulario
+        $horarios = Horario::all();
         return Inertia::render('Estaciones/Create', [
             'horarios' => $horarios,
         ]);

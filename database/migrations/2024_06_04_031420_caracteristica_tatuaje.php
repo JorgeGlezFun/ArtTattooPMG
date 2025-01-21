@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tatuajes', function (Blueprint $table) {
+        Schema::create('caracteristica_tatuaje', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('artista_id')->constrained()->onDelete('cascade');
-            $table->string('ruta_imagen');
-            $table->float('precio');
+            $table->foreignId('caracteristica_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tatuaje_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tatuajes');
+        Schema::dropIfExists('caracteristica_tatuaje');
     }
 };

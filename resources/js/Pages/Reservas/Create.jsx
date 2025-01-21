@@ -8,7 +8,7 @@ import { Head } from '@inertiajs/react';
 import CustomCalendar from '@/Components/Componentes-ATP/CustomCalendar';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
-const Create = ({ auth, artistas, reservas }) => {
+const Create = ({ auth, artistas, tipos }) => {
     const nombre = auth.user ? auth.user.nombre : '';
     const apellido = auth.user ? auth.user.apellidos : '';
     const correo = auth.user ? auth.user.email : '';
@@ -26,10 +26,7 @@ const Create = ({ auth, artistas, reservas }) => {
             ruta_imagen: null,
             precio: 0,
             tiempo: 0,
-            tamano: '',
-            relleno: '',
-            color: '',
-            zona: ''
+            caracteristicas: [],
         },
         fecha: '',
         hora_inicio: '',
@@ -37,18 +34,16 @@ const Create = ({ auth, artistas, reservas }) => {
         duracion: 'No hay ninguna hora marcada'
     });
 
-    const [tatuajeOptions, setTatuajeOptions] = useState({
-        tamano: '',
-        relleno: '',
-        color: '',
-        zona: ''
-    });
+    console.log(tipos)
+    console.log('Datos:', data.tatuaje.caracteristicas);
 
     const [imagenPreview, setImagePreviewUrl] = useState(null);
     const [availableHours, setAvailableHours] = useState([]);
     const [horasEstacion, setHorasEstacion] = useState([]);
     const [horariosCompleto, setHorarios] = useState([]);
-    const [isModalOpen, setModalOpen] = useState(false); // Estado para manejar el modal
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    console.log('Datos:', data);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -60,29 +55,19 @@ const Create = ({ auth, artistas, reservas }) => {
     };
 
     const handlePostReservation = () => {
-        post(route('reservas.store'), {
-            forceFormData: true,
-            cliente: data.cliente,
-            artista_id: data.artista_id,
-            tatuaje: data.tatuaje,
-            fecha: data.fecha,
-            hora_inicio: data.hora_inicio,
-            hora_fin: data.hora_fin,
-            duracion: data.duracion,
-            precio: data.tatuaje.precio,
-        });
+         post(route('reservas.store'), {
+        forceFormData: true,
+        cliente: data.cliente,
+        artista_id: data.artista_id,
+        tatuaje: data.tatuaje,
+        fecha: data.fecha,
+        hora_inicio: data.hora_inicio,
+        hora_fin: data.hora_fin,
+        duracion: data.duracion,
+        precio: data.tatuaje.precio,
+    });
         handleCloseModal();
     };
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     post(route('reservas.store'), {
-    //         forceFormData: true,
-    //     });
-    // };
-
-    useEffect(() => {
-        calcularTiempoTatuaje();
-    }, [tatuajeOptions.tamano, tatuajeOptions.color, tatuajeOptions.relleno, tatuajeOptions.zona]);
 
     useEffect(() => {
         if (data.fecha) {
@@ -101,6 +86,12 @@ const Create = ({ auth, artistas, reservas }) => {
             fetchHorasPorEstacion(data.fecha);
         }
     }, [data.fecha]);
+
+    useEffect(() => {
+        if (data.tatuaje.caracteristicas.length > 0) {
+            fetchCaracteristicas(data.tatuaje.caracteristicas);
+        }
+    }, [data.tatuaje.caracteristicas]);
 
     useEffect(() => {
         fetchHorarios();
@@ -123,12 +114,6 @@ const Create = ({ auth, artistas, reservas }) => {
         setData('fecha', formateo);
     };
 
-    const handleTatuajeOptionsChange = (e) => {
-        const { name, value } = e.target;
-        setTatuajeOptions({ ...tatuajeOptions, [name]: value });
-        calcularPrecioTatuaje({ ...tatuajeOptions, [name]: value });
-    };
-
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -141,63 +126,62 @@ const Create = ({ auth, artistas, reservas }) => {
         setData('tatuaje', { ...data.tatuaje, ruta_imagen: file });
     };
 
-    const calcularPrecioTatuaje = (options) => {
-        let precio = 0;
+    const [caracteristicasRepetidas, setCaracteristicasRepetidas] = useState([]);
 
-        switch (options.tamano) {
-            case 'Grande':
-                precio += 50;
-                break;
-            case 'Mediano':
-                precio += 30;
-                break;
-            case 'Pequeño':
-                precio += 15;
-                break;
-            default:
-                break;
-        }
+    const handleCaracteristicaChange = async (tipoId, caracteristicaId) => {
+        setData(prevData => {
+            // Copiar el array de las características del tatuaje
+            let caracteristicasOld = [...prevData.tatuaje.caracteristicas];
+            let nuevasCaracteristicasRepetidas = [...caracteristicasRepetidas];
+            let prueba = data.tatuaje.caracteristicas.includes(caracteristicaId)
+            // Recorrer las características repetidas
+            const longCaracteristicasRepetidas = nuevasCaracteristicasRepetidas.length;
 
-        if (reservas != undefined) {
-            if ((reservas.length % 8 === 0) && (reservas.length !== 0)) {
-                precio *= 0.9;
+            if (longCaracteristicasRepetidas === 0) {
+                nuevasCaracteristicasRepetidas.push([tipoId, caracteristicaId]);
+                caracteristicasOld.push(caracteristicaId);
             }
-        }
 
-        setData('tatuaje', { ...data.tatuaje, precio });
-    };
+            for (let i = 0; i < longCaracteristicasRepetidas; i++) {
+                if (
+                    // Si encontramos una característica con el mismo tipo y caracteristicaId
+                    (nuevasCaracteristicasRepetidas[i][0] === tipoId && nuevasCaracteristicasRepetidas[i][1] === caracteristicaId)
+                    || // Si encontramos el tipoId pero con una caracteristicaId diferente
+                    (nuevasCaracteristicasRepetidas[i][0] === tipoId && nuevasCaracteristicasRepetidas[i][1] !== caracteristicaId)
+                ) {
+                    console.log(`Reemplazando el antiguo ID Característica: ${nuevasCaracteristicasRepetidas[i][1]} con Tipo ID: ${nuevasCaracteristicasRepetidas[i][0]} por el nuevo ID Característica: ${caracteristicaId}`);
+                    console.log('Array de CO:', caracteristicasOld);
+                    // Creamos un nuevo array con las caracteristicas filtradas (que no sean iguales a las antiguas)
+                    let filtroCaracteristica = caracteristicasOld.filter(caracteristica => caracteristica !== nuevasCaracteristicasRepetidas[i][1]);
+                    console.log('Filtro:', filtroCaracteristica);
+                    // Cambiamos el array antiguo por el array filtrado
+                    caracteristicasOld = filtroCaracteristica;
+                    // Añadimos la nueva característica al array antiguo
+                    caracteristicasOld.push(caracteristicaId);
+                    // Sustituimos la caracteristica antigua por la nueva en el array que nos sirve para identificar las características con tipo repetido
+                    nuevasCaracteristicasRepetidas[i][1] = caracteristicaId;
+                    break;
+                } else {
+                    // Si no existe la característica, la añadimos a 'nuevasCaracteristicasRepetidas'
+                    if (!nuevasCaracteristicasRepetidas.some(([idTipo]) => idTipo === tipoId)) {
+                        nuevasCaracteristicasRepetidas.push([tipoId, caracteristicaId]);
+                        caracteristicasOld.push(caracteristicaId);
+                    }
+                }
+            }
+            console.log('Soy el array de NCR:', nuevasCaracteristicasRepetidas);
 
-    const calcularTiempoTatuaje = () => {
-        let tiempo = 0;
+            // Actualizar el estado con las características actualizadas
+            setCaracteristicasRepetidas(nuevasCaracteristicasRepetidas);
 
-        switch (tatuajeOptions.tamano) {
-            case 'Grande':
-                tiempo += 180; // 3 horas en minutos
-                break;
-            case 'Mediano':
-                tiempo += 90; // 1.5 horas en minutos
-                break;
-            case 'Pequeño':
-                tiempo += 30; // 0.5 horas en minutos
-                break;
-            default:
-                break;
-        }
-
-        if (tatuajeOptions.color === 'A color') {
-            tiempo += 30;
-        }
-
-        if (tatuajeOptions.relleno === 'Con relleno') {
-            tiempo += 30;
-        }
-
-        setData('tatuaje', {
-            ...data.tatuaje, tiempo,
-            tamano: tatuajeOptions.tamano,
-            relleno: tatuajeOptions.relleno,
-            color: tatuajeOptions.color,
-            zona: tatuajeOptions.zona
+            // Devolver el nuevo estado para actualizar 'tatuaje.caracteristicas'
+            return {
+                ...prevData,
+                tatuaje: {
+                    ...prevData.tatuaje,
+                    caracteristicas: [...caracteristicasOld], // Crear una nueva referencia del array
+                }
+            };
         });
     };
 
@@ -257,6 +241,45 @@ const Create = ({ auth, artistas, reservas }) => {
         });
     };
 
+    const fetchCaracteristicas = async (caracteristicas) => {
+        try {
+            const response = await axios.get('/api/todas-las-caracteristicas');
+            const caracteristicasDB = response.data;
+            console.log('Soy del fetchCaracteristicas:', caracteristicasDB);
+            let precioTotal = 0;
+            let tiempoTotal = 0;
+
+            caracteristicas.forEach(caracteristica => {
+                for (let i = 0; i < caracteristicasDB.length; i++) {
+                    console.log('CaracterísticasDB:', caracteristicasDB[i]['id'] === parseInt(caracteristica));
+                    console.log('Precio de la característica:', caracteristicasDB[i]['precio']);
+                    console.log('Tiempo de la característica:', parseFloat(caracteristicasDB[i]['tiempo']));
+                    console.log((caracteristicasDB[i]['id'] === parseInt(caracteristica)));
+                    if (caracteristicasDB[i]['id'] === parseInt(caracteristica)) {
+                        console.log('Entre en el if');
+                        precioTotal += caracteristicasDB[i]['precio'];
+                        tiempoTotal += parseFloat(caracteristicasDB[i]['tiempo'] * 60);
+                        console.log('PrecioTotal:', precioTotal);
+                        console.log('TiempoTotal:', tiempoTotal);
+                    }
+                }
+                console.log('Característica:', parseInt(caracteristica));
+            });
+
+            setData(prevData => ({
+                ...prevData,
+                tatuaje: {
+                    ...prevData.tatuaje,
+                    precio: precioTotal,
+                    tiempo: tiempoTotal
+                }
+            }
+            ));
+        } catch (error) {
+            console.error("Error fetching características:", error);
+        }
+    };
+
     const fetchHorasDisponibles = (fecha) => {
         let horasDisponibles = [...horariosCompleto];
 
@@ -273,7 +296,7 @@ const Create = ({ auth, artistas, reservas }) => {
                 let horaInicio = inicio.split(":");
                 let hora = parseInt(horaInicio[0]);
                 let minutos = horaInicio[1];
-                console.log('duracion:', duracion);
+
                 for (let tiempo = 0; tiempo <= duracion; tiempo++) {
                     let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
                     let index = horasDisponibles.indexOf(nuevaHora);
@@ -284,9 +307,6 @@ const Create = ({ auth, artistas, reservas }) => {
                     console.log('Nueva hora del for:' , nuevaHora);
                 }
                 let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
-                console.log('Nueva hora fuera del for:' , nuevaHora);
-                console.log('Horas disponibles:', horasDisponibles[0]);
-                console.log('condicion del if:', horasDisponibles[0] > nuevaHora);
                 if (horasDisponibles[0] > nuevaHora) {
                     let index = horasDisponibles.indexOf(horasDisponibles[0]);
                     horasDisponibles.splice(index, 1)
@@ -348,20 +368,11 @@ const Create = ({ auth, artistas, reservas }) => {
         }
     };
 
-    const message = window.sessionStorage.getItem('flashMessage');
-
-    if (message) {
-        window.sessionStorage.removeItem('flashMessage');
-    }
-
-    console.log(availableHours);
-
     return (
         <>
             <Head title="Reservas" />
             <Header user={auth.user} />
             <div className='main'>
-                <MensajeFlash message={message} />
                 <div className="contenedorReserva">
                     <div className='contenedorFormulario'>
                         <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
@@ -401,43 +412,25 @@ const Create = ({ auth, artistas, reservas }) => {
                             </div>
                             <div className='filaDos'>
                                 <div className='columnaTatuaje'>
-                                    <div className='divTatuajes'>
-                                        <label>Tamaño:</label>
-                                        <select className='listaTatuajes' name="tamano" value={tatuajeOptions.tamano} onChange={handleTatuajeOptionsChange}>
-                                            <option value="">Seleccionar tamaño</option>
-                                            <option value="Grande">Grande</option>
-                                            <option value="Mediano">Mediano</option>
-                                            <option value="Pequeño">Pequeño</option>
-                                        </select>
-                                    </div>
-                                    <div className='divTatuajes'>
-                                        <label>Relleno:</label>
-                                        <select className='listaTatuajes' name="relleno" value={tatuajeOptions.relleno} onChange={handleTatuajeOptionsChange}>
-                                            <option value="">Seleccionar relleno</option>
-                                            <option value="Con relleno">Con relleno</option>
-                                            <option value="Sin relleno">Sin relleno</option>
-                                        </select>
-                                    </div>
-                                    <div className='divTatuajes'>
-                                        <label>Color:</label>
-                                        <select className='listaTatuajes' name="color" value={tatuajeOptions.color} onChange={handleTatuajeOptionsChange}>
-                                            <option value="">Seleccionar color</option>
-                                            <option value="A color">A color</option>
-                                            <option value="Blanco y negro">Blanco y negro</option>
-                                        </select>
-                                    </div>
-                                    <div className='divTatuajes'>
-                                        <label>Zona del cuerpo:</label>
-                                        <select className='listaTatuajes' name="zona" value={tatuajeOptions.zona} onChange={handleTatuajeOptionsChange}>
-                                            <option value="">Seleccionar zona</option>
-                                            <option value="Brazo">Brazo</option>
-                                            <option value="Pierna">Pierna</option>
-                                            <option value="Espalda">Espalda</option>
-                                            <option value="Costillas">Costillas</option>
-                                            <option value="Pecho">Pecho</option>
-                                            <option value="Barriga">Barriga</option>
-                                        </select>
-                                    </div>
+                                    {tipos.map(tipo => (
+                                        <div className='divTatuajes' key={tipo.id}>
+                                            <label>{tipo.nombre}:</label>
+                                            <select
+                                                className='listaTatuajes'
+                                                onChange={(e) => handleCaracteristicaChange(tipo.id, e.target.value)}
+                                            >
+                                                <option value="">Seleccionar {tipo.nombre.toLowerCase()}</option>
+                                                {tipo.caracteristicas.map(caracteristica => (
+                                                    <option
+                                                        key={caracteristica.id}
+                                                        value={caracteristica.id}
+                                                    >
+                                                        {caracteristica.nombre}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                             <div className='columnas'>
@@ -468,14 +461,13 @@ const Create = ({ auth, artistas, reservas }) => {
                                             {Array.isArray(horasEstacion) && horasEstacion.length > 0 ? (
                                                 <>
                                                     {horasEstacion.sort().reduce((acc, hora, index) => {
-                                                        // Agrupar las horas en subarreglos de 5
-                                                        if (index % 4 === 0) acc.push([]); // Crear un nuevo grupo
-                                                        acc[acc.length - 1].push(hora); // Agregar la hora al grupo actual
+                                                        if (index % 4 === 0) acc.push([]);
+                                                        acc[acc.length - 1].push(hora);
                                                         return acc;
                                                     }, []).map((group, groupIndex) => (
                                                         <div key={groupIndex} className='flex flex-col w-full'>
                                                             {group.map((hora, horaIndex) => (
-                                                                <div key={horaIndex} className=''>
+                                                                <div key={horaIndex} className='w-full'>
                                                                     <label className='opcion'>
                                                                         <input
                                                                             type="radio"
@@ -494,7 +486,7 @@ const Create = ({ auth, artistas, reservas }) => {
                                                     ))}
                                                 </>
                                             ) : (
-                                                <div>No hay horas disponibles</div> // Mensaje si no hay horas
+                                                <div>No hay horas disponibles</div>
                                             )}
                                         </div>
                                         {errors.hora_inicio && <div>{errors.hora_inicio}</div>}
@@ -526,7 +518,7 @@ const Create = ({ auth, artistas, reservas }) => {
                                 onConfirm={handlePostReservation}
                             />
                         </form>
-                        <div className='w-full'>
+                        <div className='xl:w-[50rem] w-full'>
                             <div className='contenedorContactos'>
                                 <h1 className="titulo">Otras formas de contacto</h1>
                                 <hr className="separadorFormulario"/>

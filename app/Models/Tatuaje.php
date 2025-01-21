@@ -10,14 +10,9 @@ class Tatuaje extends Model
     use HasFactory;
 
     protected $fillable = [
-        'precio',
-        'zona',
-        'color',
-        'tamano',
-        'relleno',
         'ruta_imagen',
         'artista_id',
-
+        'precio',
     ];
 
     public function artista()
@@ -28,5 +23,10 @@ class Tatuaje extends Model
     public function reservas()
     {
         return $this->hasMany(Reserva::class);
+    }
+
+    public function caracteristicas()
+    {
+        return $this->belongsToMany(Caracteristica::class, 'caracteristica_tatuaje');
     }
 }
