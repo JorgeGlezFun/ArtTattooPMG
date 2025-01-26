@@ -13,6 +13,10 @@ const Create = ({ auth, artistas, tipos }) => {
     const apellido = auth.user ? auth.user.apellidos : '';
     const correo = auth.user ? auth.user.email : '';
     const telefono = auth.user ? auth.user.telefono : '';
+    const saldo = auth.user ? auth.user.saldo : '';
+    const idUsuario = auth.user ? auth.user.id : '';
+
+    console.log('id Usuario:', idUsuario);
 
     const { data, setData, post, processing, errors } = useForm({
         cliente: {
@@ -31,19 +35,17 @@ const Create = ({ auth, artistas, tipos }) => {
         fecha: '',
         hora_inicio: '',
         hora_fin: 'No hay ninguna hora marcada',
-        duracion: 'No hay ninguna hora marcada'
+        duracion: 'No hay ninguna hora marcada',
+        estado: 'Activa',
     });
-
-    console.log(tipos)
-    console.log('Datos:', data.tatuaje.caracteristicas);
 
     const [imagenPreview, setImagePreviewUrl] = useState(null);
     const [availableHours, setAvailableHours] = useState([]);
     const [horasEstacion, setHorasEstacion] = useState([]);
     const [horariosCompleto, setHorarios] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
-
-    console.log('Datos:', data);
+    const [userSaldo, setUserSaldo] = useState(auth.user.saldo);
+    console.log('Sal2:', userSaldo)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -65,6 +67,7 @@ const Create = ({ auth, artistas, tipos }) => {
         hora_fin: data.hora_fin,
         duracion: data.duracion,
         precio: data.tatuaje.precio,
+        estado: data.estado
     });
         handleCloseModal();
     };
@@ -149,11 +152,8 @@ const Create = ({ auth, artistas, tipos }) => {
                     || // Si encontramos el tipoId pero con una caracteristicaId diferente
                     (nuevasCaracteristicasRepetidas[i][0] === tipoId && nuevasCaracteristicasRepetidas[i][1] !== caracteristicaId)
                 ) {
-                    console.log(`Reemplazando el antiguo ID Característica: ${nuevasCaracteristicasRepetidas[i][1]} con Tipo ID: ${nuevasCaracteristicasRepetidas[i][0]} por el nuevo ID Característica: ${caracteristicaId}`);
-                    console.log('Array de CO:', caracteristicasOld);
                     // Creamos un nuevo array con las caracteristicas filtradas (que no sean iguales a las antiguas)
                     let filtroCaracteristica = caracteristicasOld.filter(caracteristica => caracteristica !== nuevasCaracteristicasRepetidas[i][1]);
-                    console.log('Filtro:', filtroCaracteristica);
                     // Cambiamos el array antiguo por el array filtrado
                     caracteristicasOld = filtroCaracteristica;
                     // Añadimos la nueva característica al array antiguo
@@ -169,11 +169,8 @@ const Create = ({ auth, artistas, tipos }) => {
                     }
                 }
             }
-            console.log('Soy el array de NCR:', nuevasCaracteristicasRepetidas);
-
             // Actualizar el estado con las características actualizadas
             setCaracteristicasRepetidas(nuevasCaracteristicasRepetidas);
-
             // Devolver el nuevo estado para actualizar 'tatuaje.caracteristicas'
             return {
                 ...prevData,
@@ -200,6 +197,9 @@ const Create = ({ auth, artistas, tipos }) => {
             const horaFinTatuaje = new Date();
 
             reservas.forEach(reserva => {
+                if (reserva.estado.toLowerCase() !== 'activa') {
+                    return;
+                }
                 const primeraHora = reserva.hora_inicio.split(':').map(Number);
                 const primeraHoraMinutos = primeraHora[0] * 60 + primeraHora[1];
                 minutosTotales.push(primeraHoraMinutos);
@@ -245,25 +245,16 @@ const Create = ({ auth, artistas, tipos }) => {
         try {
             const response = await axios.get('/api/todas-las-caracteristicas');
             const caracteristicasDB = response.data;
-            console.log('Soy del fetchCaracteristicas:', caracteristicasDB);
             let precioTotal = 0;
             let tiempoTotal = 0;
 
             caracteristicas.forEach(caracteristica => {
                 for (let i = 0; i < caracteristicasDB.length; i++) {
-                    console.log('CaracterísticasDB:', caracteristicasDB[i]['id'] === parseInt(caracteristica));
-                    console.log('Precio de la característica:', caracteristicasDB[i]['precio']);
-                    console.log('Tiempo de la característica:', parseFloat(caracteristicasDB[i]['tiempo']));
-                    console.log((caracteristicasDB[i]['id'] === parseInt(caracteristica)));
                     if (caracteristicasDB[i]['id'] === parseInt(caracteristica)) {
-                        console.log('Entre en el if');
                         precioTotal += caracteristicasDB[i]['precio'];
                         tiempoTotal += parseFloat(caracteristicasDB[i]['tiempo'] * 60);
-                        console.log('PrecioTotal:', precioTotal);
-                        console.log('TiempoTotal:', tiempoTotal);
                     }
                 }
-                console.log('Característica:', parseInt(caracteristica));
             });
 
             setData(prevData => ({
@@ -290,26 +281,27 @@ const Create = ({ auth, artistas, tipos }) => {
             const reservas = response.data;
 
             reservas.forEach(reserva => {
-                const inicio = reserva.hora_inicio;
-                const duracion = reserva.duracion;
+                if (reserva.estado.toLowerCase() === 'activa') {
+                    const inicio = reserva.hora_inicio;
+                    const duracion = reserva.duracion;
 
-                let horaInicio = inicio.split(":");
-                let hora = parseInt(horaInicio[0]);
-                let minutos = horaInicio[1];
+                    let horaInicio = inicio.split(":");
+                    let hora = parseInt(horaInicio[0]);
+                    let minutos = horaInicio[1];
 
-                for (let tiempo = 0; tiempo <= duracion; tiempo++) {
-                    let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
-                    let index = horasDisponibles.indexOf(nuevaHora);
-                    if (index !== -1) {
-                        horasDisponibles.splice(index, 1);
+                    for (let tiempo = 0; tiempo <= duracion; tiempo++) {
+                        let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
+                        let index = horasDisponibles.indexOf(nuevaHora);
+                        if (index !== -1) {
+                            horasDisponibles.splice(index, 1);
+                        }
+                        hora += 1;
                     }
-                    hora += 1;
-                    console.log('Nueva hora del for:' , nuevaHora);
-                }
-                let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
-                if (horasDisponibles[0] > nuevaHora) {
-                    let index = horasDisponibles.indexOf(horasDisponibles[0]);
-                    horasDisponibles.splice(index, 1)
+                    let nuevaHora = `${hora.toString().padStart(2, '0')}:${minutos}`;
+                    if (horasDisponibles[0] > nuevaHora) {
+                        let index = horasDisponibles.indexOf(horasDisponibles[0]);
+                        horasDisponibles.splice(index, 1)
+                    }
                 }
             });
             setAvailableHours(horasDisponibles);
@@ -514,9 +506,12 @@ const Create = ({ auth, artistas, tipos }) => {
                                 isOpen={isModalOpen}
                                 onClose={handleCloseModal}
                                 orderData={data}
-                                amount={data.tatuaje.precio}
                                 onConfirm={handlePostReservation}
+                                userSaldo={userSaldo} // Saldo actual del usuario
+                                setUserSaldo={setUserSaldo} // Actualiza el saldo localmente
+                                usuarioId={idUsuario} // ID del usuario
                             />
+
                         </form>
                         <div className='xl:w-[50rem] w-full'>
                             <div className='contenedorContactos'>

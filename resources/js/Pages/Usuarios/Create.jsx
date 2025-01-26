@@ -5,16 +5,19 @@ import Footer from '@/Components/Componentes-ATP/Footer';
 import { Head } from '@inertiajs/react';
 import MensajeFlash from '@/Components/Componentes-ATP/MensajeFlash';
 
-const Create = ({ auth }) => {
+const Create = ({ auth, tipos }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         nombre: '',
+        saldo: '',
         apellidos: '',
         telefono: '',
         email: '',
         password: '',
         password_confirmation: '',
-        // tipo_id: '',
+        usuario_tipos_id: '',
     });
+
+    console.log(data);
 
     useEffect(() => {
         return () => {
@@ -39,18 +42,11 @@ const Create = ({ auth }) => {
         });
     };
 
-    const message = window.sessionStorage.getItem('flashMessage');
-
-    if (message) {
-        window.sessionStorage.removeItem('flashMessage');
-    }
-
     return (
         <>
             <Head title="Crear Usuario" />
             <Header user={auth.user} />
             <div className='main'>
-                <MensajeFlash message={message} />
                 <div className="contenedorReserva">
                     <div className='contenedorFormulario'>
                         <form onSubmit={handleSubmit} className='formulario' encType="multipart/form-data">
@@ -67,6 +63,23 @@ const Create = ({ auth }) => {
                                     <input className='inputs' type="text" name="apellidos" value={data.apellidos} onChange={handleChange} />
                                     {errors['apellidos'] && <div>{errors['apellidos']}</div>}
                                 </div>
+                            </div>
+                            <div className='columnas'>
+                                <label>Tipo de usuario:</label>
+                                <select className='inputs' name="usuario_tipos_id" value={data.usuario_tipos_id} onChange={handleChange}>
+                                    <option value="">Selecciona un tipo de usuario</option>
+                                    {tipos.map((tipo) => (
+                                        <option key={tipo.id} value={tipo.id}>
+                                            {tipo.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors['usuario_tipos_id'] && <div>{errors['usuario_tipos_id']}</div>}
+                            </div>
+                            <div className='columnas'>
+                                <label>Saldo:</label>
+                                <input className='inputs' type="number" name="saldo" value={data.saldo} onChange={handleChange} />
+                                {errors['saldo'] && <div>{errors['saldo']}</div>}
                             </div>
                             <div className='columnas'>
                                 <label>Teléfono:</label>

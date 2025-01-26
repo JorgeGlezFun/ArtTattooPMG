@@ -11,6 +11,7 @@ export default function Register() {
         nombre: '',
         apellidos: '',
         email: '',
+        saldo: 0,
         password: '',
         password_confirmation: '',
     });

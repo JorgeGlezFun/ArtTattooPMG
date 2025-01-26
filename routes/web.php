@@ -11,6 +11,7 @@ use App\Http\Controllers\DescansoController;
 use App\Http\Controllers\GaleriaController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\Usuario_TipoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,9 +48,10 @@ Route::get('/sobrenosotros', function () {
 Route::get('/galeria', [GaleriaController::class, 'indexPublic'])->name('galerias.public');
 Route::get('/evento', [EventoController::class, 'indexPublic'])->name('eventos.public');
 Route::get('/evento/{id}', [EventoController::class, 'showPublic'])->name('eventos.publicshow');
+Route::post('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar']);
 
 Route::get('/admin', function () {
-    return Inertia::render('Admin');
+    return Inertia::render('Admin/Admin');
 })->name('admin');
 
 Route::get('/admin/reservas', function () {
@@ -63,6 +65,7 @@ Route::resource('galerias', GaleriaController::class);
 Route::resource('eventos', EventoController::class);
 Route::resource('reservas', ReservaController::class);
 Route::resource('usuarios', UsuarioController::class);
+Route::resource('usuario_tipo', Usuario_TipoController::class);
 Route::resource('artistas', ArtistaController::class);
 Route::resource('caracteristicas', CaracteristicaController::class);
 Route::resource('caracteristica_tipo', Caracteristica_TipoController::class);
@@ -76,5 +79,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';

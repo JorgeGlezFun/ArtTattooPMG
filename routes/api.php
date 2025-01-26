@@ -4,6 +4,7 @@ use App\Http\Controllers\CaracteristicaController;
 use App\Http\Controllers\DescansoController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\EstacionController;
+use App\Http\Controllers\UsuarioController;
 use App\Models\Caracteristica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,9 @@ Route::get('/horas-por-estacion', [EstacionController::class, 'conseguirHorasPor
 Route::get('/todas-las-horas', [EstacionController::class, 'conseguirTodasLasHoras']);
 Route::get('/vacaciones', [DescansoController::class, 'vacaciones']);
 Route::get('/todas-las-caracteristicas', [CaracteristicaController::class, 'conseguirTodasLasCaracteristicas']);
+Route::get('/todos-los-tipos-de-usuarios', [UsuarioController::class, 'conseguirTiposDeUsuarios']);
+Route::post('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar'])->name('reservas.cancelar')->middleware(['auth']);
+Route::post('/usuarios/{id}/pagar', [UsuarioController::class, 'pagarConSaldo']);
+
+
+

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
 use App\Models\User;
+use App\Models\Usuario_Tipo;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -14,6 +15,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class UsuarioController extends Controller
 {
@@ -22,7 +28,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('usuario_tipo')->get();
         return Inertia::render('Usuarios/Index', ['usuarios' => $users]);
     }
 
@@ -31,7 +37,8 @@ class UsuarioController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Usuarios/Create');
+        $tipos = Usuario_Tipo::all();
+        return Inertia::render('Usuarios/Create', ['tipos' => $tipos]);
     }
 
     /**
@@ -41,8 +48,10 @@ class UsuarioController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'usuario_tipos_id' => 'required|integer',
             'apellidos' => 'required|string|max:255',
             'telefono' => 'required|integer',
+            'saldo' => 'required|integer',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -56,13 +65,14 @@ class UsuarioController extends Controller
 
         User::create([
             'nombre' => $request->nombre,
+            'usuario_tipos_id' => $request->usuario_tipos_id,
             'apellidos' => $request->apellidos,
             'telefono' => $request->telefono,
+            'saldo' => $request->saldo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'cliente_id' => $cliente->id,
         ]);
-
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
@@ -70,20 +80,25 @@ class UsuarioController extends Controller
     /**
      * Display the specified user.
      */
-    public function show($id)
+    public function show(User $usuario)
     {
-        $user = User::find($id);
-        $cliente = Cliente::find($user->cliente_id);
-        return Inertia::render('Usuarios/Show', ['usuario' => $user, 'cliente' => $cliente]);
+        $usuario->load('usuario_tipo');
+
+        $cliente = Cliente::find($usuario->cliente_id);
+
+        return Inertia::render('Usuarios/Show', [
+            'usuario' => $usuario,
+            'cliente' => $cliente
+        ]);
     }
 
     /**
      * Show the form for editing the specified user.
      */
-    public function edit($id)
+    public function edit(User $usuario)
     {
-        $user = User::findOrFail($id);
-        return Inertia::render('Usuarios/Edit', ['usuario' => $user]);
+        $tipos = Usuario_Tipo::all();
+        return Inertia::render('Usuarios/Edit', ['usuario' => $usuario, 'tipos' => $tipos]);
     }
 
     /**
@@ -95,6 +110,8 @@ class UsuarioController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
+            'usuario_tipos_id' => 'required|integer',
+            'saldo' => 'required|numeric',
             'telefono' => 'nullable|integer', // Permitir nulo
             // 'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
         ]);
@@ -118,4 +135,31 @@ class UsuarioController extends Controller
 
         return response()->json(['message' => 'Usuario eliminado con éxito'], 200);
     }
+
+    public function conseguirTiposDeUsuarios()
+    {
+        $tipos = Usuario_Tipo::all();
+        return $tipos;
+    }
+
+    public function pagarConSaldo(Request $request, $id)
+    {
+        $user = User::find($id);
+        $monto = $request->input('cantidad');
+
+        if ($user->saldo >= $monto) {
+            // Restar el saldo
+            $user->saldo = $monto;
+            $user->save();
+
+            // Solo devolvemos los datos relevantes
+            return response()->json([
+                'message' => 'Pago realizado con éxito.',
+                'saldo' => $user->saldo
+            ]);
+        } else {
+            return response()->json(['message' => 'Saldo insuficiente.'], 400);
+        }
+    }
+
 }

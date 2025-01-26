@@ -22,9 +22,9 @@ class EventoController extends Controller
             if ($evento->ruta_imagen) {
                 $evento->ruta_imagen = asset('storage/' . $evento->ruta_imagen);
             }
+            $evento->contenido = Str::limit($evento->contenido, 100, '...');
         }
 
-        $evento->contenido = Str::limit($evento->contenido, 100, '...');
 
         return inertia('Eventos/Index', [
             'eventos' => $eventos,

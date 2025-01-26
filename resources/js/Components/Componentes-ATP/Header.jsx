@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
@@ -7,6 +7,39 @@ import { Link } from '@inertiajs/react';
 
 export default function Header({ user }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [tiposUsuario, setTiposUsuario] = useState([]);
+    const [tipoUsuario, setTipoUsuario] = useState([]);
+
+    useEffect(() => {
+        fetchTiposUsuario();
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            tipoDeUsuario();
+        }
+    }, [tiposUsuario]);
+
+    const fetchTiposUsuario = async () => {
+        try {
+            const response = await fetch('/api/todos-los-tipos-de-usuarios');
+            const data = await response.json();
+            setTiposUsuario(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+    const tipoDeUsuario = async () => {
+        for (let i = 0; i < tiposUsuario.length; i++) {
+            if (tiposUsuario[i].id === user.usuario_tipos_id) {
+                setTipoUsuario(tiposUsuario[i].nombre);
+            }
+        }
+    };
+
+    console.log(tipoUsuario);
 
     return (
         <>
@@ -34,17 +67,15 @@ export default function Header({ user }) {
                         <NavLink href={route('reservas.create')} active={route().current('reservas.create')}>
                             Reservar Cita
                         </NavLink>
-                        {user ?
-                            (
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="rounded-md">
+                        {user ? (
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="rounded-md">
                                         <button
                                             type="button"
                                             className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-[#efb810] hover:text-black hover:bg-[#efb810] transition ease-in-out duration-500"
                                         >
                                             <span className="hidden 2xl:inline">{user.nombre}</span>
-
                                             <svg
                                                 className="2xl:ms-2 h-6 w-6"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -58,21 +89,22 @@ export default function Header({ user }) {
                                                 />
                                             </svg>
                                         </button>
-                                        </span>
-                                    </Dropdown.Trigger>
+                                    </span>
+                                </Dropdown.Trigger>
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Cerrar Sesión
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            ) :
-                            (
-                                <Link href={route('login')} active={route().current('login')} className='linkUsuario'/>
-                            )
-                            }
+                                <Dropdown.Content>
+                                    <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
+                                    {(tipoUsuario === 'Admin' || tipoUsuario === 'admin') && (
+                                        <Dropdown.Link href={route('admin')}>Administración</Dropdown.Link>
+                                    )}
+                                    <Dropdown.Link href={route('logout')} method="post" as="button">
+                                        Cerrar Sesión
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+                        ) : (
+                            <Link href={route('login')} active={route().current('login')} className="linkUsuario" />
+                        )}
                     </div>
 
                     <div className="contenedorXS">
@@ -116,10 +148,12 @@ export default function Header({ user }) {
                     <ResponsiveNavLink href={route('reservas.create')} active={route().current('reservas.create')}>
                         Reservar Cita
                     </ResponsiveNavLink>
-                    { user ?
-                    (
+                    {user ? (
                         <>
                             <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
+                            {(tipoUsuario === 'Admin' || tipoUsuario === 'admin') && (
+                                <ResponsiveNavLink href={route('admin')}>Administración</ResponsiveNavLink>
+                            )}
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Desconectarse
                             </ResponsiveNavLink>
@@ -128,8 +162,7 @@ export default function Header({ user }) {
                         <ResponsiveNavLink href={route('login')} active={route().current('login')}>
                             Iniciar Sesión
                         </ResponsiveNavLink>
-                     )
-                    }
+                    )}
                 </div>
             </nav>
         </>

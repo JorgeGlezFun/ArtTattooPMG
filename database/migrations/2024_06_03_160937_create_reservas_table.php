@@ -20,6 +20,7 @@ return new class extends Migration
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->integer('duracion');
+            $table->string('estado');
             $table->timestamps();
         });
     }
