@@ -1,12 +1,28 @@
-import React from 'react';
+import React from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
-const CheckoutModal = ({ isOpen, onClose, onConfirm, orderData }) => {
-    if (!isOpen) return null; // No renderizar si el modal no está abierto
+const CheckoutModal = ({ isOpen, onClose, onConfirm, orderData, userSaldo, setUserSaldo, usuarioId }) => {
+    if (!isOpen) return null;
+
+
+    const pagarConSaldo = async () => {
+        const total = userSaldo - orderData.tatuaje.precio;
+        console.log('Total:', total);
+        try {
+            const response = await axios.post(`/api/usuarios/${usuarioId}/pagar`, {
+                cantidad: total,
+            });
+            console.log('Respuesta:', response);
+            setUserSaldo(response.data.saldo);
+            onConfirm();
+        } catch (error) {
+            console.error(error);
+            }
+    }
 
     const onCreateOrder = async (data, actions) => {
         try {
-            const order = actions.order.create({
+            const order = await actions.order.create({
                 purchase_units: [{
                     amount: { value: orderData.tatuaje.precio.toString() },
                 }],
@@ -18,8 +34,6 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, orderData }) => {
     };
 
     const onApprove = async (data, actions) => {
-        console.log("Data:", data);
-        console.log("Actions:", actions);
         try {
             const details = await actions.order.capture();
             alert(`Transacción completada por ${details.payer.name.given_name}`);
@@ -31,17 +45,28 @@ const CheckoutModal = ({ isOpen, onClose, onConfirm, orderData }) => {
     };
 
     return (
-        <div className="fondoPaypal">
-            <div className="formularioPaypal">
-                <button className="cerrarPaypal" onClick={onClose}>X</button>
-                <h1 className="tituloFormularioPaypal">Resumen de la reserva</h1>
-                <div className="resumenPaypal">
-                    <p><strong>Precio de la señal:</strong> {orderData.tatuaje.precio}€</p>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                <button className="text-red-500 font-bold float-right" onClick={onClose}>X</button>
+                <h1 className="text-xl font-bold mb-4 text-center">Resumen de la reserva</h1>
+                <div className="mb-4">
+                    <p className="text-gray-700 text-base">
+                        <strong>Precio de la señal:</strong> {orderData.tatuaje.precio}€
+                    </p>
+                    <p className="text-gray-700 text-base">
+                        <strong>Tu saldo disponible:</strong> {userSaldo}€
+                    </p>
                 </div>
-                <PayPalButtons
-                    createOrder={onCreateOrder}
-                    onApprove={onApprove}
-                />
+                <button
+                    className={'botonSaldo'}
+                    onClick={pagarConSaldo}
+                    disabled={userSaldo < orderData.tatuaje.precio}
+                >
+                    Pagar con saldo
+                </button>
+                <div className="mt-4">
+                    <PayPalButtons createOrder={onCreateOrder} onApprove={onApprove} />
+                </div>
             </div>
         </div>
     );

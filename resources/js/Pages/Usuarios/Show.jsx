@@ -17,6 +17,7 @@ const Show = ({ auth, usuario, cliente }) => {
                                 <div>
                                     <p><strong>Id de Usuario:</strong> {usuario.id}</p>
                                     <p><strong>Id de Cliente:</strong> {cliente.id}</p>
+                                    <p><strong>Tipo de usuario:</strong> {usuario.usuario_tipo.nombre}</p>
                                     <p><strong>Nombre:</strong> {usuario.nombre}</p>
                                     <p><strong>Apellidos:</strong> {usuario.apellidos}</p>
                                     <p><strong>Teléfono:</strong> {usuario.telefono}</p>

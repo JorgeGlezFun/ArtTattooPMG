@@ -89,6 +89,26 @@ html {
     @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out bg-black text-[#efb810] border-b-4 border-[#efb810];
 }
 
+.divLinkNavAdminDesplegable {
+    @apply w-44 h-auto flex-col font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out text-black bg-[#efb810] hover:bg-black hover:text-[#efb810];
+}
+
+.linkNavAdminDesplegable {
+    @apply w-44 h-auto flex-col font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out text-black bg-[#efb810] hover:bg-black hover:text-[#efb810];
+}
+
+.linkNavActivoAdminDesplegable {
+    @apply w-44 h-auto font-normal inline-flex justify-center items-center text-xl transition duration-500 ease-in-out bg-black text-[#efb810] border-b-4 border-[#efb810];
+}
+
+.desplegablesAdmin {
+    @apply flex-col hidden absolute mt-[10.3rem];
+}
+
+.divLinkNavAdminDesplegable:hover .desplegablesAdmin{
+    @apply flex;
+}
+
 .linkNavResponsiveAdmin {
     @apply w-full flex items-start justify-center ps-3 pe-4 py-8 border-transparent text-black hover:text-[#efb810] hover:bg-black focus:text-[#efb810] focus:bg-[#ffbf00] text-base font-bold focus:outline-none transition duration-150 ease-in-out;
 }
@@ -110,6 +130,36 @@ html {
 }
 
 /* Estilos Body Admin */
+.infoAdmin {
+    @apply
+
+    flex flex-col justify-center items-center bg-white/75 my-10
+
+    2xl:w-[110rem] 2xl:h-[60rem] 2xl:flex-row
+
+    xl:w-[75rem]
+
+    lg:w-[58rem]
+
+    md:w-[42rem]
+
+    sm:w-[37rem] h-auto;
+}
+
+.infoTextoAdmin {
+    @apply flex-col items-start mx-auto
+
+    2xl:w-[62.5rem]
+
+    xl:w-[58rem]
+
+    lg:w-[48rem]
+
+    md:w-[35rem]
+
+    sm:w-[30rem] sm:h-auto
+}
+
 .mainAdmin{
     @apply w-full flex flex-col items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen;
 }
@@ -211,6 +261,16 @@ html {
 }
 
 /* Estilos Profile */
+.contenedorPerfil {
+    @apply py-12 flex flex-col w-full
+    2xl:flex-row;
+}
+
+.contenedorOpcionesPerfil {
+    @apply h-full w-full flex items-center justify-center space-x-4 flex-row mb-5
+    2xl:space-y-10 2xl:space-x-0 2xl:flex-col 2xl:w-96 2xl:ml-2;
+}
+
 .detallesReservaProfile {
     @apply w-full flex space-x-12 ml-6
 }
@@ -230,7 +290,7 @@ html {
 }
 
 .previewImagenProfile {
-    @apply w-72 h-fit;
+    @apply w-[20.5rem] h-fit;
 }
 
 thead th {
@@ -247,12 +307,12 @@ tbody tr td:first-child {
 
 /* Estilos Body */
 .main {
-    @apply flex items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
+    @apply flex items-start justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen overflow-y-hidden;
 }
 
 /* Estilos Inicio */
 .mainInicio {
-    @apply flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index;
+    @apply flex items-center justify-center m-0 bg-cover bg-no-repeat bg-fixed bg-indexMovil xl:bg-index min-h-screen;
 }
 
 .info {
@@ -523,7 +583,7 @@ tbody tr td:first-child {
 
 /* Estilos Eventos */
 .mainEventos {
-    @apply flex flex-col xl:flex-row items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed;
+    @apply flex flex-col xl:flex-row items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen;
 }
 
 .contenedorEventos {
@@ -1008,8 +1068,11 @@ td:first-child {
 }
 
 /* Estilos Paypal */
+.botonSaldo {
+    @apply bg-green-500 text-white py-2 px-4 rounded text-xl font-medium hover:bg-green-700 transition ease-in-out duration-300 disabled:bg-gray-300 w-full disabled:cursor-not-allowed
+}
 .fondoPaypal {
-    @apply fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center overflow-auto
+    @apply fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center overflow-y-scroll overscroll-none
 }
 
 .formularioPaypal {

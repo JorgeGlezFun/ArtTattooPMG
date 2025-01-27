@@ -8,6 +8,7 @@ use App\Models\Reserva;
 use App\Models\Cliente;
 use App\Models\Tatuaje;
 use App\Models\Horario;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -65,6 +66,7 @@ class ReservaController extends Controller
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required',
             'duracion' => 'required|integer',
+            'estado' => 'required|string'
         ]);
 
         $reservaDatetime = Carbon::createFromFormat('Y-m-d H:i', $validated['fecha'] . ' ' . $validated['hora_inicio']);
@@ -79,6 +81,7 @@ class ReservaController extends Controller
         $existingReservation = Reserva::where('fecha', $validated['fecha'])
             ->where('hora_inicio', $validated['hora_inicio'])
             ->where('artista_id', $validated['artista_id'])
+            ->where('estado', 'Activa')
             ->exists();
 
         if ($existingReservation) {
@@ -143,7 +146,8 @@ class ReservaController extends Controller
             'fecha' => $validated['fecha'],
             'hora_inicio' => $validated['hora_inicio'],
             'hora_fin' => $validated['hora_fin'],
-            'duracion' => $validated['duracion']
+            'duracion' => $validated['duracion'],
+            'estado' => $validated['estado']
         ]);
 
         session()->flash('message', 'La reserva se ha producido correctamente.');
@@ -151,12 +155,12 @@ class ReservaController extends Controller
         return redirect('reservas/create');
     }
 
-
     public function show(Reserva $reserva)
     {
         if ($reserva->tatuaje && $reserva->tatuaje->ruta_imagen) {
             $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
         }
+
         $tipos = Caracteristica_Tipo::all();
 
         return inertia('Reservas/Show', [
@@ -305,8 +309,40 @@ class ReservaController extends Controller
 
         $reservas = Reserva::where('fecha', $fecha)
             ->orderBy('hora_inicio')
-            ->get(['hora_inicio', 'hora_fin', 'duracion']);
+            ->get(['hora_inicio', 'hora_fin', 'duracion', 'estado']);
 
         return response()->json($reservas);
+    }
+
+    public function cancelar($id)
+    {
+        $reserva = Reserva::findOrFail($id);
+        $fechaReserva = Carbon::parse($reserva->fecha);
+        $hoy = Carbon::now();
+        $diasRestantes = $hoy->diffInDays($fechaReserva);
+        $porcentajeReembolso = 0;
+        if ($diasRestantes >= 7) {
+            $porcentajeReembolso = 40;
+        } elseif ($diasRestantes >= 3) {
+            $porcentajeReembolso = 30;
+        } elseif ($diasRestantes >= 2) {
+            $porcentajeReembolso = 15;
+        } elseif ($diasRestantes < 1) {
+            $porcentajeReembolso = 0;
+        }
+        $montoReembolso = ($porcentajeReembolso / 100) * $reserva->tatuaje->precio;
+        $cliente = $reserva->cliente;
+        if (!$cliente) {
+            return response()->json(['error' => 'Cliente no encontrado'], 404);
+        }
+        $usuario = User::where('cliente_id', $cliente->id)->first();
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no encontrado para el cliente'], 404);
+        }
+        $usuario->saldo += $montoReembolso;
+        $usuario->save();
+        $reserva->estado = 'Cancelada';
+        $reserva->save();
+        return response()->json(['message' => 'Reserva cancelada con éxito', 'montoReembolso' => $montoReembolso]);
     }
 }

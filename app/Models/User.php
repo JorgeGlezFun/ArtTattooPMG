@@ -19,9 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'nombre',
+        'usuario_tipos_id',
         'apellidos',
         'telefono',
         'email',
+        'saldo',
         'password',
         'cliente_id',
     ];
@@ -48,6 +50,11 @@ class User extends Authenticatable
 
     public function cliente()
     {
-        return $this->hasOne(Cliente::class);
+        return $this->hasOne(Cliente::class, 'cliente_id', 'id');
+    }
+
+    public function usuario_tipo()
+    {
+        return $this->belongsTo(Usuario_Tipo::class, 'usuario_tipos_id');
     }
 }

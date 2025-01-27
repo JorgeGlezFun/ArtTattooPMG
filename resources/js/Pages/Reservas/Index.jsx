@@ -66,6 +66,7 @@ const Index = ({ auth, reservas }) => {
                             <thead>
                                 <tr className=''>
                                     <th>ID Reserva</th>
+                                    <th>Estado</th>
                                     <th>Tatuaje</th>
                                     <th className='w-40'>Cliente</th>
                                     <th className='w-40'>Artista</th>
@@ -81,7 +82,8 @@ const Index = ({ auth, reservas }) => {
                             <tbody>
                                 {reservasState.map((reserva) => (
                                     <tr key={reserva.id}>
-                                        <td><a href="">{reserva.id}</a></td>
+                                        <td>{reserva.id}</td>
+                                        <td>{reserva.estado}</td>
                                         <td className='p-0'><img src={reserva.tatuaje.ruta_imagen} alt="Imagen del tatuaje" className='w-36 h-36' /></td>
                                         <td>{reserva.cliente.nombre}</td>
                                         <td>{reserva.artista.nombre}</td>

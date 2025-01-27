@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ApplicationLogoAdmin from '@/Components/ComponentesAdmin/ApplicationLogoAdmin';
 import NavLinkAdmin from '@/Components/ComponentesAdmin/NavLinkAdmin';
+import NavLinkAdminDesplegable from '@/Components/ComponentesAdmin/NavLinkAdminDesplegable';
 import DropdownAdmin from '@/Components/ComponentesAdmin/DropdownAdmin';
 import ResponsiveNavLinkAdmin from '@/Components/ComponentesAdmin/ResponsiveNavLinkAdmin';
 import { Link } from '@inertiajs/react';
@@ -19,72 +20,105 @@ export default function HeaderAdmin({ user }) {
                     </div>
 
                     <div className="contenedorBotonesNavAdmin">
-                        <NavLinkAdmin href={route('/')} active={route().current('/')}>
+                        <NavLinkAdmin href={route('admin')} active={route().current('/')}>
                             Inicio
                         </NavLinkAdmin>
-                        <NavLinkAdmin href={route('galerias.index')} active={route().current('galerias.*')}>
-                            Galería
-                        </NavLinkAdmin>
-                        <NavLinkAdmin href={route('eventos.index')} active={route().current('eventos.*')}>
-                            Eventos
-                        </NavLinkAdmin>
-                        <NavLinkAdmin href={route('estaciones.index')} active={route().current('estaciones.*')}>
-                            Estaciones
-                        </NavLinkAdmin>
-                        <NavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
-                            Horas
-                        </NavLinkAdmin>
-                        <NavLinkAdmin href={route('descansos.index')} active={route().current('descansos.*')}>
-                            Descansos
-                        </NavLinkAdmin>
+                        <div className='divLinkNavAdminDesplegable'>
+                            <h1 className='w-full text-center'>Administrar Caracteristicas</h1>
+                            <div className='desplegablesAdmin'>
+                                <NavLinkAdminDesplegable href={route('caracteristica_tipo.index')} active={route().current('caracteristica_tipo.*')}>
+                                    Tipos
+                                </NavLinkAdminDesplegable>
+                                <NavLinkAdminDesplegable href={route('caracteristicas.index')} active={route().current('caracteristicas.*')}>
+                                    Caracteristicas
+                                </NavLinkAdminDesplegable>
+                                <div className='linkNavAdminDesplegable opacity-0'>
+                                    Relleno
+                                </div>
+                            </div>
+                        </div>
+                        <div className='divLinkNavAdminDesplegable'>
+                            <h1 className='w-full text-center'>Administrar Galerias y Eventos</h1>
+                            <div className='desplegablesAdmin'>
+                                <NavLinkAdminDesplegable href={route('galerias.index')} active={route().current('galerias.*')}>
+                                    Galería
+                                </NavLinkAdminDesplegable>
+                                <NavLinkAdminDesplegable href={route('eventos.index')} active={route().current('eventos.*')}>
+                                    Eventos
+                                </NavLinkAdminDesplegable>
+                                <div className='linkNavAdminDesplegable opacity-0'>
+                                    Relleno
+                                </div>
+                            </div>
+                        </div>
+                        <div className='divLinkNavAdminDesplegable'>
+                            <h1 className='w-full text-center'>Administrar Horarios</h1>
+                            <div className='desplegablesAdmin'>
+                                <NavLinkAdminDesplegable href={route('estaciones.index')} active={route().current('estaciones.*')}>
+                                    Estaciones
+                                </NavLinkAdminDesplegable>
+                                <NavLinkAdminDesplegable href={route('horarios.index')} active={route().current('horarios.*')}>
+                                    Horas
+                                </NavLinkAdminDesplegable>
+                                <NavLinkAdminDesplegable href={route('descansos.index')} active={route().current('descansos.*')}>
+                                    Descansos
+                                </NavLinkAdminDesplegable>
+                            </div>
+                        </div>
                         <NavLinkAdmin href={route('artistas.index')} active={route().current('artistas.*')}>
                             Artistas
                         </NavLinkAdmin>
-                        <NavLinkAdmin href={route('usuarios.index')} active={route().current('usuarios.*')}>
-                            Usuarios
-                        </NavLinkAdmin>
+                        <div className='divLinkNavAdminDesplegable'>
+                            <h1 className='w-full text-center'>Administrar Usuarios</h1>
+                            <div className='desplegablesAdmin'>
+                                <NavLinkAdminDesplegable href={route('usuario_tipo.index')} active={route().current('usuario_tipo.*')}>
+                                    Tipos
+                                </NavLinkAdminDesplegable>
+                                <NavLinkAdminDesplegable href={route('usuarios.index')} active={route().current('usuarios.*')}>
+                                    Usuarios
+                                </NavLinkAdminDesplegable>
+                                <div className='linkNavAdminDesplegable opacity-0'>
+                                    Relleno
+                                </div>
+                            </div>
+                        </div>
                         <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
                             Reservas
                         </NavLinkAdmin>
-                        {user ?
-                            (
-                                <DropdownAdmin>
-                                    <DropdownAdmin.Trigger>
-                                        <span className="rounded-md">
-                                        <button
-                                            type="button"
-                                            className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-black hover:text-[#efb810] hover:bg-black transition ease-in-out duration-500"
+
+                            <DropdownAdmin>
+                                <DropdownAdmin.Trigger>
+                                    <span className="rounded-md">
+                                    <button
+                                        type="button"
+                                        className="h-full 2xl:w-44 inline-flex justify-center items-center px-3 py-2 border border-transparent leading-4 text-xl font-normal text-black hover:text-[#efb810] hover:bg-black transition ease-in-out duration-500"
+                                    >
+                                        <span className="hidden 2xl:inline">Opciones</span>
+
+                                        <svg
+                                            className="2xl:ms-2 h-6 w-6"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
                                         >
-                                            <span className="hidden 2xl:inline">{user.nombre}</span>
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </button>
+                                    </span>
+                                </DropdownAdmin.Trigger>
 
-                                            <svg
-                                                className="2xl:ms-2 h-6 w-6"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </button>
-                                        </span>
-                                    </DropdownAdmin.Trigger>
-
-                                    <DropdownAdmin.Content>
-                                        <DropdownAdmin.Link href={route('profile.edit')} active={route().current('profile.edit')}>Perfil</DropdownAdmin.Link>
-                                        <DropdownAdmin.Link href={route('logout')} method="post" as="button">
-                                            Cerrar Sesión
-                                        </DropdownAdmin.Link>
-                                    </DropdownAdmin.Content>
-                                </DropdownAdmin>
-                            ) :
-                            (
-                                <Link href={route('login')} active={route().current('login')} className='linkUsuario'/>
-                            )
-                            }
+                                <DropdownAdmin.Content>
+                                    <DropdownAdmin.Link href={route('profile.edit')} active={route().current('profile.edit')}>Perfil</DropdownAdmin.Link>
+                                    <DropdownAdmin.Link href={route('/')} active={route().current('/')}>Volver al lado del cliente</DropdownAdmin.Link>
+                                    <DropdownAdmin.Link href={route('logout')} method="post" as="button">
+                                        Cerrar Sesión
+                                    </DropdownAdmin.Link>
+                                </DropdownAdmin.Content>
+                            </DropdownAdmin>
                     </div>
 
                     <div className="contenedorXSAdmin">
@@ -141,6 +175,7 @@ export default function HeaderAdmin({ user }) {
                         Reservas
                     </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('profile.edit')}>Perfil</ResponsiveNavLinkAdmin>
+                    <ResponsiveNavLinkAdmin href={route('/')}>Volver al lado del cliente</ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin method="post" href={route('logout')} as="button">
                         Desconectarse
                     </ResponsiveNavLinkAdmin>

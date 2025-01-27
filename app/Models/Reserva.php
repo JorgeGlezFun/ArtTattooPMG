@@ -16,7 +16,8 @@ class Reserva extends Model
         'fecha',
         'hora_inicio',
         'hora_fin',
-        'duracion'
+        'duracion',
+        'estado'
     ];
 
     public function cliente()

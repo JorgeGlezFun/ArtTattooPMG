@@ -70,17 +70,19 @@ const Index = ({ auth, usuarios }) => {
                         <>
                         <div className='w-full flex justify-between mb-2'>
                             <h1 className='text-4xl text-center flex items-center justify-center'>Usuarios</h1>
-                            <a href={route('usuarios.create')} className='w-fit items-center justify-center flex rounded-md p-2 bg-green-400 hover:bg-green-700 transition duration-300 ease-in-out'> Nueva estación </a>
+                            <a href={route('usuarios.create')} className='w-fit items-center justify-center flex rounded-md p-2 bg-green-400 hover:bg-green-700 transition duration-300 ease-in-out'> Nuevo usuario </a>
                         </div>
                         <table className='tablaAdmin'>
                             <thead>
                                 <tr>
                                     <th>ID Usuario</th>
                                     <th>ID Cliente</th>
+                                    <th>Tipo de Usuario</th>
                                     <th>Nombre</th>
                                     <th>Apellidos</th>
                                     <th>Teléfono</th>
                                     <th>Correo Eléctronico</th>
+                                    <th>Saldo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -89,10 +91,12 @@ const Index = ({ auth, usuarios }) => {
                                     <tr key={usuario.id}>
                                         <td>{usuario.id}</td>
                                         <td className='text-4xl'>{usuario.cliente_id}</td>
+                                        <td>{usuario.usuario_tipo.nombre}</td>
                                         <td>{usuario.nombre}</td>
                                         <td>{usuario.apellidos}</td>
                                         <td>{usuario.telefono}</td>
                                         <td>{usuario.email}</td>
+                                        <td>{usuario.saldo}</td>
                                         <td className='p-0'>
                                             <div className='flex flex-col p-0 h-full'>
                                                 <a href={`/usuarios/${usuario.id}`} className='w-full h-full inline-flex items-center text-center px-4 py-[0.9225rem] bg-blue-600 border border-transparent font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 transition ease-in-out duration-150'>Ver</a>
