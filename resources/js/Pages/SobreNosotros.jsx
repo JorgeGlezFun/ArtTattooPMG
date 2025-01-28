@@ -1,20 +1,21 @@
 import Header from '@/Components/Componentes-ATP/Header';
 import Footer from '@/Components/Componentes-ATP/Footer';
-import { Link, Head } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import logoRecortado from "../../img/Logo-Fondo/Logo-recortado.png"
 import artista from "../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2-recortado.jpeg"
 import artistaMovil from "../../img/Carteles-eventos/Tatuadora-tatuando-convencion-2.jpeg"
 import estudio from "../../img/Fotos-estudio/Entrada-estudio-recortado.jpeg"
-// import estudioMovil from "../../../img/Fotos-estudio/Entrada-estudio-recortado.jpeg"
 import trabajo from "../../img/Tatuajes/Normales/prueba.jpeg"
 import trabajoMovil from "../../img/Tatuajes/Normales/Normal-2-recortado.jpeg"
 
-export default function SobreNosotros() {
+export default function SobreNosotros({ auth }) {
+
+    console.log(auth.user)
 
     return (
       <>
       <Head title='Sobre Nosotros'/>
-        <Header/>
+        <Header user={auth.user}/>
             <div className='main'>
                 <div className="SobreNosotros">
                     <div className="infoSN">

@@ -224,18 +224,28 @@ const Create = ({ auth, artistas, tipos }) => {
                 }));
             } else {
                 // Este segundo bloque mira la hora final y la compara si es mayor a las 14:00 o a las 21:30 para que no pase el horario permitido
-                if ((horaFinStringTatuaje > '14:00') || (horaFinStringTatuaje > '21:30')) {
+                if ((horaFinStringTatuaje > '14:00') && (horaFinStringTatuaje < '18:30')) {
                     setData(prevState => ({
                         ...prevState,
                         hora_fin: 'La hora final supera al horario permitido.',
-                        duracion: 'La duración de la reserva es excesiva.'
+                        duracion: 'La duración de la reserva es excesiva. 2'
                     }));
-                } else {
-                    setData(prevState => ({
-                        ...prevState,
-                        hora_fin: horaFinStringTatuaje,
-                        duracion: duracionTatuaje
-                    }));
+                }
+                else {
+                    if (((horaFinStringTatuaje > '14:00') && (horaFinStringTatuaje < '18:30'))) {
+                        console.log(((horaFinStringTatuaje > '14:00') && (horaFinStringTatuaje > '18:30')))
+                        setData(prevState => ({
+                            ...prevState,
+                            hora_fin: 'La hora final supera al horario permitido.',
+                            duracion: 'La duración de la reserva es excesiva. 2'
+                        }));
+                    } else {
+                        setData(prevState => ({
+                            ...prevState,
+                            hora_fin: horaFinStringTatuaje,
+                            duracion: duracionTatuaje
+                        }));
+                    }
                 }
             }
         });

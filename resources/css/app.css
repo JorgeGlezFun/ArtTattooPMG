@@ -588,7 +588,7 @@ tbody tr td:first-child {
 
 /* Estilos Eventos */
 .mainEventos {
-    @apply flex flex-col xl:flex-row items-center justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen;
+    @apply flex flex-col xl:flex-row items-start justify-center bg-marmol bg-cover bg-no-repeat bg-fixed min-h-screen;
 }
 
 .contenedorEventos {

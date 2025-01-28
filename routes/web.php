@@ -49,6 +49,7 @@ Route::get('/galeria', [GaleriaController::class, 'indexPublic'])->name('galeria
 Route::get('/evento', [EventoController::class, 'indexPublic'])->name('eventos.public');
 Route::get('/evento/{id}', [EventoController::class, 'showPublic'])->name('eventos.publicshow');
 Route::post('/reservas/{id}/cancelar', [ReservaController::class, 'cancelar']);
+Route::get('/reservar', [ReservaController::class, 'createPublic'])->name('reservas.publiccreate');
 
 Route::get('/admin', function () {
     return Inertia::render('Admin/Admin');
@@ -79,6 +80,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 
 require __DIR__.'/auth.php';

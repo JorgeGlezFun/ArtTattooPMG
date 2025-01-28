@@ -330,7 +330,7 @@ class ReservaController extends Controller
         } elseif ($diasRestantes < 1) {
             $porcentajeReembolso = 0;
         }
-        $montoReembolso = ($porcentajeReembolso / 100) * $reserva->tatuaje->precio;
+        $montoReembolso = (int)(($porcentajeReembolso / 100) * $reserva->tatuaje->precio);
         $cliente = $reserva->cliente;
         if (!$cliente) {
             return response()->json(['error' => 'Cliente no encontrado'], 404);
@@ -344,5 +344,23 @@ class ReservaController extends Controller
         $reserva->estado = 'Cancelada';
         $reserva->save();
         return response()->json(['message' => 'Reserva cancelada con éxito', 'montoReembolso' => $montoReembolso]);
+    }
+
+    public function createPublic()
+    {
+        $artistas = Artista::all();
+        $horarios = Horario::all();
+        $caracteristica_tipos = Caracteristica_Tipo::with('caracteristicas')->get();
+        $horarios->transform(function ($horario) {
+            $horario->horas = json_decode($horario->horas, true);
+            return $horario;
+        });
+
+        if (auth()->check()) {
+            $clienteId = auth()->user()->cliente_id;
+            $reservas = Reserva::where('cliente_id', $clienteId)->get();
+            return inertia('Reservas/CreatePublic', ['artistas' => $artistas, 'reservas' => $reservas, 'horarios' => $horarios, 'tipos' => $caracteristica_tipos]);
+        }
+        return inertia('Reservas/CreatePublic', ['artistas' => $artistas, 'horarios' => $horarios, 'tipos' => $caracteristica_tipos]);
     }
 }
