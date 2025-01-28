@@ -9,7 +9,7 @@ export default function Eventos({ auth, evento }) {
         <>
             <Head title="Eventos" />
             <Header user={auth.user} />
-            <div className='mainEventos'>
+            <div className='mainEventosShow'>
                 <div className='divEventoShow'>
                     <img
                         src={evento.ruta_imagen}
