@@ -10,37 +10,6 @@ export default function Header({ user }) {
     const [tiposUsuario, setTiposUsuario] = useState([]);
     const [tipoUsuario, setTipoUsuario] = useState([]);
 
-    useEffect(() => {
-        fetchTiposUsuario();
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            tipoDeUsuario();
-        }
-    }, [tiposUsuario]);
-
-    const fetchTiposUsuario = async () => {
-        try {
-            const response = await fetch('/api/todos-los-tipos-de-usuarios');
-            const data = await response.json();
-            setTiposUsuario(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-
-    const tipoDeUsuario = async () => {
-        for (let i = 0; i < tiposUsuario.length; i++) {
-            if (tiposUsuario[i].id === user.usuario_tipos_id) {
-                setTipoUsuario(tiposUsuario[i].nombre);
-            }
-        }
-    };
-
-    console.log(tipoUsuario);
-
     return (
         <>
             <nav className="navegador">
@@ -64,7 +33,7 @@ export default function Header({ user }) {
                         <NavLink href={route('eventos.public')} active={route().current('eventos.public')}>
                             Eventos
                         </NavLink>
-                        <NavLink href={route('reservas.create')} active={route().current('reservas.create')}>
+                        <NavLink href={route('contacto')} active={route().current('contacto')}>
                             Reservar Cita
                         </NavLink>
                         {user ? (
@@ -145,7 +114,7 @@ export default function Header({ user }) {
                     <ResponsiveNavLink href={route('eventos.public')} active={route().current('eventos.public')}>
                         Eventos
                     </ResponsiveNavLink>
-                    <ResponsiveNavLink href={route('reservas.create')} active={route().current('reservas.create')}>
+                    <ResponsiveNavLink href={route('contacto')} active={route().current('contacto')}>
                         Reservar Cita
                     </ResponsiveNavLink>
                     {user ? (
