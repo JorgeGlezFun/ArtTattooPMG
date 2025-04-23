@@ -28,7 +28,7 @@ export default function Inicio({ auth }) {
                             Muchas gracias por su visita.
                         </p>
                         <div className="infoBoton">
-                            <Link href={route('reservas.create')} className="boton">Reserva Tu Cita</Link>
+                            <Link href={route('contacto')} className="boton">Contactanos</Link>
                         </div>
                     </div>
                 </div>
