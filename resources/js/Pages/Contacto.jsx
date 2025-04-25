@@ -57,7 +57,7 @@ const Create = ({ auth }) => {
                 <div className="contenedorReserva">
                     <div className='contenedorFormulario'>
                         <div className='formulario'>
-                            <h1 className="titulo">Reserva tu cita</h1>
+                            <h1 className="titulo">Contactanos</h1>
                             <hr className="separadorFormulario"/>
                             <div className='filaUno'>
                                 <div className='columnaNombre'>
@@ -106,12 +106,13 @@ const Create = ({ auth }) => {
                                 {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                             </div>
                             <div className='columnas'>
-                                <label>Mensaje:</label>
+                                <label>Expresa tu idea:</label>
                                 <textarea
                                     className={`inputs ${errors.mensaje ? 'border-red-500 text-red-500' : ''}`}
                                     name="mensaje"
                                     value={data.mensaje}
                                     onChange={handleChange}
+                                    placeholder='Ejemplo: "Buenas, me gustaría pedir cita para tatuarme el brazo izquierdo, en la zona del bíceps. Me gustaría un diseño de una rosa con espinas.. El tatuaje lo quiero de 17cm. Gracias."'
                                 ></textarea>
                                 {errors.mensaje && <p className="text-red-500 text-sm">{errors.mensaje}</p>}
                             </div>
@@ -125,7 +126,7 @@ const Create = ({ auth }) => {
                             </a>
                         </div>
                     </div>
-                    <div className='xl:w-[50rem] w-full'>
+                    <div className='w-full'>
                         <div className='contenedorMapa'>
                             <h1 className="titulo">Donde nos encontramos</h1>
                             <hr className="separadorFormulario"/>
