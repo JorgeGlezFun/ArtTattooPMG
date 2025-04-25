@@ -23,9 +23,7 @@ class User extends Authenticatable
         'apellidos',
         'telefono',
         'email',
-        'saldo',
         'password',
-        'cliente_id',
     ];
 
     /**
@@ -47,11 +45,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function cliente()
-    {
-        return $this->hasOne(Cliente::class, 'cliente_id', 'id');
-    }
 
     public function usuario_tipo()
     {

@@ -19,23 +19,11 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request, Reserva $reserva): Response
+    public function edit(Request $request): Response
     {
-        $tipos = Caracteristica_Tipo::all();
-
-        $reservas = Reserva::with(['cliente', 'artista', 'tatuaje.caracteristicas'])
-            ->where('cliente_id', $request->user()->cliente_id)
-            ->get();
-
-        if ($reserva->tatuaje) {
-            $reserva->tatuaje->ruta_imagen = asset('storage/' . $reserva->tatuaje->ruta_imagen);
-        }
-
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-            'reservas' => $reservas,
-            'tipos' => $tipos,
         ]);
     }
 
