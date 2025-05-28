@@ -770,6 +770,14 @@ tbody tr td:first-child {
     @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-black;
 }
 
+.inputTextArea {
+    @apply w-full bg-white/90 border-b-2 border-b-[#efb810] border-black
+    h-24
+    3xl:h-[24.75rem]
+    2xl:h-[22.94rem]
+    xl:h-[8.999rem];
+}
+
 .divInputImagen {
     @apply w-full p-4;
 }
@@ -850,7 +858,7 @@ tbody tr td:first-child {
 }
 
 .contenedorMapa {
-    @apply h-auto w-full p-4;
+    @apply h-full w-full p-4;
 }
 
 .contenedorNormas {

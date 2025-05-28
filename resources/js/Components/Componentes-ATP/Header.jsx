@@ -36,6 +36,16 @@ export default function Header({ user }) {
                         <NavLink href={route('contacto')} active={route().current('contacto')}>
                             Reservar Cita
                         </NavLink>
+                        {user && (
+                        <>
+                            {(tipoUsuario === 'Admin' || tipoUsuario === 'admin') && (
+                                <NavLink href={route('admin')}>Administración</NavLink>
+                            )}
+                            <NavLink method="post" href={route('logout')} as="button">
+                                Desconectarse
+                            </NavLink>
+                        </>
+                    )}
                     </div>
 
                     <div className="contenedorXS">
@@ -79,9 +89,8 @@ export default function Header({ user }) {
                     <ResponsiveNavLink href={route('contacto')} active={route().current('contacto')}>
                         Reservar Cita
                     </ResponsiveNavLink>
-                    {user ? (
+                    {user && (
                         <>
-                            <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
                             {(tipoUsuario === 'Admin' || tipoUsuario === 'admin') && (
                                 <ResponsiveNavLink href={route('admin')}>Administración</ResponsiveNavLink>
                             )}
@@ -89,10 +98,6 @@ export default function Header({ user }) {
                                 Desconectarse
                             </ResponsiveNavLink>
                         </>
-                    ) : (
-                        <ResponsiveNavLink href={route('login')} active={route().current('login')}>
-                            Iniciar Sesión
-                        </ResponsiveNavLink>
                     )}
                 </div>
             </nav>

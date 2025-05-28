@@ -108,7 +108,7 @@ const Create = ({ auth }) => {
                             <div className='columnas'>
                                 <label>Expresa tu idea:</label>
                                 <textarea
-                                    className={`inputs ${errors.mensaje ? 'border-red-500 text-red-500' : ''}`}
+                                    className={`inputTextArea ${errors.mensaje ? 'border-red-500 text-red-500' : ''}`}
                                     name="mensaje"
                                     value={data.mensaje}
                                     onChange={handleChange}
@@ -135,7 +135,7 @@ const Create = ({ auth }) => {
                                 allowFullScreen=""
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                className='w-full h-96 2xl:h-[43.8rem] 3xl:h-[45.8rem]'
+                                className='w-full h-[30rem] 2xl:h-[43.8rem] 3xl:h-[45.8rem]'
                             />
                         </div>
                     </div>
