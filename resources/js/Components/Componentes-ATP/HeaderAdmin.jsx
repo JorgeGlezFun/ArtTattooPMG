@@ -24,20 +24,6 @@ export default function HeaderAdmin({ user }) {
                             Inicio
                         </NavLinkAdmin>
                         <div className='divLinkNavAdminDesplegable'>
-                            <h1 className='w-full text-center'>Administrar Caracteristicas</h1>
-                            <div className='desplegablesAdmin'>
-                                <NavLinkAdminDesplegable href={route('caracteristica_tipo.index')} active={route().current('caracteristica_tipo.*')}>
-                                    Tipos
-                                </NavLinkAdminDesplegable>
-                                <NavLinkAdminDesplegable href={route('caracteristicas.index')} active={route().current('caracteristicas.*')}>
-                                    Caracteristicas
-                                </NavLinkAdminDesplegable>
-                                <div className='linkNavAdminDesplegable opacity-0'>
-                                    Relleno
-                                </div>
-                            </div>
-                        </div>
-                        <div className='divLinkNavAdminDesplegable'>
                             <h1 className='w-full text-center'>Administrar Galerias y Eventos</h1>
                             <div className='desplegablesAdmin'>
                                 <NavLinkAdminDesplegable href={route('galerias.index')} active={route().current('galerias.*')}>
@@ -52,23 +38,6 @@ export default function HeaderAdmin({ user }) {
                             </div>
                         </div>
                         <div className='divLinkNavAdminDesplegable'>
-                            <h1 className='w-full text-center'>Administrar Horarios</h1>
-                            <div className='desplegablesAdmin'>
-                                <NavLinkAdminDesplegable href={route('estaciones.index')} active={route().current('estaciones.*')}>
-                                    Estaciones
-                                </NavLinkAdminDesplegable>
-                                <NavLinkAdminDesplegable href={route('horarios.index')} active={route().current('horarios.*')}>
-                                    Horas
-                                </NavLinkAdminDesplegable>
-                                <NavLinkAdminDesplegable href={route('descansos.index')} active={route().current('descansos.*')}>
-                                    Descansos
-                                </NavLinkAdminDesplegable>
-                            </div>
-                        </div>
-                        <NavLinkAdmin href={route('artistas.index')} active={route().current('artistas.*')}>
-                            Artistas
-                        </NavLinkAdmin>
-                        <div className='divLinkNavAdminDesplegable'>
                             <h1 className='w-full text-center'>Administrar Usuarios</h1>
                             <div className='desplegablesAdmin'>
                                 <NavLinkAdminDesplegable href={route('usuario_tipo.index')} active={route().current('usuario_tipo.*')}>
@@ -82,9 +51,6 @@ export default function HeaderAdmin({ user }) {
                                 </div>
                             </div>
                         </div>
-                        <NavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
-                            Reservas
-                        </NavLinkAdmin>
 
                             <DropdownAdmin>
                                 <DropdownAdmin.Trigger>
@@ -156,23 +122,8 @@ export default function HeaderAdmin({ user }) {
                     <ResponsiveNavLinkAdmin href={route('eventos.index')} active={route().current('eventos.*')}>
                         Eventos
                     </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('estaciones.index')} active={route().current('estaciones.*')}>
-                        Estaciones
-                    </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('horarios.index')} active={route().current('horarios.*')}>
-                        Horas
-                    </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('descansos.index')} active={route().current('descansos.*')}>
-                        Descansos
-                    </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('artistas.index')} active={route().current('artistas.*')}>
-                        Artistas
-                    </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('usuarios.index')} active={route().current('usuarios.*')}>
                         Usuarios
-                    </ResponsiveNavLinkAdmin>
-                    <ResponsiveNavLinkAdmin href={route('reservas.index')} active={route().current('reservas.*')}>
-                        Reservas
                     </ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('profile.edit')}>Perfil</ResponsiveNavLinkAdmin>
                     <ResponsiveNavLinkAdmin href={route('/')}>Volver al lado del cliente</ResponsiveNavLinkAdmin>

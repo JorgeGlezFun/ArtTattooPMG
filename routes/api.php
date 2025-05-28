@@ -1,11 +1,5 @@
 <?php
 
-use App\Http\Controllers\CaracteristicaController;
-use App\Http\Controllers\DescansoController;
-use App\Http\Controllers\ReservaController;
-use App\Http\Controllers\EstacionController;
-use App\Http\Controllers\UsuarioController;
-use App\Models\Caracteristica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

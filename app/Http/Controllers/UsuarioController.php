@@ -56,22 +56,12 @@ class UsuarioController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $cliente = Cliente::create([
-            'nombre' => $request->nombre,
-            'apellidos' => $request->apellidos,
-            'telefono' => $request->telefono,
-            'email' => $request->email,
-        ]);
-
         User::create([
             'nombre' => $request->nombre,
             'usuario_tipos_id' => $request->usuario_tipos_id,
             'apellidos' => $request->apellidos,
-            'telefono' => $request->telefono,
-            'saldo' => $request->saldo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'cliente_id' => $cliente->id,
         ]);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
@@ -84,11 +74,8 @@ class UsuarioController extends Controller
     {
         $usuario->load('usuario_tipo');
 
-        $cliente = Cliente::find($usuario->cliente_id);
-
         return Inertia::render('Usuarios/Show', [
             'usuario' => $usuario,
-            'cliente' => $cliente
         ]);
     }
 

@@ -17,10 +17,8 @@ return new class extends Migration
             $table->foreignId('usuario_tipos_id')->constrained('usuario_tipos')->onDelete('cascade');
             $table->string('apellidos');
             $table->integer('telefono');
-            $table->integer('saldo');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
